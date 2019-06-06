@@ -18,7 +18,7 @@ def main():
         if atom_index > max_atom_index:
             max_atom_index = atom_index
             
-print('max atom index ', max_atom_index)
+    print('max atom index ', max_atom_index)
 
 if __name__ == '__main__':
     main()
