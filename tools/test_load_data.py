@@ -33,7 +33,7 @@ def main():
             if len(model_info) > 0:
                 model_info_list.append(model_info)
                 #开始一个新modedel
-            model_info = get_default_info()
+                model_info = get_default_info()
             
         atom_index = int( row['atom_index'])
         atom = row['atom']
