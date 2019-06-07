@@ -26,7 +26,7 @@ def main():
     
     model_info_list = []
     pre_mol_name = ''
-    model_info = []
+    model_info = get_default_info()
     for i, row in tqdm.tqdm(df_struc.iterrows()):
         molecule_name = row['molecule_name']
         if molecule_name != pre_mol_name:
