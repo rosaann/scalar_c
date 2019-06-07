@@ -40,8 +40,9 @@ def main():
         x = row['x']
         y = row['y']
         z = row['z']
+        print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
         model_info[atom_index] = (atom_index_dic[atom], x, y, z)
-        if i > 30:
+        if i > 80:
             break
     print('re ', model_info)
 if __name__ == '__main__':
