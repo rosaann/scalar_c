@@ -7,7 +7,12 @@ Created on Thu Jun  6 18:34:22 2019
 """
 
 from torch.utils.data.dataset import Dataset
-def find_atom_index_dic:
+import ast
+import os
+import tqdm
+import pandas as pd
+
+def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
         with open(atom_index_dic_dir, 'r') as f: 
