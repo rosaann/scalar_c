@@ -44,6 +44,6 @@ def main():
         model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         if i > 80:
             break
-    print('re ', model_info)
+    print('re ', model_info_list)
 if __name__ == '__main__':
   main()
