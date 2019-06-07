@@ -20,8 +20,8 @@ def get_default_info():
 def main():
     atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
 
-    struc_csv_dir = 'data/scalar_c/data/structures.csv'
-    train_csv_dir = 'data/scalar_c/data/train.csv'
+    struc_csv_dir = 'data/structures.csv'
+    train_csv_dir = 'data/train.csv'
     df_struc = pd.read_csv(struc_csv_dir)
     
     model_info_list = []
