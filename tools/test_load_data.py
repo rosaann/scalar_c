@@ -29,12 +29,13 @@ def main():
     model_info = get_default_info()
     for i, row in tqdm.tqdm(df_struc.iterrows()):
         molecule_name = row['molecule_name']
-        if -1 != pre_mol_name.find(molecule_name):
+        if pre_mol_name != molecule_name:
             if len(model_info) > 0:
                 model_info_list.append(model_info)
                 print('model_info ', model_info)
-                #开始一个新modedel
-                model_info = get_default_info()
+            #开始一个新modedel
+            model_info = get_default_info()
+            pre_mol_name = molecule_name
             
         atom_index = int( row['atom_index'])
         atom = row['atom']
