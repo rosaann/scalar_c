@@ -29,7 +29,7 @@ def main():
     model_info = get_default_info()
     for i, row in tqdm.tqdm(df_struc.iterrows()):
         molecule_name = row['molecule_name']
-        if molecule_name != pre_mol_name:
+        if -1 != pre_mol_name.find(molecule_name):
             if len(model_info) > 0:
                 model_info_list.append(model_info)
                 print('model_info ', model_info)
