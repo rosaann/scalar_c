@@ -32,6 +32,7 @@ def main():
         if molecule_name != pre_mol_name:
             if len(model_info) > 0:
                 model_info_list.append(model_info)
+                print('model_info ', model_info)
                 #开始一个新modedel
                 model_info = get_default_info()
             
@@ -44,6 +45,6 @@ def main():
         model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         if i > 80:
             break
-    print('re ', model_info_list)
+   # print('re ', model_info_list)
 if __name__ == '__main__':
   main()
