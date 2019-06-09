@@ -58,7 +58,8 @@ class DefaultDataset(Dataset):
             index_1 = row['atom_index_1']
             scalar_coupling = row['scalar_coupling_constant']
             gt_data[int(index_0)][int(index_1)] = float(scalar_coupling)   
-            
+            if i > 30 :
+                break
         self.train_data_list.append(train_data)
         self.gt_data_list.append(gt_data)
         
@@ -88,8 +89,7 @@ class DefaultDataset(Dataset):
             z = row['z']
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
             model_info[atom_index] = (atom_index_dic[atom], x, y, z)
-            if i > 30 :
-                break
+            
         self.model_info_set[molecule_name] = model_info
         
 def main():
