@@ -34,12 +34,13 @@ class DefaultDataset(Dataset):
     def __init__(self,
                  ):
         self.gen_stuc_set_list()
+        self.gen_train_data()
         
     def gen_train_data(self):
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
-        self.train_data = []
-        self.gt_data = []
+        self.train_data_list = []
+        self.gt_data_list = []
         
         pre_mol_name = ''       
         molecule_name = ''
@@ -49,13 +50,17 @@ class DefaultDataset(Dataset):
             molecule_name = row['molecule_name']
             if pre_mol_name != molecule_name:
                 if i > 0:
-                    self.train_data.append(train_data)
-                struct_data = self.model_info_set[molecule_name]
+                    self.train_data_list.append(train_data)
+                    self.gt_data_list.append(gt_data)
+                train_data = self.model_info_set[molecule_name]
                 gt_data = np.zeros((29, 29))
-                index_0 = row['atom_index_0']
-                index_1 = row['atom_index_1']
-                print('index_0 ', index_0)
-                print('index_1 ', index_1)
+            index_0 = row['atom_index_0']
+            index_1 = row['atom_index_1']
+            scalar_coupling = row['scalar_coupling_constant']
+            gt_data[int(index_0)][int(index_1)] = float(scalar_coupling)   
+            
+        self.train_data_list.append(train_data)
+        self.gt_data_list.append(gt_data)
         
     def gen_stuc_set_list(self,):
         struc_csv_dir = 'data/structures.csv'
@@ -83,4 +88,15 @@ class DefaultDataset(Dataset):
             z = row['z']
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
             model_info[atom_index] = (atom_index_dic[atom], x, y, z)
+            if i > 30 :
+                break
         self.model_info_set[molecule_name] = model_info
+        
+def main():
+    data_set = DefaultDataset()
+    print('train_data_list ', data_set.train_data_list)
+    print('gt_data_list ', data_set.gt_data_list)
+
+    
+if __name__ == '__main__':
+  main()
