@@ -11,7 +11,9 @@ import ast
 import os
 import tqdm
 import pandas as pd
+import numpy as np
 
+max_atom = 29
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
@@ -23,7 +25,7 @@ atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
 
 def get_default_info():
     info = []
-    for i in range(29):
+    for i in range(max_atom):
         #(x,y,z,atom_index)
         info.append(( -1, 100, 100, 100))
     return info
@@ -31,19 +33,45 @@ def get_default_info():
 class DefaultDataset(Dataset):
     def __init__(self,
                  ):
-        struc_csv_dir = 'data/structures.csv'
+        self.gen_stuc_set_list()
+        
+    def gen_train_data(self):
         train_csv_dir = 'data/train.csv'
+        df_train = pd.read_csv(train_csv_dir)
+        self.train_data = []
+        self.gt_data = []
+        
+        pre_mol_name = ''       
+        molecule_name = ''
+        train_data = ''
+        gt_data = ''
+        for i, row in tqdm.tqdm(df_train.iterrows()):
+            molecule_name = row['molecule_name']
+            if pre_mol_name != molecule_name:
+                if i > 0:
+                    self.train_data.append(train_data)
+                struct_data = self.model_info_set[molecule_name]
+                gt_data = np.zeros((29, 29))
+                index_0 = row['atom_index_0']
+                index_1 = row['atom_index_1']
+                print('index_0 ', index_0)
+                print('index_1 ', index_1)
+        
+    def gen_stuc_set_list(self,):
+        struc_csv_dir = 'data/structures.csv'
+        
         df_struc = pd.read_csv(struc_csv_dir)
     
-        self.model_info_list = []
-        pre_mol_name = ''
-        model_info = get_default_info()
+        self.model_info_set = {}
+        model_info = []
+        pre_mol_name = ''       
+        molecule_name = ''
         for i, row in tqdm.tqdm(df_struc.iterrows()):
             molecule_name = row['molecule_name']
             if pre_mol_name != molecule_name:
                 if len(model_info) > 0:
-                    self.model_info_list.append(model_info)
-                    print('model_info ', model_info)
+                    self.model_info_set[molecule_name] = model_info
+                #    print('model_info ', model_info)
                 #开始一个新modedel
                 model_info = get_default_info()
                 pre_mol_name = molecule_name
@@ -53,5 +81,6 @@ class DefaultDataset(Dataset):
             x = row['x']
             y = row['y']
             z = row['z']
-            print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
+         #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
             model_info[atom_index] = (atom_index_dic[atom], x, y, z)
+        self.model_info_set[molecule_name] = model_info
