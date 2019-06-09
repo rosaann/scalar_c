@@ -41,7 +41,8 @@ def test_load_train():
                 index_1 = row['atom_index_1']
                 print('index_0 ', index_0)
                 print('index_1 ', index_1)
-                return
+                if i >= 10:
+                    return
 def test_load_struc():
     atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
 
