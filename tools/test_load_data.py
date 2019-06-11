@@ -19,7 +19,8 @@ def get_default_info():
         info.append(( -1, 100, 100, 100))
     return info
 def main():
-    test_load_train()
+    test_load_struc()
+   # test_load_train()
 def test_load_train():
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
@@ -50,15 +51,15 @@ def test_load_struc():
     train_csv_dir = 'data/train.csv'
     df_struc = pd.read_csv(struc_csv_dir)
     
-    model_info_list = []
+    model_info_set = {}
     pre_mol_name = ''
     model_info = get_default_info()
     for i, row in tqdm.tqdm(df_struc.iterrows()):
         molecule_name = row['molecule_name']
         if pre_mol_name != molecule_name:
             if len(model_info) > 0:
-                model_info_list.append(model_info)
-                print('model_info ', model_info)
+                model_info_set[molecule_name] = model_info
+                print('model_name ', molecule_name)
             #开始一个新modedel
             model_info = get_default_info()
             pre_mol_name = molecule_name
@@ -72,6 +73,6 @@ def test_load_struc():
         model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         if i > 80:
             break
-    print('re ', model_info_list)
+    print('re ', model_info_set)
 if __name__ == '__main__':
-  main()
+    main()
