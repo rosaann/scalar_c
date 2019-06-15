@@ -12,6 +12,7 @@ import os
 import tqdm
 import pandas as pd
 import numpy as np
+import random
 
 max_atom = 29
 def find_atom_index_dic():
@@ -36,12 +37,44 @@ def save_data_to_local(file, data):
     fileObject.write('\n')
     fileObject.close() 
 class DefaultDataset(Dataset):
-    def __init__(self,
+    def __init__(self,split
                  ):
         self.gen_stuc_set_list()
         self.gen_train_data()
+        self.gen_random_index_list()
+        self.split = split
+        self.data_list = []
+        n7 = len(self.random_index_list) * 0.7
+        if split == 'train':
+            self.gt_list = []
+            for i in self.random_index_list[ : n7]:
+                self.data_list.append(self.train_data_list[self.random_index_list[i]])
+                self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
+        
+        if split == 'val':
+            for i in self.random_index_list[n7 : ]:
+                self.data_list.append(self.train_data_list[self.random_index_list[i]])
+    def __getitem__(self, index):
+        if self.split == 'train':
+            return {'data': self.data_list[index],
+                'gt': self.gt_list[index]
+                }  
+        else :
+             return {'data': self.data_list[index]} 
         
     def gen_train_data(self):
+        text_file_train_all = 'data/train_data_list.txt'
+        text_file_gt_all = 'data/gt_data_list.txt'
+        
+        if os.path.exists(text_file_train_all):
+            with open(text_file_train_all, 'r') as f: 
+                self.train_data_list = ast.literal_eval(f.read())
+        
+        if os.path.exists(text_file_gt_all):
+            with open(text_file_gt_all, 'r') as f: 
+                self.gt_data_list = ast.literal_eval(f.read())
+                return
+        
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
         self.train_data_list = []
@@ -74,10 +107,21 @@ class DefaultDataset(Dataset):
           #      print('self.train_data_list ', self.train_data_list)
           #      break
         self.train_data_list.append(train_data)
-        save_data_to_local('data/train_data_list.txt', self.train_data_list)
+        save_data_to_local(text_file_train_all, self.train_data_list)
         
         self.gt_data_list.append(gt_data)
-        save_data_to_local('data/gt_data_list.txt', self.gt_data_list)
+        save_data_to_local(text_file_gt_all, self.gt_data_list)
+    
+    def gen_random_index_list(self):
+        txt_random_index_file = 'data/random_index_list.txt'
+        if os.path.exists(txt_random_index_file):
+            with open(txt_random_index_file, 'r') as f: 
+                self.random_index_list = ast.literal_eval(f.read())
+                return
+        num = len(self.train_data_list)
+        self.random_index_list = list(range(num))
+        random.shuffle(self.random_index_list)
+        save_data_to_local(txt_random_index_file, self.random_index_list)
         
     def gen_stuc_set_list(self,):
             
@@ -116,7 +160,7 @@ class DefaultDataset(Dataset):
         #    if i > 20:
          #       break
         self.model_info_set[molecule_name] = model_info
-        save_data_to_local('data/model_info_set.txt', self.model_info_set)
+        save_data_to_local(txt_file, self.model_info_set)
         
 def main():
     data_set = DefaultDataset()
