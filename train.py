@@ -307,7 +307,7 @@ def run(config):
 
     print('from segmenter checkpoint: {} last epoch:{}'.format(checkpoint_segmenter, last_epoch))
   #  scheduler = get_scheduler(config, optimizer, last_epoch)
-  
+    print('config.train ', config.train)
     writer = SummaryWriter(config.train.writer_dir)
     
     scheduler = 'none'
