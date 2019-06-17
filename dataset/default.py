@@ -44,7 +44,7 @@ class DefaultDataset(Dataset):
         self.gen_random_index_list()
         self.split = split
         self.data_list = []
-        n7 = len(self.random_index_list) * 0.7
+        n7 = int (len(self.random_index_list) * 0.7)
         if split == 'train':
             self.gt_list = []
             for i in self.random_index_list[ : n7]:
