@@ -6,7 +6,7 @@ train_classifier:
   num_grad_acc: 4
   
 train_segmenter:
-  dir: './result/out/segmenter/resnet18_segmenter'
+  dir: './result/out/resnet18_segmenter'
   batch_size: 16
   num_epochs: 300
   num_grad_acc: 4
