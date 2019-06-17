@@ -10,8 +10,8 @@ import torch.utils.data.sampler
 from torch.utils.data import DataLoader
 
 from .default import DefaultDataset
-from .small import SmallDataset
-from .test import TestDataset
+#from .small import SmallDataset
+#from .test import TestDataset
 
 
 def get_dataset(data):
