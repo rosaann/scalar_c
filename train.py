@@ -31,7 +31,7 @@ from models.model_factory import get_model
 from multiprocessing.pool import ThreadPool
 from scipy import ndimage
 import torch.nn as nn
-from tools.gen_gt_images import genBiImage
+#from tools.gen_gt_images import genBiImage
 import torchvision.utils as vutils
 import cv2
 from torchvision import transforms
