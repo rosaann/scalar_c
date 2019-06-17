@@ -9,7 +9,7 @@ import torch.utils.data
 import torch.utils.data.sampler
 from torch.utils.data import DataLoader
 
-from .default import DefaultClassifierDataset, DefaultSegmenterDataset
+from .default import DefaultDataset
 from .small import SmallDataset
 from .test import TestDataset
 
