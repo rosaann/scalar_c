@@ -21,8 +21,8 @@ def get_dataset(data):
     return f()
 
 
-def get_dataloader(data,csv_dir, batch_size, split,num_workers, transform=None, **_):
-    dataset = get_dataset(data, csv_dir, transform)
+def get_dataloader( batch_size, split, **_):
+    dataset = DefaultDataset(split)
 
     is_train = 'train' == split
 
@@ -30,6 +30,6 @@ def get_dataloader(data,csv_dir, batch_size, split,num_workers, transform=None, 
                             shuffle=is_train,
                             batch_size=batch_size,
                             drop_last=is_train,
-                            num_workers=num_workers,
+                            num_workers=8,
                             pin_memory=False)
     return dataloader
