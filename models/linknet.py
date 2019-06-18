@@ -160,7 +160,7 @@ class LinkNet(nn.Module):
      #   print('y2 ', y.shape)
 
         y = self.lsm(y)
-     #   print('y3 ', y.shape)
+        print('y3 ', y.shape)
 
         return y
 
@@ -169,7 +169,7 @@ class LinkNetBase(nn.Module):
     Generate model architecture
     """
 
-    def __init__(self, n_classes=21):
+    def __init__(self, n_classes=1):
         """
         Model initialization
         :param x_n: number of input neurons
