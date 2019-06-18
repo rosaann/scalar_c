@@ -26,9 +26,11 @@ atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
 
 def get_default_info():
     info = []
-    for i in range(max_atom):
+    for i in range(max_atom * max_atom):
         #(x,y,z,atom_index)
         info.append(( -1, 100, 100, 100))
+    info = np.array(info)
+    info = info.reshape(max_atom, max_atom)
     return info
 def save_data_to_local(file, data):
     fileObject = open(file, 'w')
@@ -52,7 +54,7 @@ class DefaultDataset(Dataset):
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
             self.data_list = np.array(self.data_list)
             print('self.data_list ', self.data_list.shape)
-            self.data_list.transpose(0, 2, 1)
+            self.data_list = self.data_list.transpose(0, 2, 1)
             print('self.data_list2 ', self.data_list.shape)
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)
@@ -166,7 +168,7 @@ class DefaultDataset(Dataset):
             y = row['y']
             z = row['z']
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
-            model_info[atom_index] = (atom_index_dic[atom], x, y, z)
+            model_info[atom_index][atom_index]  = (atom_index_dic[atom], x, y, z)
         #    if i > 20:
          #       break
         self.model_info_set[molecule_name] = model_info
