@@ -173,7 +173,7 @@ class DefaultDataset(Dataset):
             y = row['y']
             z = row['z']
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
-            model_info[atom_index][atom_index]  = (atom_index_dic[atom], x, y, z)
+            model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         #    if i > 20:
          #       break
         self.model_info_set[molecule_name] = model_info.tolist()
