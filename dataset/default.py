@@ -90,7 +90,7 @@ class DefaultDataset(Dataset):
             if pre_mol_name != molecule_name:
                 if i > 0:
                     self.train_data_list.append(train_data)
-                    self.gt_data_list.append(gt_data)
+                    self.gt_data_list.append(gt_data.tolist())
                  #   print('gt_data save ', gt_data)
                 train_data = self.model_info_set[molecule_name]
                 gt_data = np.zeros((29, 29))
@@ -109,8 +109,8 @@ class DefaultDataset(Dataset):
         self.train_data_list.append(train_data)
         save_data_to_local(text_file_train_all, self.train_data_list)
         
-        self.gt_data_list.append(gt_data)
-        save_data_to_local(text_file_gt_all, self.gt_data_list.tolist())
+        self.gt_data_list.append(gt_data.tolist())
+        save_data_to_local(text_file_gt_all, self.gt_data_list)
     
     def gen_random_index_list(self):
         txt_random_index_file = 'data/random_index_list.txt'
