@@ -87,8 +87,8 @@ class LinkNet(nn.Module):
         """
         super(LinkNet, self).__init__()
 
-     #   base = resnet.resnet18(pretrained=False)
-        base.conv1 = 
+        base = resnet.resnet18(pretrained=False)
+
         self.in_block = nn.Sequential(
             base.conv1,
             base.bn1,
