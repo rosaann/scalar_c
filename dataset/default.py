@@ -30,7 +30,7 @@ def get_default_info():
         #(x,y,z,atom_index)
         info.append(( -1, 100, 100, 100))
     info = np.array(info)
-    print('info xx ', info.shape)
+   # print('info xx ', info.shape)
     info = info.reshape(max_atom, max_atom, 4)
     return info
 def save_data_to_local(file, data):
