@@ -51,6 +51,7 @@ class DefaultDataset(Dataset):
                 self.data_list.append(self.train_data_list[self.random_index_list[i]])
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
             self.data_list = np.array(self.data_list)
+            print('self.data_list ', self.data_list.shape)
             self.gt_list = np.array(self.gt_list)
         
         if split == 'val':

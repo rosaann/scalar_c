@@ -79,7 +79,7 @@ class LinkNet(nn.Module):
     Generate Model Architecture
     """
 
-    def __init__(self, n_classes=21):
+    def __init__(self, n_classes=1):
         """
         Model initialization
         :param x_n: number of input neurons
@@ -87,8 +87,8 @@ class LinkNet(nn.Module):
         """
         super(LinkNet, self).__init__()
 
-        base = resnet.resnet18(pretrained=True)
-
+     #   base = resnet.resnet18(pretrained=False)
+        base.conv1 = 
         self.in_block = nn.Sequential(
             base.conv1,
             base.bn1,
@@ -119,7 +119,7 @@ class LinkNet(nn.Module):
 
     def forward(self, x):
         # Initial block
-    #    print('x ', x.shape)
+        print('x ', x.shape)
         x = self.in_block(x)
     #    print('x1 ', x.shape)
         # Encoder blocks
@@ -159,7 +159,7 @@ class LinkNet(nn.Module):
         y = self.tp_conv2(y)
      #   print('y2 ', y.shape)
 
-        y = self.lsm(y)
+       # y = self.lsm(y)
         print('y3 ', y.shape)
 
         return y
