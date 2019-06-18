@@ -43,8 +43,11 @@ class DefaultDataset(Dataset):
     def __init__(self,split
                  ):
         self.gen_stuc_set_list()
+        print('gen_stuc_set_list ')
         self.gen_train_data()
+        print('self.gen_train_data()')
         self.gen_random_index_list()
+        print('self.gen_random_index_list ')
         self.split = split
         self.data_list = []
         n7 = int (len(self.random_index_list) * 0.7)
