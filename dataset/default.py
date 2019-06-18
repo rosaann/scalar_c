@@ -26,7 +26,7 @@ atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
 
 def get_default_info():
     info = []
-    for i in range(max_atom * max_atom):
+    for i in range(29 *29):
         #(x,y,z,atom_index)
         info.append(( -1, 100, 100, 100))
     info = np.array(info)
