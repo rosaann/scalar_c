@@ -42,8 +42,9 @@ def save_data_to_local(file, data):
 class DefaultDataset(Dataset):
     def __init__(self,split
                  ):
+        print('**DefaultDataset ')
         self.gen_stuc_set_list()
-        print('gen_stuc_set_list ')
+        
         self.gen_train_data()
         print('self.gen_train_data()')
         self.gen_random_index_list()
