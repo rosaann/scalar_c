@@ -110,7 +110,7 @@ class DefaultDataset(Dataset):
         save_data_to_local(text_file_train_all, self.train_data_list)
         
         self.gt_data_list.append(gt_data)
-        save_data_to_local(text_file_gt_all, self.gt_data_list)
+        save_data_to_local(text_file_gt_all, self.gt_data_list.tolist())
     
     def gen_random_index_list(self):
         txt_random_index_file = 'data/random_index_list.txt'
