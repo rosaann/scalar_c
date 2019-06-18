@@ -52,7 +52,10 @@ class DefaultDataset(Dataset):
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
             self.data_list = np.array(self.data_list)
             print('self.data_list ', self.data_list.shape)
+            self.data_list.transpose(0, 2, 1)
+            print('self.data_list2 ', self.data_list.shape)
             self.gt_list = np.array(self.gt_list)
+            print('self.gt_list ', self.gt_list.shape)
         
         if split == 'val':
             for i in self.random_index_list[n7 : ]:
