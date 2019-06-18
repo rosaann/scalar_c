@@ -189,7 +189,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
     
     total_loss = 0
     for i, data in tbar:
-        images = data['image']
+        images = data['data']
         gt = data['gt']
        # paths = data['path']
         
