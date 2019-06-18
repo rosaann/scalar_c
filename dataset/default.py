@@ -61,7 +61,10 @@ class DefaultDataset(Dataset):
                 }  
         else :
              return {'data': self.data_list[index]} 
-        
+    
+    def __len__(self):
+        return len( self.data_list)    
+    
     def gen_train_data(self):
         text_file_train_all = 'data/train_data_list.txt'
         text_file_gt_all = 'data/gt_data_list.txt'
