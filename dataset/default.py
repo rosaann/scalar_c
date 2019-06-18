@@ -50,10 +50,13 @@ class DefaultDataset(Dataset):
             for i in self.random_index_list[ : n7]:
                 self.data_list.append(self.train_data_list[self.random_index_list[i]])
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
+            self.data_list = np.array(self.data_list)
+            self.gt_list = np.array(self.gt_list)
         
         if split == 'val':
             for i in self.random_index_list[n7 : ]:
                 self.data_list.append(self.train_data_list[self.random_index_list[i]])
+            self.data_list = np.array(self.data_list)
     def __getitem__(self, index):
         if self.split == 'train':
             return {'data': self.data_list[index],
