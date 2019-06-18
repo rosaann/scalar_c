@@ -161,7 +161,7 @@ class DefaultDataset(Dataset):
             if pre_mol_name != molecule_name:
                 if i > 0:
                  #   print('molecule_name s ', pre_mol_name)
-                    self.model_info_set[pre_mol_name] = model_info.tolist()
+                    self.model_info_set[pre_mol_name] = model_info
                 #    print('model_info ', model_info)
                 #开始一个新modedel
                 model_info = get_default_info()
@@ -176,7 +176,7 @@ class DefaultDataset(Dataset):
             model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         #    if i > 20:
          #       break
-        self.model_info_set[molecule_name] = model_info.tolist()
+        self.model_info_set[molecule_name] = model_info
         save_data_to_local(txt_file, self.model_info_set)
         
 def main():
