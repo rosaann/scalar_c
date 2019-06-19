@@ -13,8 +13,9 @@ import tqdm
 import pandas as pd
 import numpy as np
 import random
+import cmath
 
-max_atom = 29
+max_atom = 30
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
@@ -39,6 +40,27 @@ def save_data_to_local(file, data):
     fileObject.write(str(data))
     fileObject.write('\n')
     fileObject.close() 
+    
+def changeListFormToRectForm(data_list):
+    size = len(data_list)
+    result = []
+    rlist = []
+    for in range(size):
+        rlist.append(size * size)
+        
+    for i in range(size * size):
+        if i in rlist:
+            num_sqrt = i
+            if i != 0:
+                num_sqrt = cmath.sqrt(i)
+            result.append(data_list[num_sqrt])
+        else:
+            result.append(( -1, 100, 100, 100))
+            
+    result = np.array(result)
+    
+    return result.reshape(size, size)
+        
 class DefaultDataset(Dataset):
     def __init__(self,split
                  ):
@@ -55,7 +77,8 @@ class DefaultDataset(Dataset):
         if split == 'train':
             self.gt_list = []
             for i in self.random_index_list[ : n7]:
-                self.data_list.append(self.train_data_list[self.random_index_list[i]])
+                d_p = changeListFormToRectForm(self.train_data_list[self.random_index_list[i]])
+                self.data_list.append(d_p)
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
             self.data_list = np.array(self.data_list)
             tshape = self.data_list.shape
@@ -111,7 +134,7 @@ class DefaultDataset(Dataset):
                     self.gt_data_list.append(gt_data.tolist())
                  #   print('gt_data save ', gt_data)
                 train_data = self.model_info_set[molecule_name]
-                gt_data = np.zeros((29, 29))
+                gt_data = np.zeros((max_atom, max_atom))
                 pre_mol_name = molecule_name
             index_0 = row['atom_index_0']
             index_1 = row['atom_index_1']
