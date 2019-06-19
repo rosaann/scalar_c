@@ -59,7 +59,7 @@ def changeListFormToRectForm(data_list):
             
     result = np.array(result)
     
-    return result.reshape(size, size)
+    return result.reshape(size, size, 4)
         
 class DefaultDataset(Dataset):
     def __init__(self,split
