@@ -45,7 +45,7 @@ def changeListFormToRectForm(data_list):
     size = len(data_list)
     result = []
     rlist = []
-    for in range(size):
+    for i in range(size):
         rlist.append(size * size)
         
     for i in range(size * size):
