@@ -85,7 +85,7 @@ class DefaultDataset(Dataset):
             self.data_list = np.array(self.data_list)
             tshape = self.data_list.shape
             print('self.data_list ', tshape)
-            self.data_list = self.data_list.reshape(tshape[0],tshape[2], tshape[1])
+            self.data_list = self.data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
             print('self.data_list2 ', self.data_list.shape)
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)
