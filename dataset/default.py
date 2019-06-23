@@ -15,7 +15,7 @@ import numpy as np
 import random
 import cmath
 
-max_atom = 32
+max_atom = 30
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
