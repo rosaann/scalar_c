@@ -112,13 +112,13 @@ class LinkNet(nn.Module):
         self.decoder4 = Decoder(512, 256, 3, 2, 1, 1)
 
         # Classifier
-        self.tp_conv1 = nn.Sequential(nn.ConvTranspose2d(128, 29, 3, 2, 1, 1),
-                                      nn.BatchNorm2d(29),
+        self.tp_conv1 = nn.Sequential(nn.ConvTranspose2d(128, 64, 3, 2, 1, 1),
+                                      nn.BatchNorm2d(64),
                                       nn.ReLU(inplace=True),)
-        self.conv2 = nn.Sequential(nn.Conv2d(29, 29, 3, 1, 1),
-                                nn.BatchNorm2d(29),
+        self.conv2 = nn.Sequential(nn.Conv2d(64, 32, 3, 1, 1),
+                                nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),)
-        self.tp_conv2 = nn.ConvTranspose2d(29, n_classes, 2, 2, 1)
+        self.tp_conv2 = nn.ConvTranspose2d(32, n_classes, 2, 2, 0)
         self.lsm = nn.LogSoftmax(dim=1)
 
 
