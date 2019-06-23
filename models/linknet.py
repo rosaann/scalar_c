@@ -90,9 +90,9 @@ class LinkNet(nn.Module):
         base = resnet.resnet18(pretrained=False)
         base.conv1 = nn.Conv2d(in_channels=4,
                             out_channels=base.conv1.out_channels,
-                            kernel_size=base.conv1.kernel_size,
-                            stride=base.conv1.stride,
-                            padding=base.conv1.padding,
+                            kernel_size=2,
+                            stride=1,
+                            padding=0,
                             bias=base.conv1.bias)
         self.in_block = nn.Sequential(
             base.conv1,
