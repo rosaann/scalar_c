@@ -46,13 +46,11 @@ def changeListFormToRectForm(data_list):
     result = []
     rlist = []
     for i in range(size):
-        rlist.append(size * size)
+        rlist.append(i * size + i)
         
     for i in range(size * size):
         if i in rlist:
-            num_sqrt = i
-            if i != 0:
-                num_sqrt = cmath.sqrt(i)
+            num_sqrt = i % size           
             result.append(data_list[num_sqrt])
         else:
             result.append(( -1, 100, 100, 100))
