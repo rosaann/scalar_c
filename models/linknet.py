@@ -103,16 +103,16 @@ class LinkNet(nn.Module):
 
         self.encoder1 = base.layer1
         self.encoder2 = base.layer2
-        self.encoder3 = base.layer3
-        self.encoder4 = base.layer4
+     #   self.encoder3 = base.layer3
+     #   self.encoder4 = base.layer4
 
-        self.decoder1 = Decoder(64, 64, 3, 1, 1, 0)
-        self.decoder2 = Decoder(128, 64, 3, 2, 1, 1)
+     #   self.decoder1 = Decoder(64, 64, 3, 1, 1, 0)
+     #   self.decoder2 = Decoder(128, 64, 3, 2, 1, 1)
         self.decoder3 = Decoder(256, 128, 3, 2, 1, 1)
         self.decoder4 = Decoder(512, 256, 3, 2, 1, 1)
 
         # Classifier
-        self.tp_conv1 = nn.Sequential(nn.ConvTranspose2d(64, 29, 3, 2, 1, 1),
+        self.tp_conv1 = nn.Sequential(nn.ConvTranspose2d(128, 29, 3, 2, 1, 1),
                                       nn.BatchNorm2d(29),
                                       nn.ReLU(inplace=True),)
         self.conv2 = nn.Sequential(nn.Conv2d(29, 29, 3, 1, 1),
@@ -132,32 +132,33 @@ class LinkNet(nn.Module):
         print('e1 ', e1.shape)
         e2 = self.encoder2(e1)
         print('e2 ', e2.shape)
-        e3 = self.encoder3(e2)
-        print('e3 ', e3.shape)
-        e4 = self.encoder4(e3)
-        print('e4 ', e4.shape)
+      #  e3 = self.encoder3(e2)
+      #  print('e3 ', e3.shape)
+      #  e4 = self.encoder4(e3)
+      #  print('e4 ', e4.shape)
 
         # Decoder blocks
         #d4 = e3 + self.decoder4(e4)
-        d4 = self.decoder4(e4)
-        print('d4 ', d4.shape)
-        d4 = e3 + d4
-        print('d4 2 ', d4.shape)
-        d3 = self.decoder3(d4)
-        print('d3 ', d3.shape)
-        d3 = e2 + d3
-        print('d3 2 ', d3.shape)
-        d2 = self.decoder2(d3)
-        print('d2 ', d2.shape)
-        d2 = e1 + d2
-        print('d2 2 ', d2.shape)
-        d1 = self.decoder1(d2)
-        print('d1 ', d1.shape)
-        d1 = x + d1
-        print('d1 2 ', d1.shape)
+      #  d4 = self.decoder4(e4)
+      #  print('d4 ', d4.shape)
+     #   d4 = e3 + d4
+     #   print('d4 2 ', d4.shape)
+     #   d3 = self.decoder3(d4)
+     
+        
+     #   print('d3 ', d3.shape)
+     #   d3 = e2 + d3
+     #   print('d3 2 ', d3.shape)
+     #   d2 = self.decoder2(d3)
+     #   print('d2 ', d2.shape)
+     #   d2 = e1 + d2
+     #   print('d2 2 ', d2.shape)
+     #   d1 = self.decoder1(d2)
+     #   print('d1 ', d1.shape)
+     ##   print('d1 2 ', d1.shape)
 
         # Classifier
-        y = self.tp_conv1(d1)
+        y = self.tp_conv1(e2)
         print('y ', y.shape)
         y = self.conv2(y)
         print('y1 ', y.shape)
