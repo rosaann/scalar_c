@@ -90,7 +90,7 @@ class DefaultDataset(Dataset):
         
         if split == 'val':
             for i in self.random_index_list[n7 : ]:
-                self.data_list.append(self.train_data_list[self.random_index_list[i]])
+                self.data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
             self.data_list = np.array(self.data_list)
     def __getitem__(self, index):
         if self.split == 'train':
