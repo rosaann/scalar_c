@@ -105,12 +105,12 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
         for i, data in tbar:
-            images = data['image']
+            images = data['data']
             gt = data['gt']
-            paths = data['path']
+            
             if torch.cuda.is_available():
-                images = images.cuda()
-                gt = gt.cuda()
+                images = images.cuda().float()
+                gt = gt.cuda().float()
             binary_masks = model(images)
             
             loss = criterion(binary_masks, gt)
