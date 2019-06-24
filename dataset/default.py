@@ -64,9 +64,11 @@ class DefaultDataset(Dataset):
                  ):
         print('**DefaultDataset ')
         self.gen_stuc_set_list()
-        print('self.gen_train_data()')
+        print('self.gen_stuc_set_list()')
         self.gen_train_data()
         print('self.gen_train_data()')
+        self.get_gt_data()
+        print('self.get_gt_data()')
         self.gen_random_index_list()
         print('self.gen_random_index_list ')
         self.split = split
@@ -108,6 +110,13 @@ class DefaultDataset(Dataset):
     def __len__(self):
         return len( self.data_list)    
     
+    def get_gt_data(self):
+        text_file_gt_all = 'data/gt_data_list.txt'
+        if os.path.exists(text_file_gt_all):
+            f = open(text_file_gt_all, 'r') 
+            self.gt_data_list = ast.literal_eval(f.read())
+            f.close() 
+            
     def gen_train_data(self):
         text_file_train_all = 'data/train_data_list.txt'
         text_file_gt_all = 'data/gt_data_list.txt'
@@ -116,10 +125,7 @@ class DefaultDataset(Dataset):
             f = open(text_file_train_all, 'r') 
             self.train_data_list = ast.literal_eval(f.read())
             f.close() 
-        if os.path.exists(text_file_gt_all):
-            f = open(text_file_gt_all, 'r') 
-            self.gt_data_list = ast.literal_eval(f.read())
-            f.close() 
+        
             return
         
         train_csv_dir = 'data/train.csv'
