@@ -175,7 +175,7 @@ class DefaultDataset(Dataset):
             
         txt_file = 'data/model_info_set.txt'
         if os.path.exists(txt_file):
-            f = open(txt_file, 'r') as f: 
+            f = open(txt_file, 'r')  
             self.model_info_set = ast.literal_eval(f.read())
             f.close() 
             return
