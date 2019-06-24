@@ -168,7 +168,7 @@ class LinkNet(nn.Module):
        # y = self.lsm(y)
         print('y3 ', y.shape)
        # y.append(0.0)
-        y = y[:,:,:-1,:-1]
+        y = y[:,:,:-1,:-1].float()
         print('y4 ', y.shape)
 
         return y
