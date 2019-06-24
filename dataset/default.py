@@ -14,7 +14,7 @@ import pandas as pd
 import numpy as np
 import random
 import cmath
-
+import time
 max_atom = 29
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
@@ -64,12 +64,16 @@ class DefaultDataset(Dataset):
                  ):
         print('**DefaultDataset ')
         self.gen_stuc_set_list()
+        time.sleep(2)
         print('self.gen_stuc_set_list()')
         self.gen_train_data()
+        time.sleep(2)
         print('self.gen_train_data()')
         self.get_gt_data()
+        time.sleep(2)
         print('self.get_gt_data()')
         self.gen_random_index_list()
+        time.sleep(2)
         print('self.gen_random_index_list ')
         self.split = split
         self.data_list = []
