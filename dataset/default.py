@@ -134,7 +134,7 @@ class DefaultDataset(Dataset):
                     self.gt_data_list.append(gt_data.tolist())
                  #   print('gt_data save ', gt_data)
                 train_data = self.model_info_set[molecule_name]
-                gt_data = np.zeros((max_atom - 1, max_atom -1)
+                gt_data = np.zeros((max_atom - 1, max_atom -1))
                 pre_mol_name = molecule_name
             index_0 = row['atom_index_0']
             index_1 = row['atom_index_1']
