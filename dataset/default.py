@@ -89,6 +89,7 @@ class DefaultDataset(Dataset):
             print('self.gt_list ', self.gt_list.shape)
         
         if 1:# split == 'val':
+            self.val_data_list = []
             for i in self.random_index_list[n7 : ]:
                 self.val_data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
             self.val_data_list = np.array(self.val_data_list)
@@ -98,11 +99,11 @@ class DefaultDataset(Dataset):
         if index % 10 == 0:
             print('index ', index)
         if self.split == 'train':
-            return {'data': self.data_list[index],
+            return {'data': self.tr_data_list[index],
                 'gt': self.gt_list[index]
                 }  
         else :
-             return {'data': self.data_list[index]} 
+             return {'data': self.val_data_list[index]} 
     
     def __len__(self):
         return len( self.data_list)    
