@@ -76,8 +76,8 @@ class DefaultDataset(Dataset):
             self.gt_list = []
             for i in self.random_index_list[ : n7]:
                 d_p = changeListFormToRectForm(self.train_data_list[self.random_index_list[i]])
-                if i == 0:
-                    print('d_p ', d_p)
+              #  if i == 0:
+               #     print('d_p ', d_p)
                 self.data_list.append(d_p)
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
             self.data_list = np.array(self.data_list)
