@@ -240,7 +240,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
         for key, value in log_dict.items():
             writer.add_scalar('train/{}'.format(key), value, epoch)
                     
-def train_segmenter(config, model, train_dataloader,  criterion, optimizer, scheduler, writer, start_epoch):
+def train_segmenter(config, model, train_dataloader, eval_dataloaders, criterion, optimizer, scheduler, writer, start_epoch):
     num_epochs = config.train_segmenter.num_epochs
     
     metrics = ConfusionMatrix(2, ['bk','ship'])
@@ -261,13 +261,13 @@ def train_segmenter(config, model, train_dataloader,  criterion, optimizer, sche
     best_f1_mavg = 0.0
     for epoch in range(start_epoch, num_epochs):
         # train phase
-        train_dataloader.setSplit('train')
+       # train_dataloader.setSplit('train')
         train_segmenter_single_epoch(config, model, train_dataloader,
                            criterion, optimizer, epoch, writer, postfix_dict)
 
         # val phase
-        train_dataloader.setSplit('val')
-        metrics = evaluate_segmenter_single_epoch(config, model, train_dataloader,
+      #  train_dataloader.setSplit('val')
+        metrics = evaluate_segmenter_single_epoch(config, model, eval_dataloaders,
                                    criterion, epoch, writer, postfix_dict, metrics)
 
       #  if scheduler.name == 'reduce_lr_on_plateau':
@@ -324,9 +324,9 @@ def run(config):
     criterion_segmenter = nn.MSELoss()
     
     train_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'train' )
-   # eval_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'val')
+    eval_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'val')
   
-    train_segmenter(config, model_segmenter, train_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
+    train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
           writer, last_epoch+1)
 def getSegmenterCriterion():
     hist_path = os.path.join(args.save, 'hist')

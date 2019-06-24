@@ -72,7 +72,7 @@ class DefaultDataset(Dataset):
         self.split = split
         self.data_list = []
         n7 = int (len(self.random_index_list) * 0.7)
-        if 1: #split == 'train':
+        if split == 'train':
             self.gt_list = []
             for i in self.random_index_list[ : n7]:
                 d_p = changeListFormToRectForm(self.train_data_list[self.random_index_list[i]])
@@ -88,7 +88,7 @@ class DefaultDataset(Dataset):
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)
         
-        if 1:# split == 'val':
+        if split == 'val':
             self.val_data_list = []
             for i in self.random_index_list[n7 : ]:
                 self.val_data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
@@ -115,10 +115,11 @@ class DefaultDataset(Dataset):
         if os.path.exists(text_file_train_all):
             with open(text_file_train_all, 'r') as f: 
                 self.train_data_list = ast.literal_eval(f.read())
-        
+                f.close() 
         if os.path.exists(text_file_gt_all):
             with open(text_file_gt_all, 'r') as f: 
                 self.gt_data_list = ast.literal_eval(f.read())
+                f.close() 
                 return
         
         train_csv_dir = 'data/train.csv'
@@ -163,6 +164,7 @@ class DefaultDataset(Dataset):
         if os.path.exists(txt_random_index_file):
             with open(txt_random_index_file, 'r') as f: 
                 self.random_index_list = ast.literal_eval(f.read())
+                f.close() 
                 return
         num = len(self.train_data_list)
         self.random_index_list = list(range(num))
@@ -175,6 +177,7 @@ class DefaultDataset(Dataset):
         if os.path.exists(txt_file):
             with open(txt_file, 'r') as f: 
                 self.model_info_set = ast.literal_eval(f.read())
+                f.close() 
                 return
         
         struc_csv_dir = 'data/structures.csv'
