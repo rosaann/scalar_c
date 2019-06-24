@@ -72,7 +72,7 @@ class DefaultDataset(Dataset):
         self.split = split
         self.data_list = []
         n7 = int (len(self.random_index_list) * 0.7)
-        if split == 'train':
+        if 1: #split == 'train':
             self.gt_list = []
             for i in self.random_index_list[ : n7]:
                 d_p = changeListFormToRectForm(self.train_data_list[self.random_index_list[i]])
@@ -80,18 +80,20 @@ class DefaultDataset(Dataset):
                #     print('d_p ', d_p)
                 self.data_list.append(d_p)
                 self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
-            self.data_list = np.array(self.data_list)
-            tshape = self.data_list.shape
+            self.tr_data_list = np.array(self.data_list)
+            tshape = self.tr_data_list.shape
             print('self.data_list ', tshape)
-            self.data_list = self.data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
-            print('self.data_list2 ', self.data_list.shape)
+            self.tr_data_list = self.tr_data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
+            print('self.data_list2 ', self.tr_data_list.shape)
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)
         
-        if split == 'val':
+        if 1:# split == 'val':
             for i in self.random_index_list[n7 : ]:
-                self.data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
-            self.data_list = np.array(self.data_list)
+                self.val_data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
+            self.val_data_list = np.array(self.val_data_list)
+    def setSplit(self, split):
+        self.split = split
     def __getitem__(self, index):
         if index % 10 == 0:
             print('index ', index)
