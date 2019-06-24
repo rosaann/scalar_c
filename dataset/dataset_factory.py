@@ -30,6 +30,6 @@ def get_dataloader( batch_size, split, **_):
                             shuffle=is_train,
                             batch_size=batch_size,
                             drop_last=is_train,
-                            num_workers=0,
+                            num_workers=6,
                             pin_memory=False)
     return dataloader
