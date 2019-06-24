@@ -324,6 +324,7 @@ def run(config):
     criterion_segmenter = nn.MSELoss()
     
     train_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'train' )
+    
     eval_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'val')
   
     train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,

@@ -64,7 +64,7 @@ class DefaultDataset(Dataset):
                  ):
         print('**DefaultDataset ')
         self.gen_stuc_set_list()
-        
+        print('self.gen_train_data()')
         self.gen_train_data()
         print('self.gen_train_data()')
         self.gen_random_index_list()
@@ -113,14 +113,14 @@ class DefaultDataset(Dataset):
         text_file_gt_all = 'data/gt_data_list.txt'
         
         if os.path.exists(text_file_train_all):
-            with open(text_file_train_all, 'r') as f: 
-                self.train_data_list = ast.literal_eval(f.read())
-                f.close() 
+            f = open(text_file_train_all, 'r') 
+            self.train_data_list = ast.literal_eval(f.read())
+            f.close() 
         if os.path.exists(text_file_gt_all):
-            with open(text_file_gt_all, 'r') as f: 
-                self.gt_data_list = ast.literal_eval(f.read())
-                f.close() 
-                return
+            f = open(text_file_gt_all, 'r') 
+            self.gt_data_list = ast.literal_eval(f.read())
+            f.close() 
+            return
         
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
@@ -162,10 +162,10 @@ class DefaultDataset(Dataset):
     def gen_random_index_list(self):
         txt_random_index_file = 'data/random_index_list.txt'
         if os.path.exists(txt_random_index_file):
-            with open(txt_random_index_file, 'r') as f: 
-                self.random_index_list = ast.literal_eval(f.read())
-                f.close() 
-                return
+            f = open(txt_random_index_file, 'r') 
+            self.random_index_list = ast.literal_eval(f.read())
+            f.close() 
+            return
         num = len(self.train_data_list)
         self.random_index_list = list(range(num))
         random.shuffle(self.random_index_list)
@@ -175,10 +175,10 @@ class DefaultDataset(Dataset):
             
         txt_file = 'data/model_info_set.txt'
         if os.path.exists(txt_file):
-            with open(txt_file, 'r') as f: 
-                self.model_info_set = ast.literal_eval(f.read())
-                f.close() 
-                return
+            f = open(txt_file, 'r') as f: 
+            self.model_info_set = ast.literal_eval(f.read())
+            f.close() 
+            return
         
         struc_csv_dir = 'data/structures.csv'
         df_struc = pd.read_csv(struc_csv_dir)
