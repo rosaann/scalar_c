@@ -93,7 +93,7 @@ class DefaultDataset(Dataset):
                 self.data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
             self.data_list = np.array(self.data_list)
     def __getitem__(self, index):
-        if index % 50 == 0:
+        if index % 10 == 0:
             print('index ', index)
         if self.split == 'train':
             return {'data': self.data_list[index],
