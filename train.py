@@ -95,7 +95,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
     model.eval()
 
     with torch.no_grad():
-        batch_size = config.eval_segmenter.batch_size
+        batch_size = config.train_segmenter.batch_size
         total_size = len(dataloader.dataset)
         total_step = math.ceil(total_size / batch_size)
 
