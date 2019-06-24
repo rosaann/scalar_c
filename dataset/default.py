@@ -21,20 +21,7 @@ model_info_set = {}
 random_index_list = []   
 gt_data_list = []
 train_data_list = []
-print('**DefaultDataset ')
-gen_stuc_set_list()
 
-print('self.gen_stuc_set_list()')
-get_gt_data()
-       
-print('self.get_gt_data()')
-gen_train_data()
-       
-print('self.gen_train_data()')
-        
-gen_random_index_list()
-        
-print('self.gen_random_index_list ')
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
@@ -228,7 +215,20 @@ def gen_stuc_set_list():
          #       break
         model_info_set[molecule_name] = model_info
         save_data_to_local(txt_file, model_info_set)
+print('**DefaultDataset ')
+gen_stuc_set_list()
+
+print('self.gen_stuc_set_list()')
+get_gt_data()
+       
+print('self.get_gt_data()')
+gen_train_data()
+       
+print('self.gen_train_data()')
         
+gen_random_index_list()
+        
+print('self.gen_random_index_list ')       
 def main():
     data_set = DefaultDataset()
   #  print('train_data_list ', data_set.train_data_list)
