@@ -124,14 +124,14 @@ class LinkNet(nn.Module):
 
     def forward(self, x):
         # Initial block
-        print('x ', x.shape)
+     #   print('x ', x.shape)
         x = self.in_block(x)
-        print('x1 ', x.shape)
+     #   print('x1 ', x.shape)
         # Encoder blocks
         e1 = self.encoder1(x)
-        print('e1 ', e1.shape)
+     #   print('e1 ', e1.shape)
         e2 = self.encoder2(e1)
-        print('e2 ', e2.shape)
+     #   print('e2 ', e2.shape)
       #  e3 = self.encoder3(e2)
       #  print('e3 ', e3.shape)
       #  e4 = self.encoder4(e3)
@@ -159,17 +159,17 @@ class LinkNet(nn.Module):
 
         # Classifier
         y = self.tp_conv1(e2)
-        print('y ', y.shape)
+     #   print('y ', y.shape)
         y = self.conv2(y)
-        print('y1 ', y.shape)
+    #    print('y1 ', y.shape)
         y = self.tp_conv2(y)
      #   print('y2 ', y.shape)
 
        # y = self.lsm(y)
-        print('y3 ', y.shape)
+     #   print('y3 ', y.shape)
        # y.append(0.0)
         y = y[:,:,:-1,:-1]
-        print('y4 ', y.shape)
+     #   print('y4 ', y.shape)
 
         return y
 
