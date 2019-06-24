@@ -16,6 +16,25 @@ import random
 import cmath
 import time
 max_atom = 29
+
+model_info_set = {}   
+random_index_list = []   
+gt_data_list = []
+train_data_list = []
+print('**DefaultDataset ')
+gen_stuc_set_list()
+
+print('self.gen_stuc_set_list()')
+get_gt_data()
+       
+print('self.get_gt_data()')
+gen_train_data()
+       
+print('self.gen_train_data()')
+        
+gen_random_index_list()
+        
+print('self.gen_random_index_list ')
 def find_atom_index_dic():
     atom_index_dic_dir = 'data/atom_index_dic.txt'
     if os.path.exists(atom_index_dic_dir):
@@ -62,31 +81,18 @@ def changeListFormToRectForm(data_list):
 class DefaultDataset(Dataset):
     def __init__(self,split
                  ):
-        print('**DefaultDataset ')
-        self.gen_stuc_set_list()
-        time.sleep(2)
-        print('self.gen_stuc_set_list()')
-        self.get_gt_data()
-        time.sleep(2)
-        print('self.get_gt_data()')
-        self.gen_train_data()
-        time.sleep(2)
-        print('self.gen_train_data()')
         
-        self.gen_random_index_list()
-        time.sleep(2)
-        print('self.gen_random_index_list ')
         self.split = split
         self.data_list = []
-        n7 = int (len(self.random_index_list) * 0.7)
+        n7 = int (len(random_index_list) * 0.7)
         if split == 'train':
             self.gt_list = []
-            for i in self.random_index_list[ : n7]:
-                d_p = changeListFormToRectForm(self.train_data_list[self.random_index_list[i]])
+            for i in random_index_list[ : n7]:
+                d_p = changeListFormToRectForm(train_data_list[random_index_list[i]])
               #  if i == 0:
                #     print('d_p ', d_p)
                 self.data_list.append(d_p)
-                self.gt_list.append(self.gt_data_list[self.random_index_list[i]])
+                self.gt_list.append(gt_data_list[random_index_list[i]])
             self.tr_data_list = np.array(self.data_list)
             tshape = self.tr_data_list.shape
             print('self.data_list ', tshape)
@@ -97,8 +103,8 @@ class DefaultDataset(Dataset):
         
         if split == 'val':
             self.val_data_list = []
-            for i in self.random_index_list[n7 : ]:
-                self.val_data_list.append(changeListFormToRectForm(self.train_data_list[self.random_index_list[i]]))
+            for i in random_index_list[n7 : ]:
+                self.val_data_list.append(changeListFormToRectForm(train_data_list[random_index_list[i]]))
             self.val_data_list = np.array(self.val_data_list)
     def setSplit(self, split):
         self.split = split
@@ -114,29 +120,30 @@ class DefaultDataset(Dataset):
     
     def __len__(self):
         return len( self.data_list)    
-    
-    def get_gt_data(self):
+
+def get_gt_data():
         text_file_gt_all = 'data/gt_data_list.txt'
         if os.path.exists(text_file_gt_all):
             f = open(text_file_gt_all, 'r') 
-            self.gt_data_list = ast.literal_eval(f.read())
+            gt_data_list = ast.literal_eval(f.read())
             f.close() 
+            return
             
-    def gen_train_data(self):
+def gen_train_data():
         text_file_train_all = 'data/train_data_list.txt'
         text_file_gt_all = 'data/gt_data_list.txt'
         
         if os.path.exists(text_file_train_all):
             f = open(text_file_train_all, 'r') 
-            self.train_data_list = ast.literal_eval(f.read())
+            train_data_list = ast.literal_eval(f.read())
             f.close() 
         
             return
         
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
-        self.train_data_list = []
-        self.gt_data_list = []
+        train_data_list = []
+        gt_data_list = []
         
         pre_mol_name = ''       
         molecule_name = ''
@@ -147,10 +154,10 @@ class DefaultDataset(Dataset):
          #   print('molecule_name ', molecule_name)
             if pre_mol_name != molecule_name:
                 if i > 0:
-                    self.train_data_list.append(train_data)
-                    self.gt_data_list.append(gt_data.tolist())
+                    train_data_list.append(train_data)
+                    gt_data_list.append(gt_data.tolist())
                  #   print('gt_data save ', gt_data)
-                train_data = self.model_info_set[molecule_name]
+                train_data = model_info_set[molecule_name]
                 gt_data = np.zeros((max_atom, max_atom ))
                 pre_mol_name = molecule_name
             index_0 = row['atom_index_0']
@@ -164,37 +171,37 @@ class DefaultDataset(Dataset):
           #  if i > 30 :
           #      print('self.train_data_list ', self.train_data_list)
           #      break
-        self.train_data_list.append(train_data)
-        save_data_to_local(text_file_train_all, self.train_data_list)
+        train_data_list.append(train_data)
+        save_data_to_local(text_file_train_all, train_data_list)
         
-        self.gt_data_list.append(gt_data.tolist())
-        save_data_to_local(text_file_gt_all, self.gt_data_list)
+        gt_data_list.append(gt_data.tolist())
+        save_data_to_local(text_file_gt_all, gt_data_list)
     
-    def gen_random_index_list(self):
+def gen_random_index_list():
         txt_random_index_file = 'data/random_index_list.txt'
         if os.path.exists(txt_random_index_file):
             f = open(txt_random_index_file, 'r') 
-            self.random_index_list = ast.literal_eval(f.read())
+            random_index_list = ast.literal_eval(f.read())
             f.close() 
             return
-        num = len(self.train_data_list)
-        self.random_index_list = list(range(num))
-        random.shuffle(self.random_index_list)
-        save_data_to_local(txt_random_index_file, self.random_index_list)
-        
-    def gen_stuc_set_list(self,):
+        num = len(train_data_list)
+        random_index_list = list(range(num))
+        random.shuffle(random_index_list)
+        save_data_to_local(txt_random_index_file, random_index_list)
+
+def gen_stuc_set_list():
             
         txt_file = 'data/model_info_set.txt'
         if os.path.exists(txt_file):
             f = open(txt_file, 'r')  
-            self.model_info_set = ast.literal_eval(f.read())
+            model_info_set = ast.literal_eval(f.read())
             f.close() 
             return
         
         struc_csv_dir = 'data/structures.csv'
         df_struc = pd.read_csv(struc_csv_dir)
     
-        self.model_info_set = {}
+        model_info_set = {}
         model_info = []
         pre_mol_name = ''       
         molecule_name = ''
@@ -204,7 +211,7 @@ class DefaultDataset(Dataset):
             if pre_mol_name != molecule_name:
                 if i > 0:
                  #   print('molecule_name s ', pre_mol_name)
-                    self.model_info_set[pre_mol_name] = model_info
+                    model_info_set[pre_mol_name] = model_info
                 #    print('model_info ', model_info)
                 #开始一个新modedel
                 model_info = get_default_info()
@@ -219,8 +226,8 @@ class DefaultDataset(Dataset):
             model_info[atom_index] = (atom_index_dic[atom], x, y, z)
         #    if i > 20:
          #       break
-        self.model_info_set[molecule_name] = model_info
-        save_data_to_local(txt_file, self.model_info_set)
+        model_info_set[molecule_name] = model_info
+        save_data_to_local(txt_file, model_info_set)
         
 def main():
     data_set = DefaultDataset()
