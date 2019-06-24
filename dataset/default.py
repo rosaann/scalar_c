@@ -220,8 +220,8 @@ class DefaultDataset(Dataset):
     def setSplit(self, split):
         self.split = split
     def __getitem__(self, index):
-        if index % 10 == 0:
-            print('index ', index)
+       # if index % 10 == 0:
+         #   print('index ', index)
         if self.split == 'train':
             return {'data': self.tr_data_list[index],
                 'gt': self.gt_list[index]
