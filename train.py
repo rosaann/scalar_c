@@ -120,30 +120,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             metrics.update_matrix(gt, pred)
             # measure accuracy and record loss
             loss_list.append(loss.item())
-            if i == -1:
-                
-                remaining_ids = list(map(lambda path: path.split('/')[-1], paths))
-                #    print('remaining_ids ', remaining_ids)
-                results = postprocess_segmentation(pool, remaining_ids[:len(binary_masks)], binary_masks)
-                for ir,  encoded_pixels in enumerate( results):
-                    transform = transforms.Compose([
-                            #transforms.ToPILImage(),
-                            transforms.ToTensor(), # range [0, 255] -> [0.0,1.0]
-                            ])
-                 #   print('paths[ir] ', paths[ir])
-                 #   image_src =cv2.imread(paths[ir])
-                  #  image_src = transform(image_src)
-
-                #    x1 = vutils.make_grid(torch.from_numpy(image_src), normalize=True, scale_each=True)
-                 #   s1 = x1.size()
-    
-                 #   if len( list(s1)) >= 2:
-                #        print('src image ', x1)
-                      #  writer.add_image('result/{}'.format(ir  ), x1, epoch)
-                        
-                    image_bi =genBiImage(paths[ir], encoded_pixels[1], 200)
-                    path_this = paths[ir].split('.')[0] + '.png'
-                    image_bi.save( os.path.join(out_images_dir, path_this) )
+            
 
             f_epoch = epoch + i / total_step
             desc = '{:5s}'.format('val')
