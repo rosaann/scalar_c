@@ -104,7 +104,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         loss_list = []
         tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
-        for i, data in tbar:
+        for i, data in enumerate(dataloader):
             images = data['data']
             gt = data['gt']
             
@@ -220,7 +220,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
 def train_segmenter(config, model, train_dataloader, eval_dataloaders, criterion, optimizer, scheduler, writer, start_epoch):
     num_epochs = config.train_segmenter.num_epochs
     
-    metrics = ConfusionMatrix(2, ['bk','ship'])
+    metrics = ConfusionMatrix(1, ['bk'])
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
     if torch.cuda.is_available():
