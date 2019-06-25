@@ -236,7 +236,7 @@ class DefaultDataset(Dataset):
                      'gt': self.gt_list[index]} 
     
     def __len__(self):
-        return len( self.data_list)      
+        return len( self.gt_list)      
 def main():
     data_set = DefaultDataset()
   #  print('train_data_list ', data_set.train_data_list)
