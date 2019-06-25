@@ -19,43 +19,12 @@ class ConfusionMatrix:
 
     def update_matrix(self, target, prediction):
         print('target ', target.shape)
+        tar_x = target.unsqueeze(1)
+        print('tar_x ', tar_x.shape)
         print('prediction ', prediction.shape, ' ', prediction)
-        if not(isinstance(prediction, np.ndarray)) or not(isinstance(target, np.ndarray)):
-            print("Expecting ndarray")
-        elif len(target.shape) == 3:          # batched spatial target
-            if len(prediction.shape) == 4:  # prediction is 1 hot encoded
-                temp_prediction = np.argmax(prediction, axis=1).flatten()
-            elif len(prediction.shape) == 3:
-                temp_prediction = prediction.flatten()
-            else:
-                print("Make sure prediction and target dimension is correct")
-
-            temp_target = target.flatten()
-        elif len(target.shape) == 2:        # spatial target
-            if len(prediction.shape) == 3:  # prediction is 1 hot encoded
-                temp_prediction = np.argmax(prediction, axis=1).flatten()
-            elif len(prediction.shape) == 2:
-                temp_prediction = prediction.flatten()
-            else:
-                print("Make sure prediction and target dimension is correct")
-
-            temp_target = target.flatten()
-        elif len(target.shape) == 1:
-            if len(prediction.shape) == 2:  # prediction is 1 hot encoded
-                temp_prediction = np.argmax(prediction, axis=1).flatten()
-            elif len(prediction.shape) == 1:
-                temp_prediction = prediction
-            else:
-                print("Make sure prediction and target dimension is correct")
-
-            temp_target = target
-        else:
-            print("Data with this dimension cannot be handled")
-
-      #  print('temp_target ', temp_target.shape, ' ', temp_target)
-      #  print('temp_prediction ', temp_prediction.shape, ' ', temp_prediction)
         
-        self.mat += confusion_matrix(temp_target, temp_prediction, labels=self.list_classes)
+        
+        self.mat += confusion_matrix(tar_x, prediction)
      #   print('self.mat ', self.mat.shape, ' ', self.mat)
 
     def scores(self):
