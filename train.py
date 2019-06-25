@@ -307,7 +307,7 @@ def run(config):
     
     train_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'train' )
     
-    eval_segmenter_dataloaders = get_dataloader(600, 'val')
+    eval_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'val')
   
     train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
           writer, last_epoch+1)
