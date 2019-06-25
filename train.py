@@ -36,6 +36,7 @@ import torchvision.utils as vutils
 import cv2
 from torchvision import transforms
 from utils.confusion_matrix import ConfusionMatrix
+from utils.r2score import R2Score
 from models.linknet import LinkNet
 
 def extract_instance_masks_from_binary_mask(args):
@@ -105,6 +106,8 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
         print('total_step val ', total_step)
+        rc_total_list = []
+        rc_part_list = []
         for i, data in enumerate(dataloader):
             print('-------------uu------------')
             images = data['data']
@@ -119,8 +122,10 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
            # if i < 10:
             pred = binary_masks.data.cpu().numpy()
             gt = gt.cpu().numpy()
-            print('metrics ', metrics)
-            metrics.update_matrix(gt, pred)
+           # print('metrics ', metrics)
+            rc_t, rc_part = metrics.count(gt, pred)
+            rc_total_list.append(rc_t)
+            rc_part_list.append(rc_part)
             # measure accuracy and record loss
             loss_list.append(loss.item())
             
@@ -131,22 +136,14 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
           #  tbar.set_description(desc)
           #  tbar.set_postfix(**postfix_dict)
 
-        accuracy, avg_accuracy, IoU, mIoU, conf_mat = metrics.scores()
-        metrics.reset()
+        
+      #  metrics.reset()
         
         log_dict = {}
        
         log_dict['loss'] = sum(loss_list) 
-        log_dict['accuracy0'] = accuracy[0]
-      #  log_dict['accuracy1'] = accuracy[1]
-        log_dict['avg_accuracy'] = avg_accuracy
-        log_dict['IoU0'] = IoU[0]
-      #  log_dict['IoU1'] = IoU[1]
-        log_dict['mIoU'] = mIoU
-        log_dict['conf_mat00'] = conf_mat[0][0]
-        log_dict['conf_mat01'] = conf_mat[0][1]
-        log_dict['conf_mat10'] = conf_mat[1][0]
-        log_dict['conf_mat11'] = conf_mat[1][1]
+        log_dict['total_r2'] = sum(rc_total_list)
+        log_dict['used_r2'] = sum(rc_part_list)
 
         for key, value in log_dict.items():
             if writer is not None:
@@ -223,7 +220,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
 def train_segmenter(config, model, train_dataloader, eval_dataloaders, criterion, optimizer, scheduler, writer, start_epoch):
     num_epochs = config.train_segmenter.num_epochs
     
-    metrics = ConfusionMatrix(1, ['bk'])
+    metrics = R2Score()
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
     if torch.cuda.is_available():
