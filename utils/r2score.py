@@ -28,7 +28,7 @@ class R2Score:
         total_r2 = r2_score(tar_x, pre_list)
         
         x = tar_x.nonzero()
-        print('x ', x.shape, ' ', x)
+        print('x ', x)
         tar_used = tar_x[x]
         print('tar_used ', tar_used.shape, ' ', tar_used)
         prediction_used = pre_list[x]
