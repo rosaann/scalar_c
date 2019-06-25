@@ -169,7 +169,7 @@ class LinkNet(nn.Module):
      #   print('y3 ', y.shape)
        # y.append(0.0)
         y = y[:,:,:-1,:-1]
-        print('y4 ', y.shape)
+      #  print('y4 ', y.shape)
 
         return y
 
