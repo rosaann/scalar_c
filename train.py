@@ -207,8 +207,8 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
 
         desc = '{:5s}'.format('train')
         desc += ', {:06d}/{:06d}, {:.2f} epoch'.format(i, total_step, f_epoch)
-        tbar.set_description(desc)
-        tbar.set_postfix(**postfix_dict)
+      #  tbar.set_description(desc)
+      #  tbar.set_postfix(**postfix_dict)
 
     log_dict['lr'] = optimizer.param_groups[0]['lr']
     
