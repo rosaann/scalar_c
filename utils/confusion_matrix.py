@@ -18,8 +18,8 @@ class ConfusionMatrix:
         self.matStartIdx = 0
 
     def update_matrix(self, target, prediction):
-      #  print('target ', target.shape)
-      #  print('prediction ', prediction)
+        print('target ', target.shape)
+        print('prediction ', prediction)
         if not(isinstance(prediction, np.ndarray)) or not(isinstance(target, np.ndarray)):
             print("Expecting ndarray")
         elif len(target.shape) == 3:          # batched spatial target

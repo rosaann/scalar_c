@@ -195,9 +195,10 @@ class DefaultDataset(Dataset):
         
         self.split = split
         self.data_list = []
+        self.gt_list = []
         n7 = int (len(random_index_list) * 0.7)
         if split == 'train':
-            self.gt_list = []
+            
             for i in random_index_list[ : n7]:
                 d_p = changeListFormToRectForm(train_data_list[random_index_list[i]])
               #  if i == 0:
@@ -216,7 +217,10 @@ class DefaultDataset(Dataset):
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
                 self.val_data_list.append(changeListFormToRectForm(train_data_list[random_index_list[i]]))
+                self.gt_list.append(gt_data_list[random_index_list[i]])
             self.val_data_list = np.array(self.val_data_list)
+            self.gt_list = np.array(self.gt_list)
+            print('self.gt_list ', self.gt_list.shape)
     def setSplit(self, split):
         self.split = split
     def __getitem__(self, index):
@@ -227,7 +231,8 @@ class DefaultDataset(Dataset):
                 'gt': self.gt_list[index]
                 }  
         else :
-             return {'data': self.val_data_list[index]} 
+             return {'data': self.val_data_list[index],
+                     'gt': self.gt_list[index]} 
     
     def __len__(self):
         return len( self.data_list)      
