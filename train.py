@@ -117,6 +117,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
            # if i < 10:
             pred = binary_masks.data.cpu().numpy()
             gt = gt.cpu().numpy()
+            print('metrics ', metrics)
             metrics.update_matrix(gt, pred)
             # measure accuracy and record loss
             loss_list.append(loss.item())
