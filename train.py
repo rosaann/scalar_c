@@ -105,6 +105,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
         for i, data in enumerate(dataloader):
+            print('-------------uu------------')
             images = data['data']
             gt = data['gt']
             
@@ -126,8 +127,8 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             f_epoch = epoch + i / total_step
             desc = '{:5s}'.format('val')
             desc += ', {:06d}/{:06d}, {:.2f} epoch'.format(i, total_step, f_epoch)
-            tbar.set_description(desc)
-            tbar.set_postfix(**postfix_dict)
+          #  tbar.set_description(desc)
+          #  tbar.set_postfix(**postfix_dict)
 
         accuracy, avg_accuracy, IoU, mIoU, conf_mat = metrics.scores()
         metrics.reset()
