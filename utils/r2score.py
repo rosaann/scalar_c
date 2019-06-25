@@ -20,7 +20,11 @@ class R2Score:
         tar_x = tar_list[:,np.newaxis]
         print('tar_x ', tar_x.shape)
         print('prediction ', pre_list.shape, ' ', pre_list)
+        tar_x = tar_x.reshape(-1)
+        print('tar_x_1 ', tar_x.shape)
         
+        pre_list = pre_list.reshape(-1)
+        print('pre_list ', pre_list.shape)
         total_r2 = r2_score(tar_x, pre_list)
         
         x = tar_x.nonzero()
