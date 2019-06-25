@@ -104,6 +104,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         loss_list = []
        # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
+        print('total_step val ', total_step)
         for i, data in enumerate(dataloader):
             print('-------------uu------------')
             images = data['data']
