@@ -19,7 +19,7 @@ class ConfusionMatrix:
 
     def update_matrix(self, target, prediction):
         print('target ', target.shape)
-        tar_x = target.unsqueeze(1)
+        tar_x = target[:,np.newaxis]
         print('tar_x ', tar_x.shape)
         print('prediction ', prediction.shape, ' ', prediction)
         
