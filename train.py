@@ -105,7 +105,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         loss_list = []
         tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
-        print('total_step val ', total_step)
+      #  print('total_step val ', total_step)
         rc_total_list = []
         rc_part_list = []
         for i, data in tbar:
@@ -142,8 +142,8 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         log_dict = {}
        
         log_dict['loss'] = sum(loss_list) 
-        log_dict['total_r2'] = sum(rc_total_list)
-        log_dict['used_r2'] = sum(rc_part_list)
+        log_dict['total_r2'] = sum(rc_total_list)/len(rc_total_list)
+        log_dict['used_r2'] = sum(rc_part_list) / len(rc_part_list)
 
         for key, value in log_dict.items():
             if writer is not None:
