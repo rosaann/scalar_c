@@ -102,7 +102,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        # probability_list = []
        # label_list = []
         loss_list = []
-        tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
+       # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
         out_images_dir = './data/val_result/'
         for i, data in enumerate(dataloader):
             images = data['data']
@@ -162,7 +162,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
     total_step = math.ceil(total_size / batch_size)
 
     log_dict = {}
-    tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
+   # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
     
     total_loss = 0
     for i, data in enumerate(dataloader):
