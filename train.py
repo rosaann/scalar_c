@@ -239,6 +239,8 @@ def train_segmenter(config, model, train_dataloader, eval_dataloaders, criterion
     f1_list = []
     best_f1 = 0.0
     best_f1_mavg = 0.0
+    print('train_dataloader ', len(train_dataloader))
+    print('eval_dataloaders ', len(eval_dataloaders))
     for epoch in range(start_epoch, num_epochs):
         # train phase
        # train_dataloader.setSplit('train')
@@ -305,7 +307,7 @@ def run(config):
     
     train_segmenter_dataloaders = get_dataloader(config.train_segmenter.batch_size, 'train' )
     
-    eval_segmenter_dataloaders = get_dataloader(60, 'val')
+    eval_segmenter_dataloaders = get_dataloader(600, 'val')
   
     train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
           writer, last_epoch+1)
