@@ -9,7 +9,7 @@ Created on Tue Jun 25 18:27:51 2019
 import torch
 import math
 import numpy as np
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error
 
 class R2Score:
     def __init__(self,):
@@ -26,6 +26,7 @@ class R2Score:
         pre_list = pre_list.reshape(-1)
       #  print('pre_list ', pre_list.shape)
         total_r2 = r2_score(tar_x, pre_list)
+        total_msq = mean_squared_error(tar_x, pre_list)
         
         x = tar_x.nonzero()
       #  print('x ', x)
@@ -34,5 +35,6 @@ class R2Score:
         prediction_used = pre_list[x]
       #  print('prediction_used ', prediction_used.shape, ' ', prediction_used)
         used_r2 = r2_score(tar_used, prediction_used)
+        used_msq = mean_squared_error(tar_used, prediction_used)
         
-        return total_r2, used_r2
+        return total_r2, used_r2, total_msq, used_msq
