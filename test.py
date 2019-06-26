@@ -11,7 +11,8 @@ import utils
 import argparse
 from models.model_factory import get_model
 from losses.loss_factory import get_loss
-from optimizers.optimizer_factory import get_optimizer， get_test_dataloader
+from optimizers.optimizer_factory import get_optimizer
+from dataset.dataset_factory import get_test_dataloader
 
 def parse_args():
     parser = argparse.ArgumentParser(description='airbus')
