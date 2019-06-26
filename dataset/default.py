@@ -225,7 +225,7 @@ class TestDataset(Dataset):
     def __init__(self
                  ):
          self.data_list = []
-         for i in len(test_data_list):
+         for i in range( len(test_data_list)):
                 d_p = changeListFormToRectForm(test_data_list[i]['data'])
               
                 self.data_list.append({'data': d_p, 'name': test_data_list[i]['name']})
