@@ -13,6 +13,8 @@ from models.model_factory import get_model
 from losses.loss_factory import get_loss
 from optimizers.optimizer_factory import get_optimizer
 from dataset.dataset_factory import get_test_dataloader
+import tqdm, os
+import pandas as pd
 
 def parse_args():
     parser = argparse.ArgumentParser(description='airbus')
@@ -44,9 +46,8 @@ def test_segmenter_single_epoch(config, model, dataloader):
     test_content_list = gen_test_content_list()
     torch.set_printoptions(threshold=1000000)
    
-    tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
+    tbar = tqdm.tqdm(enumerate(dataloader))
     
-    total_loss = 0
     result = []
     for i, data in tbar:
         images = data['data']
@@ -57,7 +58,7 @@ def test_segmenter_single_epoch(config, model, dataloader):
             
         
         binary_masks = model(images)
-        mask, mname in zip(binary_masks, mnames)
+        for mask, mname in zip(binary_masks, mnames):
             test_content = test_content_list[mname]
             
             for t in test_content:
@@ -76,17 +77,6 @@ def test_segmenter(config, model, test_dataloader):
         model = torch.nn.DataParallel(model)
     if torch.cuda.is_available():
         model = model.cuda()
-
-    postfix_dict = {'train/lr': 0.0,
-                    'train/acc': 0.0,
-                    'train/loss': 0.0,
-                    'val/f1': 0.0,
-                    'val/acc': 0.0,
-                    'val/loss': 0.0}
-
-    f1_list = []
-    best_f1 = 0.0
-    best_f1_mavg = 0.0
     
     test_segmenter_single_epoch(config, model, test_dataloader)
 def main():
@@ -100,7 +90,6 @@ def main():
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     
-    criterion_segmenter = get_loss(config.loss_segmenter)
     optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
     ####
     checkpoint = utils.checkpoint.get_model_saved(config, 299)
