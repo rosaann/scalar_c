@@ -36,7 +36,7 @@ def gen_test_content_list():
             test_content_list[molecule_name] = []
         test_content_list[molecule_name].append(data)
         
-     return test_content_list       
+    return test_content_list       
             
     
 def test_segmenter_single_epoch(config, model, dataloader):
