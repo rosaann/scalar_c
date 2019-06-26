@@ -229,7 +229,7 @@ class TestDataset(Dataset):
                 data_con = test_data_list[i]
                 print('data_con ', data_con)
                 d_p = changeListFormToRectForm(data_con['data'])
-              
+                
                 self.data_list.append({'data': d_p, 'name': test_data_list[i]['name']})
          self.data_list = np.array(self.data_list)
          tshape = self.data_list.shape
