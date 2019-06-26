@@ -7,7 +7,7 @@ import itertools
 import numpy as np
 import torch.utils.data
 import torch.utils.data.sampler
-from torch.utils.data import DataLoader
+from torch.utils.data import DataLoader, TestDataset
 
 from .default import DefaultDataset
 #from .small import SmallDataset
@@ -30,6 +30,17 @@ def get_dataloader( batch_size, split, **_):
                             shuffle=is_train,
                             batch_size=batch_size,
                             drop_last=is_train,
+                            num_workers=6,
+                            pin_memory=False)
+    return dataloader
+
+def get_test_dataloader( batch_size, **_):
+    dataset = TestDataset()
+
+    dataloader = DataLoader(dataset,
+                            shuffle=False,
+                            batch_size=batch_size,
+                            drop_last=False,
                             num_workers=6,
                             pin_memory=False)
     return dataloader

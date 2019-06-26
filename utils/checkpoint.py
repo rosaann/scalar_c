@@ -26,6 +26,13 @@ def get_checkpoint(check_dir, name):
   checkpoint_dir = os.path.join(check_dir, 'checkpoint')
   return os.path.join(checkpoint_dir, name)
 
+def get_model_saved(config, n_id):
+    checkpoint_dir = os.path.join(config.train.dir,  'checkpoint')
+    for checkpoint in os.listdir(checkpoint_dir):
+        num = checkpoint.replace('epoch_', '')
+        num = num.replace('.pth', '')
+        if int(num) == n_id:
+            return os.path.join(checkpoint_dir, checkpoint)
 
 def copy_last_n_checkpoints(check_dir, n, name):
   checkpoint_dir = os.path.join(check_dir, 'checkpoint')

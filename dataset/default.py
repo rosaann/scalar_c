@@ -71,7 +71,39 @@ def get_gt_data():
             gt_data_list = ast.literal_eval(f.read())
             f.close() 
             return gt_data_list
+def gen_test_data():
+        text_file_test_all = 'data/test_data_list.txt'   
+        if os.path.exists(text_file_test_all):
+            f = open(text_file_test_all, 'r') 
+            test_data_list = ast.literal_eval(f.read())
+            f.close() 
+        
+            return train_data_list   
+        test_csv_dir = 'data/test.csv'
+        df_test = pd.read_csv(test_csv_dir)
+        test_data_list = []
+        
+        pre_mol_name = ''       
+        molecule_name = ''
+        test_data = ''
+        for i, row in tqdm.tqdm(df_test.iterrows()):
+            molecule_name = row['molecule_name']
+         #   print('molecule_name ', molecule_name)
+            if pre_mol_name != molecule_name:
+                if i > 0:
+                    test_data_list.append({'name':pre_mol_name, 'data' : test_data})
+                    
+                test_data = model_info_set[molecule_name]
+                pre_mol_name = molecule_name
             
+         #   print('gt_data ', gt_data)
+          #  if i > 30 :
+          #      print('self.train_data_list ', self.train_data_list)
+          #      break
+        test_data_list.append({'name':pre_mol_name, 'data' : test_data})
+        save_data_to_local(text_file_test_all, test_data_list)
+        return test_data_list
+        
 def gen_train_data():
         text_file_train_all = 'data/train_data_list.txt'
         text_file_gt_all = 'data/gt_data_list.txt'
@@ -187,7 +219,27 @@ print('self.gen_train_data()')
 random_index_list = gen_random_index_list()
         
 print('self.gen_random_index_list ')    
+test_data_list = gen_test_data()
 
+class TestDataset(Dataset):
+    def __init__(self
+                 ):
+         self.data_list = []
+         for i in len(test_data_list):
+                d_p = changeListFormToRectForm(test_data_list[i]['data'])
+              
+                self.data_list.append('data': d_p, 'name': test_data_list[i]['name'])
+         self.data_list = np.array(self.data_list)
+         tshape = self.data_list.shape
+         self.data_list = self.data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
+         
+    def __getitem__(self, index):
+       
+            return  self.data_list[index]
+                
+                  
+    def __len__(self):
+        return len( self.data_list)  
 
 class DefaultDataset(Dataset):
     def __init__(self,split
