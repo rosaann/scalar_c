@@ -15,6 +15,7 @@ from optimizers.optimizer_factory import get_optimizer
 from dataset.dataset_factory import get_test_dataloader
 import tqdm, os
 import pandas as pd
+from utils.checkpoint import *
 
 def parse_args():
     parser = argparse.ArgumentParser(description='airbus')
@@ -92,8 +93,8 @@ def main():
     
     optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
     ####
-    checkpoint = utils.checkpoint.get_model_saved(config, 299)
-    best_epoch, step = utils.checkpoint.load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
+    checkpoint = get_model_saved(config, 299)
+    best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
     test_segmenter_dataloaders = get_test_dataloader(600)
