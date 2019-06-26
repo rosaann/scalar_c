@@ -7,9 +7,9 @@ import itertools
 import numpy as np
 import torch.utils.data
 import torch.utils.data.sampler
-from torch.utils.data import DataLoader, TestDataset
+from torch.utils.data import DataLoader
 
-from .default import DefaultDataset
+from .default import DefaultDataset, TestDataset
 #from .small import SmallDataset
 #from .test import TestDataset
 
