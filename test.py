@@ -7,7 +7,7 @@ Created on Wed Jun 26 13:34:09 2019
 """
 from models.linknet import LinkNet
 import torch
-import utils
+import utils.config
 import argparse
 from models.model_factory import get_model
 from losses.loss_factory import get_loss
