@@ -78,7 +78,7 @@ def gen_test_data():
             test_data_list = ast.literal_eval(f.read())
             f.close() 
         
-            return train_data_list   
+            return test_data_list   
         test_csv_dir = 'data/test.csv'
         df_test = pd.read_csv(test_csv_dir)
         test_data_list = []
@@ -226,7 +226,9 @@ class TestDataset(Dataset):
                  ):
          self.data_list = []
          for i in range( len(test_data_list)):
-                d_p = changeListFormToRectForm(test_data_list[i]['data'])
+                data_con = test_data_list[i]
+                print('data_con ', data_con)
+                d_p = changeListFormToRectForm(data_con['data'])
               
                 self.data_list.append({'data': d_p, 'name': test_data_list[i]['name']})
          self.data_list = np.array(self.data_list)
