@@ -67,7 +67,7 @@ def test_segmenter_single_epoch(config, model, dataloader):
                 t_id = t['id']
                 atom_index_0 = t['atom_index_0']
                 atom_index_1 = t['atom_index_1']
-                scale = mask[0][int(atom_index_0), int(atom_index_1)]
+                scale = mask.data.cpu().numpy()[0][int(atom_index_0), int(atom_index_1)]
                 result.append({'id':t_id, 'scalar_coupling_constant' : scale})
                 
     test_pd = pd.DataFrame.from_records(result, columns=['id', 'scalar_coupling_constant'])
@@ -98,7 +98,7 @@ def main():
     best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
-    test_segmenter_dataloaders = get_test_dataloader(20)
+    test_segmenter_dataloaders = get_test_dataloader(200)
     
     test_segmenter(config, model_segmenter, test_segmenter_dataloaders)
 
