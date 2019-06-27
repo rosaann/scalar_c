@@ -73,7 +73,32 @@ class Decoder(nn.Module):
 
         return x
 
-
+class CNNNet(nn.Module):
+    def __init__(self):
+        super(CNNNet, self).__init__()
+        self.layers1 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers2 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers3 = nn.Sequential(nn.Conv2d(6, 32, (2,1), 1, 1),
+                                nn.BatchNorm2d(32),
+                                nn.ReLU(inplace=True),
+                                )
+    def forward(self, x):
+        # Initial block
+        print('x ', x.shape)
+        x = self.layers1(x)  
+        print('layers1 ', x.shape)
+        x = self.layers2(x)
+        print('layers2 ', x.shape)
+        x = self.layers3(x)
+        print('layers3 ', x.shape)
+        return x
+        
 class LinkNet(nn.Module):
     """
     Generate Model Architecture

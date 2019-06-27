@@ -27,12 +27,12 @@ def find_atom_index_dic():
             return atom_index_dic
 
 atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
-
+place_value = ( -1, 100, 100, 100)
 def get_default_info():
     info = []
     for i in range(max_atom ):
         #(x,y,z,atom_index)
-        info.append(( -1, 100, 100, 100))
+        info.append(place_value)
    # info = np.array(info)
    # print('info xx ', info.shape)
    # info = info.reshape(max_atom, max_atom, 4)
@@ -56,13 +56,13 @@ def changeListFormToRectForm(data_list):
             num_sqrt = i % size           
             result.append(data_list[num_sqrt])
         else:
-            result.append(( -1, 100, 100, 100))
+            result.append(place_value)
             
     result = np.array(result)
     
     return result.reshape(size, size, 4)
         
- 
+
 
 def get_gt_data():
         text_file_gt_all = 'data/gt_data_list.txt'
@@ -257,7 +257,7 @@ class DefaultDataset(Dataset):
         if split == 'train':
             
             for i in random_index_list[ : n7]:
-                d_p = changeListFormToRectForm(train_data_list[random_index_list[i]])
+                d_p = train_data_list[random_index_list[i]]
               #  if i == 0:
                #     print('d_p ', d_p)
                 self.data_list.append(d_p)
@@ -265,7 +265,7 @@ class DefaultDataset(Dataset):
             self.tr_data_list = np.array(self.data_list)
             tshape = self.tr_data_list.shape
             print('self.data_list ', tshape)
-            self.tr_data_list = self.tr_data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
+            self.tr_data_list = self.tr_data_list.reshape(tshape[0],tshape[2], tshape[1])
             print('self.data_list2 ', self.tr_data_list.shape)
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)

@@ -37,7 +37,7 @@ import cv2
 from torchvision import transforms
 from utils.confusion_matrix import ConfusionMatrix
 from utils.r2score import R2Score
-from models.linknet import LinkNet
+from models.linknet import LinkNet, CNNNet
 
 def extract_instance_masks_from_binary_mask(args):
     _id, binary_mask = args
@@ -280,7 +280,7 @@ def run(config):
    # train_dir = config.train.dir
     
    # model_segmenter = get_model(config.model_segmenter.name)
-    model_segmenter = LinkNet(1)
+    model_segmenter = CNNNet()#LinkNet(1)
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = get_loss(config.loss_segmenter)
