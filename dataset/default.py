@@ -275,12 +275,12 @@ class DefaultDataset(Dataset):
         if split == 'val':
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
-                self.val_data_list.append(changeListFormToRectForm(train_data_list[random_index_list[i]]))
+                self.val_data_list.append(train_data_list[random_index_list[i]])
                 self.gt_list.append(gt_data_list[random_index_list[i]])
             self.val_data_list = np.array(self.val_data_list)
             tshape = self.val_data_list.shape
             print('self.data_list ', tshape)
-            self.val_data_list = self.val_data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
+            self.val_data_list = self.val_data_list.reshape(tshape[0],tshape[2], tshape[1])
             print('self.data_list2 ', self.val_data_list.shape)
             self.val_data_list = np.array(self.val_data_list)
             self.gt_list = np.array(self.gt_list)
