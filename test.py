@@ -97,7 +97,7 @@ def main():
     best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
-    test_segmenter_dataloaders = get_test_dataloader(600)
+    test_segmenter_dataloaders = get_test_dataloader(100)
     
     test_segmenter(config, model_segmenter, test_segmenter_dataloaders)
 
