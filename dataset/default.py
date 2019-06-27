@@ -281,6 +281,7 @@ class DefaultDataset(Dataset):
             tshape = self.val_data_list.shape
             print('self.data_list ', tshape)
             self.val_data_list = self.val_data_list.reshape(tshape[0],tshape[2], tshape[1])
+            self.val_data_list = self.val_data_list[:,:,np.newaxis]
             print('self.data_list2 ', self.val_data_list.shape)
             self.val_data_list = np.array(self.val_data_list)
             self.gt_list = np.array(self.gt_list)
