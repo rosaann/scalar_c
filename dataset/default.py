@@ -267,6 +267,8 @@ class DefaultDataset(Dataset):
             print('self.data_list ', tshape)
             self.tr_data_list = self.tr_data_list.reshape(tshape[0],tshape[2], tshape[1])
             print('self.data_list2 ', self.tr_data_list.shape)
+            self.tr_data_list = self.tr_data_list[:,:,np.newaxis]
+            print('self.data_list3 ', self.tr_data_list.shape)
             self.gt_list = np.array(self.gt_list)
             print('self.gt_list ', self.gt_list.shape)
         
