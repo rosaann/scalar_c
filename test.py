@@ -44,6 +44,7 @@ def gen_test_content_list():
     
 def test_segmenter_single_epoch(config, model, dataloader):
    # model.eval()
+    model.eval()
     test_content_list = gen_test_content_list()
     torch.set_printoptions(threshold=1000000)
    
@@ -97,7 +98,7 @@ def main():
     best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
-    test_segmenter_dataloaders = get_test_dataloader(100)
+    test_segmenter_dataloaders = get_test_dataloader(60)
     
     test_segmenter(config, model_segmenter, test_segmenter_dataloaders)
 
