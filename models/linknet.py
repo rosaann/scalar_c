@@ -89,7 +89,7 @@ class CNNNet(nn.Module):
                                 nn.ReLU(inplace=True),
                                 )
         
-        self.lineLayer = nn.Linear(20, 29*29)
+        self.lineLayer = nn.Linear(4480, 29*29)
     def forward(self, x):
         # Initial block
         print('x ', x.shape)
