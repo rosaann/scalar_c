@@ -84,10 +84,12 @@ class CNNNet(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers3 = nn.Sequential(nn.Conv2d(6, 32, (2,1), 1, 1),
+        self.layers3 = nn.Sequential(nn.Conv2d(16, 32, (2,1), 1, 1),
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),
                                 )
+        
+        self.lineLayer = nn.Linear(20, 29*29)
     def forward(self, x):
         # Initial block
         print('x ', x.shape)
@@ -97,6 +99,11 @@ class CNNNet(nn.Module):
         print('layers2 ', x.shape)
         x = self.layers3(x)
         print('layers3 ', x.shape)
+        x = x.view(x.shape[0], -1)
+        print('view ', x.shape)
+        x = self.lineLayer(x)
+        print('line ', x.shape)
+        x = x.reshape(x.shape[0], 29, 29)
         return x
         
 class LinkNet(nn.Module):
