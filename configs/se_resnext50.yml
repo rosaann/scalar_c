@@ -7,14 +7,14 @@ train_classifier:
   
 train_segmenter:
   dir: './result/out/resnet18_segmenter'
-  batch_size: 3000
-  num_epochs: 300
+  batch_size: 600
+  num_epochs: 3000
   num_grad_acc: 4
 train:
  # writer_dir:'./result/out/classifier/writer'
   writer_dir : './result/out/segmenter/writer'
 eval_classifier:
-  batch_size: 3000
+  batch_size: 600
 
 eval_segmenter:
   batch_size:600
