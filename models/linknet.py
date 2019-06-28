@@ -92,17 +92,17 @@ class CNNNet(nn.Module):
         self.lineLayer = nn.Linear(4480, 29*29)
     def forward(self, x):
         # Initial block
-        print('x ', x.shape)
+     #   print('x ', x.shape)
         x = self.layers1(x)  
-        print('layers1 ', x.shape)
+     #   print('layers1 ', x.shape)
         x = self.layers2(x)
-        print('layers2 ', x.shape)
+     #   print('layers2 ', x.shape)
         x = self.layers3(x)
-        print('layers3 ', x.shape)
+     #   print('layers3 ', x.shape)
         x = x.view(x.shape[0], -1)
-        print('view ', x.shape)
+     #   print('view ', x.shape)
         x = self.lineLayer(x)
-        print('line ', x.shape)
+     #   print('line ', x.shape)
         x = x.reshape(x.shape[0], 29, 29)
         return x
         
