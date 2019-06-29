@@ -5,7 +5,7 @@ Created on Wed Jun 26 13:34:09 2019
 
 @author: zl
 """
-from models.linknet import  CNNNet
+from models.linknet import  CNNNet,NetX
 import torch
 import utils.config
 import argparse
@@ -71,7 +71,7 @@ def test_segmenter_single_epoch(config, model, dataloader):
                 result.append({'id':t_id, 'scalar_coupling_constant' : scale})
                 
     test_pd = pd.DataFrame.from_records(result, columns=['id', 'scalar_coupling_constant'])
-    output_filename = os.path.join('data', 'result_24560T.csv')
+    output_filename = os.path.join('data', 'result_NetX_1318.csv')
     test_pd.to_csv(output_filename, index=False)
 def test_segmenter(config, model, test_dataloader):
     
@@ -88,13 +88,13 @@ def main():
 
     config = utils.config.load(args.config_file)
     
-    model_segmenter = CNNNet()
+    model_segmenter = NetX()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     
     optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
     ####
-    checkpoint = get_model_saved(config.train_segmenter.dir, 4079)
+    checkpoint = get_model_saved(config.train_segmenter.dir, 1318)
     best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
