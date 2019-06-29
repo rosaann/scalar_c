@@ -122,7 +122,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer10 = nn.Linear(4480, 4480)
+        self.lineLayer10 = nn.Linear(1584, 4096)
         
         self.layers21 = nn.Sequential(nn.Conv2d(4, 8, (3,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -239,7 +239,7 @@ class NetX(nn.Module):
         x4 = self.lineLayer40(x4)
         print('x4 ', x4.shape)
         
-        
+        y = x1 + x2 + x3 + x4
         
      #   print('layers1 ', x.shape)
         x = self.layers2(x)
