@@ -113,7 +113,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(8),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers12 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 0),
+        self.layers12 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
@@ -122,12 +122,13 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
+        self.lineLayer10 = nn.Linear(4480, 4480)
         
         self.layers21 = nn.Sequential(nn.Conv2d(4, 8, (3,1), 1, 1),
                                 nn.BatchNorm2d(8),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers22 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 0),
+        self.layers22 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
@@ -135,6 +136,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
+        self.lineLayer20 = nn.Linear(4480, 4480)
         
         self.layers31 = nn.Sequential(nn.Conv2d(4, 8, (4,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -152,6 +154,8 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),
                                 )
+        self.lineLayer30 = nn.Linear(4480, 4480)
+        
         
         self.layers41 = nn.Sequential(nn.Conv2d(4, 8, (5,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -173,6 +177,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
+        self.lineLayer40 = nn.Linear(4480, 4480)
         
         self.layers3 = nn.Sequential(nn.Conv2d(16, 32, (2,1), 1, 1),
                                 nn.BatchNorm2d(32),
@@ -189,18 +194,22 @@ class NetX(nn.Module):
         print('x12 ', x11.shape)
       #  x11 = self.layers13(x11)
       #  print('x13 ', x11.shape)
-        x10 = self.layers10(x)
-        print('x10 ', x10.shape)
-        x1 = x11 + x10
+      #  x10 = self.layers10(x)
+      #  print('x10 ', x10.shape)
+        x1 = x11.view(x11.shape[0], -1)
+        print('view ', x1.shape)
+        x1 = self.lineLayer10(x1)
         print('x1 ', x1.shape)
         
         x21 = self.layers21(x) 
         print('x21 ', x21.shape)
         x21 = self.layers22(x21)
         print('x22 ', x21.shape)
-        x20 = self.layers20(x)
-        print('x20 ', x20.shape)
-        x2 = x21 + x20
+      #  x20 = self.layers20(x)
+      #  print('x20 ', x20.shape)
+        x2 = x21.view(x21.shape[0], -1)
+        print('view ', x21.shape)
+        x2 = self.lineLayer20(x2)
         print('x2 ', x2.shape)
         
         x31 = self.layers31(x) 
@@ -209,9 +218,10 @@ class NetX(nn.Module):
         print('x32 ', x31.shape)
         x31 = self.layers33(x31)
         print('x33 ', x31.shape)
-        x30 = self.layers30(x)
-        print('x30 ', x30.shape)
-        x3 = x31 + x30
+      ##  print('x30 ', x30.shape)
+        x3 = x31.view(x31.shape[0], -1)
+        print('view ', x3.shape)
+        x3 = self.lineLayer30(x3)
         print('x3 ', x3.shape)
         
         x41 = self.layers41(x) 
@@ -222,10 +232,14 @@ class NetX(nn.Module):
         print('x43 ', x41.shape)
         x41 = self.layers44(x41)
         print('x44 ', x41.shape)
-        x40 = self.layers40(x)
-        print('x40 ', x40.shape)
-        x4 = x41 + x40
+       # x40 = self.layers40(x)
+       # print('x40 ', x40.shape)
+        x4 = x41.view(x41.shape[0], -1)
+        print('view ', x4.shape)
+        x4 = self.lineLayer40(x4)
         print('x4 ', x4.shape)
+        
+        
         
      #   print('layers1 ', x.shape)
         x = self.layers2(x)
