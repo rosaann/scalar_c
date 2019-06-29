@@ -229,13 +229,14 @@ class TestDataset(Dataset):
          for i in range( len(test_data_list)):
                 data_con = test_data_list[i]
                 print('data_con ', data_con)
-                d_p = changeListFormToRectForm(data_con['data'])
+                d_p = data_con['data']
                 
                 self.data_list.append(d_p)
                 self.name_list.append(test_data_list[i]['name'])
          self.data_list = np.array(self.data_list)
          tshape = self.data_list.shape
-         self.data_list = self.data_list.reshape(tshape[0],tshape[3], tshape[1], tshape[2])
+         self.data_list = self.data_list.reshape(tshape[0],tshape[2], tshape[1])
+         self.data_list = self.data_list[:,:,np.newaxis]
          
     def __getitem__(self, index):
        
