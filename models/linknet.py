@@ -179,8 +179,16 @@ class NetX(nn.Module):
                                 )
         self.lineLayer40 = nn.Linear(4480, 4096)
         
-        self.layersy1 = nn.Sequential(nn.Conv2d(1, 32, (2,1), 1, 1),
-                                nn.BatchNorm2d(32),
+        self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
+                                nn.BatchNorm2d(4),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers_y2 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers_y3 = nn.Sequential(nn.Conv2d(4, 16, (2,1), 1, 1),
+                                nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
         
@@ -212,47 +220,49 @@ class NetX(nn.Module):
         x2 = self.lineLayer20(x2)
         print('x2 ', x2.shape)
         
-        x31 = self.layers31(x) 
-        print('x31 ', x31.shape)
-        x31 = self.layers32(x31)
-        print('x32 ', x31.shape)
-        x31 = self.layers33(x31)
-        print('x33 ', x31.shape)
+       # x31 = self.layers31(x) 
+      #  print('x31 ', x31.shape)
+      #  x31 = self.layers32(x31)
+      #  print('x32 ', x31.shape)
+      #  x31 = self.layers33(x31)
+      #  print('x33 ', x31.shape)
       ##  print('x30 ', x30.shape)
-        x3 = x31.view(x31.shape[0], -1)
-        print('view ', x3.shape)
-        x3 = self.lineLayer30(x3)
-        print('x3 ', x3.shape)
+       # x3 = x31.view(x31.shape[0], -1)
+       # print('view ', x3.shape)
+       # x3 = self.lineLayer30(x3)
+      #  print('x3 ', x3.shape)
         
-        x41 = self.layers41(x) 
-        print('x41 ', x41.shape)
-        x41 = self.layers42(x41)
-        print('x42 ', x41.shape)
-        x41 = self.layers43(x41)
-        print('x43 ', x41.shape)
-        x41 = self.layers44(x41)
-        print('x44 ', x41.shape)
+      #  x41 = self.layers41(x) 
+      #  print('x41 ', x41.shape)
+      #  x41 = self.layers42(x41)
+      #  print('x42 ', x41.shape)
+      #  x41 = self.layers43(x41)
+      #  print('x43 ', x41.shape)
+      #  x41 = self.layers44(x41)
+      #  print('x44 ', x41.shape)
        # x40 = self.layers40(x)
        # print('x40 ', x40.shape)
-        x4 = x41.view(x41.shape[0], -1)
-        print('view ', x4.shape)
-        x4 = self.lineLayer40(x4)
-        print('x4 ', x4.shape)
+      #  x4 = x41.view(x41.shape[0], -1)
+      #  print('view ', x4.shape)
+      #  x4 = self.lineLayer40(x4)
+     #   print('x4 ', x4.shape)
         
-        y = x1 + x2 + x3 + x4
+        y = x1 + x2
         y = y.view(x1.shape[0], 1, 64, 64)
         
      #   print('layers1 ', x.shape)
-        x = self.layers2(x)
+        y = self.layers_y1(y)
      #   print('layers2 ', x.shape)
-        x = self.layers3(x)
+        y = self.layers_y2(y)
      #   print('layers3 ', x.shape)
-        x = x.view(x.shape[0], -1)
+        y = self.layers_y3(y)
+        
+        y = y.view(y.shape[0], -1)
      #   print('view ', x.shape)
-        x = self.lineLayer(x)
+        y = self.lineLayer(y)
      #   print('line ', x.shape)
-        x = x.reshape(x.shape[0], 29, 29)
-        return x
+        y = y.reshape(y.shape[0], 29, 29)
+        return y
         
 class LinkNet(nn.Module):
     """
