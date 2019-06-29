@@ -5,7 +5,7 @@ Created on Wed Jun 26 13:34:09 2019
 
 @author: zl
 """
-from models.linknet import LinkNet, CNNNet
+from models.linknet import  CNNNet
 import torch
 import utils.config
 import argparse
