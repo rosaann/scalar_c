@@ -136,7 +136,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer20 = nn.Linear(4480, 4480)
+        self.lineLayer20 = nn.Linear(1056, 4096)
         
         self.layers31 = nn.Sequential(nn.Conv2d(4, 8, (4,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -154,7 +154,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer30 = nn.Linear(4480, 4480)
+        self.lineLayer30 = nn.Linear(4480, 4096)
         
         
         self.layers41 = nn.Sequential(nn.Conv2d(4, 8, (5,1), 1, 1),
@@ -177,9 +177,9 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer40 = nn.Linear(4480, 4480)
+        self.lineLayer40 = nn.Linear(4480, 4096)
         
-        self.layers3 = nn.Sequential(nn.Conv2d(16, 32, (2,1), 1, 1),
+        self.layersy1 = nn.Sequential(nn.Conv2d(1, 32, (2,1), 1, 1),
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),
                                 )
@@ -240,6 +240,7 @@ class NetX(nn.Module):
         print('x4 ', x4.shape)
         
         y = x1 + x2 + x3 + x4
+        y = y.view(x1.shape[0], 1, 64, 64)
         
      #   print('layers1 ', x.shape)
         x = self.layers2(x)
