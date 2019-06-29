@@ -141,7 +141,8 @@ def gen_train_data():
          #   print('scalar_coupling ', scalar_coupling)
          #   print('int(index_0) ', int(index_0))
          #   print('int(index_1) ', int(index_1))
-            gt_data[int(index_0)][int(index_1)] = float(scalar_coupling)   
+            gt_data[int(index_0)][int(index_1)] = float(scalar_coupling)
+            gt_data[int(index_1)][int(index_0)] = float(scalar_coupling)
          #   print('gt_data ', gt_data)
           #  if i > 30 :
           #      print('self.train_data_list ', self.train_data_list)
