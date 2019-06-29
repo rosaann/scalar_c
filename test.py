@@ -5,7 +5,7 @@ Created on Wed Jun 26 13:34:09 2019
 
 @author: zl
 """
-from models.linknet import LinkNet
+from models.linknet import LinkNet, CNNNet
 import torch
 import utils.config
 import argparse
@@ -88,7 +88,7 @@ def main():
 
     config = utils.config.load(args.config_file)
     
-    model_segmenter = LinkNet(1)
+    model_segmenter = CNNNet()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     
