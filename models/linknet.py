@@ -122,7 +122,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer10 = nn.Linear(1584, 4096)
+        self.lineLayer10 = nn.Linear(1584, 1600)
         
         self.layers21 = nn.Sequential(nn.Conv2d(4, 8, (3,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -136,7 +136,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer20 = nn.Linear(1056, 4096)
+        self.lineLayer20 = nn.Linear(1056, 1600)
         
         self.layers31 = nn.Sequential(nn.Conv2d(4, 8, (4,1), 1, 1),
                                 nn.BatchNorm2d(8),
@@ -248,19 +248,19 @@ class NetX(nn.Module):
      #   print('x4 ', x4.shape)
         
         y = x1 + x2
-        y = y.view(x1.shape[0], 1, 64, 64)
+        y = y.view(x1.shape[0], 1, 40, 40)
         
-     #   print('layers1 ', x.shape)
+        print('layers1 ', y.shape)
         y = self.layers_y1(y)
-     #   print('layers2 ', x.shape)
+        print('layers2 ', y.shape)
         y = self.layers_y2(y)
-     #   print('layers3 ', x.shape)
+        print('layers3 ', y.shape)
         y = self.layers_y3(y)
-        
+        print('layers3 ', y.shape)
         y = y.view(y.shape[0], -1)
-     #   print('view ', x.shape)
+        print('view ', y.shape)
         y = self.lineLayer(y)
-     #   print('line ', x.shape)
+        print('line ', y.shape)
         y = y.reshape(y.shape[0], 29, 29)
         return y
         
