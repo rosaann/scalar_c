@@ -94,7 +94,7 @@ def main():
     
     optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
     ####
-    checkpoint = get_model_saved(config.train_segmenter.dir, 1318)
+    checkpoint = get_model_saved(config.train_segmenter.dir, 1317)
     best_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint)
     
 
