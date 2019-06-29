@@ -72,7 +72,6 @@ class Decoder(nn.Module):
         x = self.conv2(x)
 
         return x
-
 class CNNNet(nn.Module):
     def __init__(self):
         super(CNNNet, self).__init__()
@@ -94,6 +93,137 @@ class CNNNet(nn.Module):
         # Initial block
      #   print('x ', x.shape)
         x = self.layers1(x)  
+     #   print('layers1 ', x.shape)
+        x = self.layers2(x)
+     #   print('layers2 ', x.shape)
+        x = self.layers3(x)
+     #   print('layers3 ', x.shape)
+        x = x.view(x.shape[0], -1)
+     #   print('view ', x.shape)
+        x = self.lineLayer(x)
+     #   print('line ', x.shape)
+        x = x.reshape(x.shape[0], 29, 29)
+        return x
+        
+class NetX(nn.Module):
+    #r2:0.56;mae:13.4
+    def __init__(self):
+        super(NetX, self).__init__()
+        self.layers11 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers12 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers10 = nn.Sequential(nn.Conv2d(4, 16, (1,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        
+        self.layers21 = nn.Sequential(nn.Conv2d(4, 8, (3,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers22 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers20 = nn.Sequential(nn.Conv2d(4, 16, (1,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        
+        self.layers31 = nn.Sequential(nn.Conv2d(4, 8, (4,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers32 = nn.Sequential(nn.Conv2d(8, 16, (3,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers33 = nn.Sequential(nn.Conv2d(16, 32, (2,1), 1, 1),
+                                nn.BatchNorm2d(32),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers30 = nn.Sequential(nn.Conv2d(4, 32, (1,1), 1, 1),
+                                nn.BatchNorm2d(32),
+                                nn.ReLU(inplace=True),
+                                )
+        
+        self.layers41 = nn.Sequential(nn.Conv2d(4, 8, (5,1), 1, 1),
+                                nn.BatchNorm2d(8),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers42 = nn.Sequential(nn.Conv2d(8, 16, (4,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers43 = nn.Sequential(nn.Conv2d(16, 32, (3,1), 1, 1),
+                                nn.BatchNorm2d(16),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers44 = nn.Sequential(nn.Conv2d(32, 64, (2,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers40 = nn.Sequential(nn.Conv2d(4, 64, (1,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+        
+        self.layers3 = nn.Sequential(nn.Conv2d(16, 32, (2,1), 1, 1),
+                                nn.BatchNorm2d(32),
+                                nn.ReLU(inplace=True),
+                                )
+        
+        self.lineLayer = nn.Linear(4480, 29*29)
+    def forward(self, x):
+        # Initial block
+        print('x ', x.shape)
+        x11 = self.layers11(x) 
+        print('x11 ', x11.shape)
+        x11 = self.layers12(x11)
+        print('x12 ', x11.shape)
+        x10 = self.layers10(x)
+        print('x10 ', x10.shape)
+        x1 = x11 + x10
+        print('x1 ', x1.shape)
+        
+        x21 = self.layers21(x) 
+        print('x21 ', x21.shape)
+        x21 = self.layers22(x21)
+        print('x22 ', x21.shape)
+        x20 = self.layers20(x)
+        print('x20 ', x20.shape)
+        x2 = x21 + x20
+        print('x2 ', x2.shape)
+        
+        x31 = self.layers31(x) 
+        print('x31 ', x31.shape)
+        x31 = self.layers32(x31)
+        print('x32 ', x31.shape)
+        x31 = self.layers33(x31)
+        print('x33 ', x31.shape)
+        x30 = self.layers30(x)
+        print('x30 ', x30.shape)
+        x3 = x31 + x30
+        print('x3 ', x3.shape)
+        
+        x41 = self.layers41(x) 
+        print('x41 ', x41.shape)
+        x41 = self.layers42(x41)
+        print('x42 ', x41.shape)
+        x41 = self.layers43(x41)
+        print('x43 ', x41.shape)
+        x41 = self.layers44(x41)
+        print('x44 ', x41.shape)
+        x40 = self.layers40(x)
+        print('x40 ', x40.shape)
+        x4 = x41 + x40
+        print('x4 ', x4.shape)
+        
      #   print('layers1 ', x.shape)
         x = self.layers2(x)
      #   print('layers2 ', x.shape)
