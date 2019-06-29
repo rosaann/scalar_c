@@ -110,6 +110,8 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         rc_part_list = []
         msq_total_list = []
         msq_part_list = []
+        mae_total_list = []
+        mae_part_list = []
         for i, data in tbar:
            # print('-------------uu------------')
             images = data['data']
@@ -125,11 +127,13 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             pred = binary_masks.data.cpu().numpy()
             gt = gt.cpu().numpy()
            # print('metrics ', metrics)
-            rc_t, rc_part, msq_t, msq_part = metrics.count(gt, pred)
+            rc_t, rc_part, msq_t, msq_part, mae_t, mae_part = metrics.count(gt, pred)
             rc_total_list.append(rc_t)
             rc_part_list.append(rc_part)
             msq_total_list.append(msq_t)
             msq_part_list.append(msq_part)
+            mae_total_list.append(mae_t)
+            mae_part_list.append(mae_part)
             # measure accuracy and record loss
             loss_list.append(loss.item())
             
@@ -150,6 +154,8 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         log_dict['used_r2'] = sum(rc_part_list) / len(rc_part_list)
         log_dict['msq_total'] = sum(msq_total_list) / len(msq_total_list)
         log_dict['msq_part'] = sum(msq_part_list) / len(msq_part_list)
+        log_dict['mae_total'] = sum(mae_total_list) / len(mae_total_list)
+        log_dict['mae_part'] = sum(mae_part_list) / len(mae_part_list)
 
         for key, value in log_dict.items():
             if writer is not None:

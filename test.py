@@ -67,11 +67,11 @@ def test_segmenter_single_epoch(config, model, dataloader):
                 t_id = t['id']
                 atom_index_0 = t['atom_index_0']
                 atom_index_1 = t['atom_index_1']
-                scale = mask.data.cpu().numpy()[int(atom_index_0), int(atom_index_1)]
+                scale = mask.data.cpu().numpy()[int(atom_index_1), int(atom_index_0)]
                 result.append({'id':t_id, 'scalar_coupling_constant' : scale})
                 
     test_pd = pd.DataFrame.from_records(result, columns=['id', 'scalar_coupling_constant'])
-    output_filename = os.path.join('data', 'result_24560.csv')
+    output_filename = os.path.join('data', 'result_24560T.csv')
     test_pd.to_csv(output_filename, index=False)
 def test_segmenter(config, model, test_dataloader):
     
