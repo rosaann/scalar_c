@@ -73,6 +73,7 @@ class Decoder(nn.Module):
 
         return x
 class CNNNet(nn.Module):
+    #r2:0.56;mae:13.4
     def __init__(self):
         super(CNNNet, self).__init__()
         self.layers1 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
@@ -106,7 +107,7 @@ class CNNNet(nn.Module):
         return x
         
 class NetX(nn.Module):
-    #r2:0.56;mae:13.4
+    
     def __init__(self):
         super(NetX, self).__init__()
         self.layers11 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
