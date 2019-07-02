@@ -134,7 +134,7 @@ def gen_train_data():
                 train_data_list = ast.literal_eval(f.read())
                 f.close() 
         
-        return train_data_list
+                return train_data_list
         
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
