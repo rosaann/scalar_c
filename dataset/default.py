@@ -292,7 +292,7 @@ class DefaultDataset(Dataset):
         self.data_list = []
         self.gt_list = []
         n7 = int (len(random_index_list) * 0.7)
-        print('enter DefaultDataset ', train_data_list)
+        print('enter DefaultDataset ', random_index_list)
         if split == 'train':
             
             for i in random_index_list[ : n7]:
