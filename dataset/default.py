@@ -125,16 +125,16 @@ def gen_test_data():
         return test_data_list
         
 def gen_train_data():
-        text_file_train_all = ['data/train_data_list_1.txt', 'data/train_data_list_2.txt']; 
+        text_file_train_all = 'data/train_data_list.txt'; 
         text_file_gt_all = 'data/gt_data_list.txt'
         train_data_list = []
-        for path in text_file_train_all:
-            if os.path.exists(path):
-                f = open(path, 'r') 
-                train_data_list.extend( ast.literal_eval(f.read()))
+        
+        if os.path.exists(text_file_gt_all):
+                f = open(text_file_gt_all, 'r') 
+                train_data_list = ast.literal_eval(f.read())
                 f.close() 
         
-            return train_data_list
+        return train_data_list
         
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
@@ -175,18 +175,11 @@ def gen_train_data():
           #      break
         train_data_list.append(train_data)
         #save_data_to_local(text_file_train_all, train_data_list)
-        
-        
-        h2 = int( len (train_data_list) / 2)
-        for i, path in text_file_train_all:
-            if i == 0:               
-                save_data_to_local(path, gt_data_list[: h2])
-            else:
-                save_data_to_local(path, gt_data_list[h2:])
+        save_data_to_local(text_file_train_all, train_data_list)
         
         gt_data_list.append(gt_data.tolist())
         save_data_to_local(text_file_gt_all, gt_data_list)
-        train_data_list
+        return train_data_list
     
 def gen_random_index_list():
         txt_random_index_file = 'data/random_index_list.txt'
@@ -202,12 +195,14 @@ def gen_random_index_list():
 
 def gen_stuc_set_list():
             
-        txt_file = 'data/model_info_set.txt'
-        if os.path.exists(txt_file):
-            f = open(txt_file, 'r')  
-            model_info_set = ast.literal_eval(f.read())
-            f.close() 
-            return model_info_set
+        txt_file = [ 'data/model_info_set_0.txt', 'data/model_info_set_1.txt']
+        model_info_set = []
+    #    for path in txt_file:
+    #      if os.path.exists(path):
+     #       f = open(path, 'r')  
+     #       model_info_set.extend( ast.literal_eval(f.read()))
+     #       f.close() 
+     #       return model_info_set
         
         struc_csv_dir = 'data/structures.csv'
         df_struc = pd.read_csv(struc_csv_dir)
@@ -241,7 +236,10 @@ def gen_stuc_set_list():
         #    if i > 20:
          #       break
         model_info_set[molecule_name] = model_info
-        save_data_to_local(txt_file, model_info_set)
+        
+       # np2 = int(len())
+      #  for i, path in enumerate(txt_file):
+       #     save_data_to_local(path, model_info_set)
         return model_info_set
 
 print('**DefaultDataset ')
