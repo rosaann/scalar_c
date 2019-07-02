@@ -129,8 +129,8 @@ def gen_train_data():
         text_file_gt_all = 'data/gt_data_list.txt'
         train_data_list = []
         
-        if os.path.exists(text_file_gt_all):
-                f = open(text_file_gt_all, 'r') 
+        if os.path.exists(text_file_train_all):
+                f = open(text_file_train_all, 'r') 
                 train_data_list = ast.literal_eval(f.read())
                 f.close() 
         
