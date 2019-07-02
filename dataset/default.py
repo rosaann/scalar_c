@@ -25,17 +25,37 @@ def find_atom_index_dic():
         with open(atom_index_dic_dir, 'r') as f: 
             atom_index_dic = ast.literal_eval(f.read())
             return atom_index_dic
-
+def find_type_index_dic():
+    type_index_dic_dir = 'data/type_index_dic.txt'
+    if os.path.exists(type_index_dic_dir):
+        with open(type_index_dic_dir, 'r') as f: 
+            type_index_dic_dir = ast.literal_eval(f.read())
+            return type_index_dic_dir
+        
+def get29f1list():
+    r = []
+    for i in range(max_atom):
+        r.append(-1)
+    return r
+        
 atom_index_dic = {'C': 0, 'H': 1, 'N': 2, 'O': 3, 'F': 4}
-place_value = ( -1, 100, 100, 100)
+type_index_dic = find_type_index_dic()
+
+def get_place_value():
+    place_value = [ -1, 100, 100, 100 ]
+    type_list = get29f1list()
+    for t in type_list:
+        place_value.append(t)
+    return place_value
+
 def get_default_info():
     info = []
     for i in range(max_atom ):
         #(x,y,z,atom_index)
-        info.append(place_value)
-   # info = np.array(info)
-   # print('info xx ', info.shape)
-   # info = info.reshape(max_atom, max_atom, 4)
+        info.append(get_place_value())
+  #  info = np.array(info)
+  #  print('info xx ', info.shape)
+  #  info = info.reshape(max_atom, max_atom, 5)
     return info
 def save_data_to_local(file, data):
     fileObject = open(file, 'w')
@@ -60,7 +80,7 @@ def changeListFormToRectForm(data_list):
             
     result = np.array(result)
     
-    return result.reshape(size, size, 4)
+    return result.reshape(size, size, 5)
         
 
 
@@ -126,6 +146,8 @@ def gen_train_data():
         gt_data = ''
         for i, row in tqdm.tqdm(df_train.iterrows()):
             molecule_name = row['molecule_name']
+            t = row['type']
+            t_index = type_index_dic[t]
          #   print('molecule_name ', molecule_name)
             if pre_mol_name != molecule_name:
                 if i > 0:
@@ -137,6 +159,8 @@ def gen_train_data():
                 pre_mol_name = molecule_name
             index_0 = row['atom_index_0']
             index_1 = row['atom_index_1']
+            train_data[index_0][4 + index_1] = t_index
+            train_data[index_1][4 + index_0] = t_index
             scalar_coupling = row['scalar_coupling_constant']
          #   print('scalar_coupling ', scalar_coupling)
          #   print('int(index_0) ', int(index_0))
@@ -152,6 +176,7 @@ def gen_train_data():
         
         gt_data_list.append(gt_data.tolist())
         save_data_to_local(text_file_gt_all, gt_data_list)
+        return train_data_list
     
 def gen_random_index_list():
         txt_random_index_file = 'data/random_index_list.txt'
@@ -199,7 +224,10 @@ def gen_stuc_set_list():
             y = row['y']
             z = row['z']
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
-            model_info[atom_index] = (atom_index_dic[atom], x, y, z)
+            model_info[atom_index][0] = atom_index_dic[atom]
+            model_info[atom_index][1] = x
+            model_info[atom_index][2] = y
+            model_info[atom_index][3] = z
         #    if i > 20:
          #       break
         model_info_set[molecule_name] = model_info
@@ -208,14 +236,14 @@ def gen_stuc_set_list():
 
 print('**DefaultDataset ')
 model_info_set = gen_stuc_set_list()
-
 print('self.gen_stuc_set_list()')
-gt_data_list = get_gt_data()
-       
-print('self.get_gt_data()')
+
 train_data_list = gen_train_data()
-       
 print('self.gen_train_data()')
+
+gt_data_list = get_gt_data()
+print('self.get_gt_data()')      
+
         
 random_index_list = gen_random_index_list()
         
