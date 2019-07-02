@@ -192,6 +192,7 @@ def gen_random_index_list():
         random_index_list = list(range(num))
         random.shuffle(random_index_list)
         save_data_to_local(txt_random_index_file, random_index_list)
+        return random_index_list
 
 def gen_stuc_set_list():
             
