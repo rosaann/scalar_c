@@ -129,12 +129,12 @@ def gen_train_data():
         text_file_gt_all = 'data/gt_data_list.txt'
         train_data_list = []
         
-        if os.path.exists(text_file_train_all):
-                f = open(text_file_train_all, 'r') 
-                train_data_list = ast.literal_eval(f.read())
-                f.close() 
+     #   if os.path.exists(text_file_train_all):
+     #           f = open(text_file_train_all, 'r') 
+     #           train_data_list = ast.literal_eval(f.read())
+     #           f.close() 
         
-                return train_data_list
+     #           return train_data_list
         
         train_csv_dir = 'data/train.csv'
         df_train = pd.read_csv(train_csv_dir)
