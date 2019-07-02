@@ -76,7 +76,7 @@ def changeListFormToRectForm(data_list):
             num_sqrt = i % size           
             result.append(data_list[num_sqrt])
         else:
-            result.append(place_value)
+            result.append(get_place_value())
             
     result = np.array(result)
     
@@ -125,13 +125,14 @@ def gen_test_data():
         return test_data_list
         
 def gen_train_data():
-        text_file_train_all = 'data/train_data_list.txt'
+        text_file_train_all = ['data/train_data_list_1.txt', 'data/train_data_list_2.txt']; 
         text_file_gt_all = 'data/gt_data_list.txt'
-        
-        if os.path.exists(text_file_train_all):
-            f = open(text_file_train_all, 'r') 
-            train_data_list = ast.literal_eval(f.read())
-            f.close() 
+        train_data_list = []
+        for path in text_file_train_all:
+            if os.path.exists(path):
+                f = open(path, 'r') 
+                train_data_list.extend( ast.literal_eval(f.read()))
+                f.close() 
         
             return train_data_list
         
@@ -173,11 +174,19 @@ def gen_train_data():
           #      print('self.train_data_list ', self.train_data_list)
           #      break
         train_data_list.append(train_data)
-        save_data_to_local(text_file_train_all, train_data_list)
+        #save_data_to_local(text_file_train_all, train_data_list)
+        
+        
+        h2 = int( len (train_data_list) / 2)
+        for i, path in text_file_train_all:
+            if i == 0:               
+                save_data_to_local(path, gt_data_list[: h2])
+            else:
+                save_data_to_local(path, gt_data_list[h2:])
         
         gt_data_list.append(gt_data.tolist())
         save_data_to_local(text_file_gt_all, gt_data_list)
-        return train_data_list
+        train_data_list
     
 def gen_random_index_list():
         txt_random_index_file = 'data/random_index_list.txt'
