@@ -144,6 +144,7 @@ def gen_train_data():
         molecule_name = ''
         train_data = ''
         gt_data = ''
+       # print('model_info_set ', model_info_set)
         for i, row in tqdm.tqdm(df_train.iterrows()):
             molecule_name = row['molecule_name']
             t = row['type']
@@ -232,7 +233,7 @@ def gen_stuc_set_list():
          #       break
         model_info_set[molecule_name] = model_info
         save_data_to_local(txt_file, model_info_set)
-        
+        return model_info_set
 
 print('**DefaultDataset ')
 model_info_set = gen_stuc_set_list()
