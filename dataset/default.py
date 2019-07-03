@@ -108,14 +108,19 @@ def gen_test_data():
         test_data = ''
         for i, row in tqdm.tqdm(df_test.iterrows()):
             molecule_name = row['molecule_name']
+            t = row['type']
+            t_index = type_index_dic[t]
          #   print('molecule_name ', molecule_name)
             if pre_mol_name != molecule_name:
                 if i > 0:
                     test_data_list.append({'name':pre_mol_name, 'data' : test_data})
-                    
+                   
                 test_data = model_info_set[molecule_name]
                 pre_mol_name = molecule_name
-            
+            index_0 = row['atom_index_0']
+            index_1 = row['atom_index_1']
+            test_data[index_0][4 + index_1] = t_index
+            test_data[index_1][4 + index_0] = t_index
          #   print('gt_data ', gt_data)
           #  if i > 30 :
           #      print('self.train_data_list ', self.train_data_list)
@@ -127,8 +132,7 @@ def gen_test_data():
 def gen_train_data():
         text_file_train_all = 'data/train_data_list.txt'; 
         text_file_gt_all = 'data/gt_data_list.txt'
-        train_data_list = []
-        
+        train_data_list = []       
      #   if os.path.exists(text_file_train_all):
      #           f = open(text_file_train_all, 'r') 
      #           train_data_list = ast.literal_eval(f.read())
