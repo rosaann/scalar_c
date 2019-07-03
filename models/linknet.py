@@ -137,7 +137,7 @@ class NetX(nn.Module):
                                 nn.BatchNorm2d(16),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer20 = nn.Linear(1056, 1600)
+        self.lineLayer20 = nn.Linear(8448, 1600)
         
         self.layers31 = nn.Sequential(nn.Conv2d(33, 64, (4,1), 1, 1),
                                 nn.BatchNorm2d(64),
