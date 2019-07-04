@@ -108,7 +108,7 @@ class CNNNet(nn.Module):
 class NetX2(nn.Module):
     
     def __init__(self):
-        super(NetX, self).__init__()
+        super(NetX2, self).__init__()
         self.layers11 = nn.Sequential(nn.Conv2d(33, 64, (2,1), 1, 1),
                                 nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
