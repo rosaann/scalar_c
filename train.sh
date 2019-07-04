@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python train.py --config=configs/netx.yml
+python train.py --config=configs/netx2.yml

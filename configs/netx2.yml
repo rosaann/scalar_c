@@ -1,0 +1,54 @@
+
+train_classifier:
+  dir: './result/out/classifier/se_resnext50'
+  batch_size: 60
+  num_epochs: 23
+  num_grad_acc: 4
+  
+train_segmenter:
+  dir: './result/out/NetX2'
+  batch_size: 600
+  num_epochs: 50000
+  name: 'NetX'
+  num_grad_acc: 4
+train:
+ # writer_dir:'./result/out/classifier/writer'
+  writer_dir : './result/out/NetX2/writer'
+eval_classifier:
+  batch_size: 600
+
+eval_segmenter:
+  batch_size:600
+  
+loss_classifier:
+  name: 'cross_entropy'
+  
+loss_segmenter:
+  name: 'cross_entropy'
+  
+transform_classifier:
+  name: 'policy_transform'
+  num_preprocessor: 8
+  params:
+    policies: 'data/best_policy.data'
+    per_image_norm: True
+    size: 224
+
+transform_segmenter:
+  name: 'policy_transform'
+  num_preprocessor: 8
+  params:
+    per_image_norm: True
+    size: 224
+
+model_classifier:
+    name: 'se_resnext50'
+    params:
+      cnn: 'se_resnext50'
+      attention_size: 32
+    
+model_segmenter:
+    name: 'resnet18_segmenter'
+    params:
+      cnn: 'se_resnext50'
+      attention_size: 32
