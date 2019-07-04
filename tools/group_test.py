@@ -25,7 +25,7 @@ def main():
                 result[i] += c
     
             if fi == (len(files) - 1):
-                out.append({'id' : row['id'], 'scalar_coupling_constant' : result[i] / len(files)})
+                out.append({'id' : int(row['id']), 'scalar_coupling_constant' : result[i] / len(files)})
     
     test_pd = pd.DataFrame.from_records(out, columns=['id', 'scalar_coupling_constant'])
     output_filename = os.path.join('data', 'result_NetX_s4.csv')       
