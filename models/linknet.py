@@ -135,7 +135,7 @@ class NetX2(nn.Module):
                                 nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers22 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
+        self.layers32 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True),
                                 )
@@ -220,6 +220,8 @@ class NetX2(nn.Module):
         print('x21 ', x21.shape)
         x21 = self.layers22(x21)
         print('x22 ', x21.shape)
+        x21 = self.layers23(x21)
+        print('x23 ', x21.shape)
         x20 = self.layers20(x)
         print('x20 ', x20.shape)
         x2 = x21.view(x21.shape[0], -1)
