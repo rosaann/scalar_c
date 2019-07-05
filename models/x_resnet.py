@@ -150,8 +150,8 @@ class XResNet(nn.Module):
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        self.conv1 = nn.Conv2d(33, self.inplanes, kernel_size=(2, 1), stride=1, padding=0,
-                               bias=False)
+        self.conv1 = nn.Conv2d(33, self.inplanes, kernel_size=(2, 1), stride=1, padding=1,
+                               )
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
         #self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2, padding=1)
