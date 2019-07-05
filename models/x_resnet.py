@@ -150,7 +150,7 @@ class XResNet(nn.Module):
                              "or a 3-element tuple, got {}".format(replace_stride_with_dilation))
         self.groups = groups
         self.base_width = width_per_group
-        self.conv1 = nn.Conv2d(33, self.inplanes, kernel_size=2, stride=1, padding=0,
+        self.conv1 = nn.Conv2d(33, self.inplanes, kernel_size=(2, 1), stride=1, padding=0,
                                bias=False)
         self.bn1 = norm_layer(self.inplanes)
         self.relu = nn.ReLU(inplace=True)
@@ -207,13 +207,15 @@ class XResNet(nn.Module):
         return nn.Sequential(*layers)
 
     def forward(self, x):
-        
+        print('b--x ', x.shape)
         x = self.conv1(x)
+        print('b--x1 ', x.shape)
         x = self.bn1(x)
         x = self.relu(x)
       #  x = self.maxpool(x)
 
         x = self.layer1(x)
+        print('b--x2 ', x.shape)
         x = self.layer2(x)
         x = self.layer3(x)
         x = self.layer4(x)
