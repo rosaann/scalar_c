@@ -135,7 +135,7 @@ class NetX2(nn.Module):
                                 nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers32 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
+        self.layers23 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True),
                                 )
