@@ -7,7 +7,7 @@ Created on Fri Jul  5 15:24:47 2019
 """
 
 import torch.nn as nn
-from .utils import load_state_dict_from_url
+#from .utils import load_state_dict_from_url
 
 
 __all__ = ['XResNet', 'Xresnet18', 'Xresnet34', 'Xresnet50', 'Xresnet101',
@@ -220,10 +220,10 @@ class XResNet(nn.Module):
 
 def _xresnet(arch, block, layers, pretrained, progress, **kwargs):
     model = XResNet(block, layers, **kwargs)
-    if pretrained:
-        state_dict = load_state_dict_from_url(model_urls[arch],
-                                              progress=progress)
-        model.load_state_dict(state_dict)
+  #  if pretrained:
+    #    state_dict = load_state_dict_from_url(model_urls[arch],
+    #                                          progress=progress)
+    #    model.load_state_dict(state_dict)
     return model
 
 
