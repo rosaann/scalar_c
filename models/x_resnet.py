@@ -62,21 +62,27 @@ class BasicBlock(nn.Module):
         self.stride = stride
 
     def forward(self, x):
+        print('x ', x.shape)
         identity = x
 
         out = self.conv1(x)
+        print('x1 ', out.shape)
         out = self.bn1(out)
+        print('x2 ', out.shape)
         out = self.relu(out)
-
+        print('x3 ', out.shape)
         out = self.conv2(out)
+        print('x4 ', out.shape)
         out = self.bn2(out)
-
+        print('x5 ', out.shape)
         if self.downsample is not None:
             identity = self.downsample(x)
-
+            print('identity ', identity.shape)
         out += identity
+        
+        print('x6 ', out.shape)
         out = self.relu(out)
-
+        print('x7 ', out.shape)
         return out
 
 
