@@ -514,7 +514,7 @@ class XResNet(nn.Module):
         print('x12s1 ', x11.shape)
        # x11 = self.layers13(x11)
        # print('x13 ', x11.shape)
-        x10 = self.layers10s1(x)
+        x10 = self.layers10s1(x1)
         print('x10s1 ', x10.shape)
         x10 = x10.view(x10.shape[0], -1)
         x10 = self.lineLayer10q(x10)
