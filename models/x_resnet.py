@@ -486,12 +486,15 @@ class XResNet(nn.Module):
         print('x13 ', x11.shape)
         x10 = self.layers10(x)
         print('x10 ', x10.shape)
-        x1 = x11.view(x11.shape[0], -1)
-        print('view ', x1.shape)
-        x1 = self.lineLayer10(x1)
-        print('x1 ', x1.shape)
         
-        x21 = self.layers21(x) 
+        x1 = x11 + x10
+        print('x1 ', x1.shape)
+      #  x1 = x11.view(x11.shape[0], -1)
+      #  print('view ', x1.shape)
+      #  x1 = self.lineLayer10(x1)
+      #  print('x1 ', x1.shape)
+        
+        x21 = self.layers21(x1) 
         print('x21 ', x21.shape)
         x21 = self.layers22(x21)
         print('x22 ', x21.shape)
