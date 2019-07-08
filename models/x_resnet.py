@@ -485,6 +485,8 @@ class XResNet(nn.Module):
        # x11 = self.layers13(x11)
        # print('x13 ', x11.shape)
         x10 = self.layers10(x)
+        x10[:,:,:].append(0)
+        x10[:,:,:].append(0)
         print('x10 ', x10.shape)
         
         x1 = x11 + x10
