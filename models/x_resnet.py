@@ -99,15 +99,17 @@ class BasicBlock_1(nn.Module):
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
         
         print('b inplanes ', inplanes, ' planes ', planes, ' stride ', stride)
-        self.conv1 = conv3x1(inplanes, planes, stride)
-        self.bn1 = norm_layer(planes)
+        self.conv1 = nn.Conv2d(33, 64, kernel_size=(3, 1), stride=1,
+                     padding=0, groups=1, bias=False, dilation=0)
+        self.bn1 = norm_layer(64)
         self.relu = nn.ReLU(inplace=True)
-        self.conv2 = conv3x1(planes, planes)
-        self.bn2 = norm_layer(planes)
+        self.conv2 = nn.Conv2d(64, 64, kernel_size=(3, 1), stride=1,
+                     padding=0, groups=1, bias=False, dilation=0)
+        self.bn2 = norm_layer(64)
         self.downsample = nn.Sequential(
                 
-                nn.Conv2d(inplanes, planes, kernel_size=1, stride=stride, bias=False, padding = (2, 0)),
-                norm_layer(planes),
+                nn.Conv2d(33, 64, kernel_size=1, stride=1, bias=False, padding = 2),
+                norm_layer(64),
             )
         self.stride = stride
 
