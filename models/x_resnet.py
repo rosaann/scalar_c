@@ -210,6 +210,7 @@ class XResNet(nn.Module):
        
 
         layers = []
+        print ('layers ', layers)
         layers.append(BasicBlock_1(self.inplanes, layers[0], stride, self.groups,
                             self.base_width, self.dilation, norm_layer))
         self.inplanes = layers[0] * block.expansion
