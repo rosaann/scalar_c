@@ -87,7 +87,7 @@ class BasicBlock(nn.Module):
 class BasicBlock_1(nn.Module):
     expansion = 1
 
-    def __init__(self, inplanes, planes, stride=1, downsample=None, groups=1,
+    def __init__(self, inplanes, planes, stride=1, groups=1,
                  base_width=64, dilation=1, norm_layer=None):
         super(BasicBlock, self).__init__()
         if norm_layer is None:
@@ -102,7 +102,10 @@ class BasicBlock_1(nn.Module):
         self.relu = nn.ReLU(inplace=True)
         self.conv2 = conv3x1(planes, planes)
         self.bn2 = norm_layer(planes)
-        self.downsample = downsample
+        self.downsample = nn.Sequential(
+                conv1x1(inplanes, planes , stride),
+                norm_layer(planes),
+            )
         self.stride = stride
 
     def forward(self, x):
@@ -202,13 +205,10 @@ class XResNet(nn.Module):
       #  self.layer1 = BasicBlock_1(64, layers[0])
        # if stride != 1 or self.inplanes != planes * block.expansion:
         stride = 1
-        downsample = nn.Sequential(
-                conv1x1(self.inplanes, layers[0] * block.expansion, stride),
-                norm_layer(layers[0] * block.expansion),
-            )
+       
 
         layers = []
-        layers.append(BasicBlock_1(self.inplanes, layers[0], stride, downsample, self.groups,
+        layers.append(BasicBlock_1(self.inplanes, layers[0], stride, self.groups,
                             self.base_width, self.dilation, norm_layer))
         self.inplanes = layers[0] * block.expansion
         for _ in range(1, layers[0]):
