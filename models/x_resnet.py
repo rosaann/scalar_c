@@ -209,17 +209,17 @@ class XResNet(nn.Module):
         stride = 1
        
 
-        layers = []
+        add_layers = []
         print ('layers ', layers)
-        layers.append(BasicBlock_1(self.inplanes, layers[0], stride, self.groups,
+        add_layers.append(BasicBlock_1(self.inplanes, layers[0], stride, self.groups,
                             self.base_width, self.dilation, norm_layer))
         self.inplanes = layers[0] * block.expansion
         for _ in range(1, layers[0]):
-            layers.append(BasicBlock_1(self.inplanes, 64, groups=self.groups,
+            add_layers.append(BasicBlock_1(self.inplanes, 64, groups=self.groups,
                                 base_width=self.base_width, dilation=self.dilation,
                                 norm_layer=norm_layer))
 
-        self.layer1 = nn.Sequential(*layers)
+        self.layer1 = nn.Sequential(*add_layers)
         self.layer2 = self._make_layer(block, 128, layers[1], stride=2,
                                        dilate=replace_stride_with_dilation[0])
         self.layer3 = self._make_layer(block, 256, layers[2], stride=2,
