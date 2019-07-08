@@ -105,7 +105,8 @@ class BasicBlock_1(nn.Module):
         self.conv2 = conv3x1(planes, planes)
         self.bn2 = norm_layer(planes)
         self.downsample = nn.Sequential(
-                conv1x1(inplanes, planes , stride),
+                
+                nn.Conv2d(inplanes, planes, kernel_size=1, stride=stride, bias=False, padding = 1)
                 norm_layer(planes),
             )
         self.stride = stride
