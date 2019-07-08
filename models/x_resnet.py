@@ -89,7 +89,7 @@ class BasicBlock_1(nn.Module):
 
     def __init__(self, inplanes, planes, stride=1, groups=1,
                  base_width=64, dilation=1, norm_layer=None):
-        super(BasicBlock, self).__init__()
+        super(BasicBlock_1, self).__init__()
         if norm_layer is None:
             norm_layer = nn.BatchNorm2d
         if groups != 1 or base_width != 64:
@@ -97,6 +97,8 @@ class BasicBlock_1(nn.Module):
         if dilation > 1:
             raise NotImplementedError("Dilation > 1 not supported in BasicBlock")
         # Both self.conv1 and self.downsample layers downsample the input when stride != 1
+        
+        print('b inplanes ', inplanes, ' planes ', planes, ' stride ', stride)
         self.conv1 = conv3x1(inplanes, planes, stride)
         self.bn1 = norm_layer(planes)
         self.relu = nn.ReLU(inplace=True)
