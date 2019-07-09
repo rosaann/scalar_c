@@ -466,20 +466,19 @@ class XResNet(nn.Module):
         self.lineLayer_end = nn.Linear(38880, 841)
         
         
-        self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
-                                nn.BatchNorm2d(4),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers_y2 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
-                                nn.BatchNorm2d(8),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers_y3 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
-                                nn.BatchNorm2d(16),
-                                nn.ReLU(inplace=True),
-                                )
+      #  self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
+      #                          nn.BatchNorm2d(4),
+     #                           nn.ReLU(inplace=True),
+     #   self.layers_y2 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
+     #                           nn.BatchNorm2d(8),
+     #                           nn.ReLU(inplace=True),
+    #                            )
+     #   self.layers_y3 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
+    #                            nn.BatchNorm2d(16),
+     #                           nn.ReLU(inplace=True),
+     #                           )
         
-        self.lineLayer = nn.Linear(31648, 29*29)
+      #  self.lineLayer = nn.Linear(31648, 29*29)
     def forward(self, x):
         # Initial block
      #   print('x ', x.shape)
