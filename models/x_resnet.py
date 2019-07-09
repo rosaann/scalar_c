@@ -461,7 +461,7 @@ class XResNet(nn.Module):
                                 nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer30q = nn.Linear(6888, 3472)
+        self.lineLayer30q = nn.Linear(66176, 68992)
         
         
         
