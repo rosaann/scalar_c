@@ -445,19 +445,19 @@ class XResNet(nn.Module):
                                 nn.BatchNorm2d(96),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer20qs1 = nn.Linear(19536, 11840)
+        self.lineLayer20qs1 = nn.Linear(37152, 38880)
         #######
        
-        self.layers31 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
-                                nn.BatchNorm2d(256),
+        self.layers31 = nn.Sequential(nn.Conv2d(96, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers32 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
-                                nn.BatchNorm2d(256),
+        self.layers32 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers30 = nn.Sequential(nn.Conv2d(128, 256, (1,1), 1, 1),
+        self.layers30 = nn.Sequential(nn.Conv2d(96, 128, (1,1), 1, 1),
                                 nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
