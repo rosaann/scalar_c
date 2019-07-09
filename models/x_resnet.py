@@ -532,21 +532,21 @@ class XResNet(nn.Module):
         print('x2 ', x2.shape)
         
     ####
-        x21 = self.layers21s1(x2) 
-        print('x21s1 ', x21.shape)
-        x21 = self.layers22s1(x21)
-        print('x22s1 ', x21.shape)
-        x20 = self.layers20s1(x2)
-        print('x20s1 ', x20.shape)
-        x20 = x20.view(x20.shape[0], -1)
-        print('views1 ', x20.shape)
-        x20 = self.lineLayer20qs1(x20)
-        print('x2s1 ', x20.shape)
-        x20 = x20.view(x21.shape)
-        print('x20s1 1 ', x20.shape)
+    #    x21 = self.layers21s1(x2) 
+   #     print('x21s1 ', x21.shape)
+    #    x21 = self.layers22s1(x21)
+    #    print('x22s1 ', x21.shape)
+    #    x20 = self.layers20s1(x2)
+    #    print('x20s1 ', x20.shape)
+    #    x20 = x20.view(x20.shape[0], -1)
+    #    print('views1 ', x20.shape)
+    #    x20 = self.lineLayer20qs1(x20)
+   #     print('x2s1 ', x20.shape)
+    #    x20 = x20.view(x21.shape)
+    #    print('x20s1 1 ', x20.shape)
         
-        x2 = x21 + x20
-        print('x2s1 ', x2.shape)
+    #    x2 = x21 + x20
+     #   print('x2s1 ', x2.shape)
         
         #######
        # x31 = self.layers31(x2) 
