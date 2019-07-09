@@ -461,9 +461,9 @@ class XResNet(nn.Module):
                                 nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer30q = nn.Linear(66176, 68992)
+       # self.lineLayer30q = nn.Linear(66176, 68992)
         
-        
+        self.lineLayer_end = nn.Linear(38880, 841)
         
         
         self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
@@ -482,102 +482,103 @@ class XResNet(nn.Module):
         self.lineLayer = nn.Linear(31648, 29*29)
     def forward(self, x):
         # Initial block
-        print('x ', x.shape)
+     #   print('x ', x.shape)
         x11 = self.layers11(x) 
-        print('x11 ', x11.shape)
+      #  print('x11 ', x11.shape)
         x11 = self.layers12(x11)
-        print('x12 ', x11.shape)
+     #   print('x12 ', x11.shape)
        # x11 = self.layers13(x11)
        # print('x13 ', x11.shape)
         x10 = self.layers10(x)
-        print('x10 ', x10.shape)
+     #   print('x10 ', x10.shape)
         x10 = x10.view(x10.shape[0], -1)
         x10 = self.lineLayer10q(x10)
         x10 = x10.view(x11.shape)
-        print('x10 1 ', x10.shape)
+     #   print('x10 1 ', x10.shape)
         
         x1 = x11 + x10
-        print('x1 ', x1.shape)
+    #    print('x1 ', x1.shape)
 ###########
         x11 = self.layers11s1(x1) 
-        print('x11s1 ', x11.shape)
+    #    print('x11s1 ', x11.shape)
         x11 = self.layers12s1(x11)
-        print('x12s1 ', x11.shape)
+    #    print('x12s1 ', x11.shape)
        # x11 = self.layers13(x11)
        # print('x13 ', x11.shape)
         x10 = self.layers10s1(x1)
-        print('x10s1 ', x10.shape)
+    #    print('x10s1 ', x10.shape)
         x10 = x10.view(x10.shape[0], -1)
         x10 = self.lineLayer10qs1(x10)
         x10 = x10.view(x11.shape)
-        print('x10s1 1 ', x10.shape)
+     #   print('x10s1 1 ', x10.shape)
         
         x1 = x11 + x10
-        print('x1 ', x1.shape)
+    #    print('x1 ', x1.shape)
   ####      
         x21 = self.layers21(x1) 
-        print('x21 ', x21.shape)
+    #    print('x21 ', x21.shape)
         x21 = self.layers22(x21)
-        print('x22 ', x21.shape)
+    #    print('x22 ', x21.shape)
         x20 = self.layers20(x1)
-        print('x20 ', x20.shape)
+    #    print('x20 ', x20.shape)
         x20 = x20.view(x20.shape[0], -1)
-        print('view ', x20.shape)
+     #   print('view ', x20.shape)
         x20 = self.lineLayer20q(x20)
-        print('x2 ', x20.shape)
+   #     print('x2 ', x20.shape)
         x20 = x20.view(x21.shape)
-        print('x20 1 ', x20.shape)
+  #      print('x20 1 ', x20.shape)
         
         x2 = x21 + x20
-        print('x2 ', x2.shape)
+    #    print('x2 ', x2.shape)
         
     ####
         x21 = self.layers21s1(x2) 
-        print('x21s1 ', x21.shape)
+    #    print('x21s1 ', x21.shape)
         x21 = self.layers22s1(x21)
-        print('x22s1 ', x21.shape)
+     #   print('x22s1 ', x21.shape)
         x20 = self.layers20s1(x2)
-        print('x20s1 ', x20.shape)
+     #   print('x20s1 ', x20.shape)
         x20 = x20.view(x20.shape[0], -1)
-        print('views1 ', x20.shape)
+     #   print('views1 ', x20.shape)
         x20 = self.lineLayer20qs1(x20)
-        print('x2s1 ', x20.shape)
+     #   print('x2s1 ', x20.shape)
         x20 = x20.view(x21.shape)
-        print('x20s1 1 ', x20.shape)
+     #   print('x20s1 1 ', x20.shape)
         
         x2 = x21 + x20
-        print('x2s1 ', x2.shape)
+    #    print('x2s1 ', x2.shape)
         
         #######
-        x31 = self.layers31(x2) 
-        print('x31 ', x31.shape)
-        x31 = self.layers32(x31)
-        print('x32 ', x31.shape)
-        x30 = self.layers30(x2)
-        print('x30 ', x30.shape)
-        x30 = x30.view(x30.shape[0], -1)
-        print('view ', x30.shape)
-        x30 = self.lineLayer30q(x30)
-        print('x3 ', x30.shape)
-        x30 = x30.view(x31.shape)
-        print('x30 1 ', x30.shape)
+     #   x31 = self.layers31(x2) 
+    #    print('x31 ', x31.shape)
+    #    x31 = self.layers32(x31)
+    #    print('x32 ', x31.shape)
+    #    x30 = self.layers30(x2)
+    #    print('x30 ', x30.shape)
+    #    x30 = x30.view(x30.shape[0], -1)
+   #     print('view ', x30.shape)
+   #     x30 = self.lineLayer30q(x30)
+   #     print('x3 ', x30.shape)
+   #     x30 = x30.view(x31.shape)
+   #     print('x30 1 ', x30.shape)
       #  
-        x3 = x31 + x30
-        print('x3 ', x3.shape)
+   #     x3 = x31 + x30
+   #     print('x3 ', x3.shape)
         
         
-        y = y.view(x3.shape[0], 1, 40, 40)
+        y  = self.lineLayer_end(x2)
+   #     print('y ', y.shape)
         
       #  print('layers1 ', y.shape)
-        y = self.layers_y1(y)
+    #    y = self.layers_y1(y)
      #   print('layers2 ', y.shape)
     #    y = self.layers_y2(y)
      #   print('layers3 ', y.shape)
     #    y = self.layers_y3(y)
       #  print('layers3 ', y.shape)
-        y = y.view(y.shape[0], -1)
+     #   y = y.view(y.shape[0], -1)
       #  print('view ', y.shape)
-        y = self.lineLayer(y)
+     #   y = self.lineLayer(y)
       #  print('line ', y.shape)
         y = y.reshape(y.shape[0], 29, 29)
         return y        
