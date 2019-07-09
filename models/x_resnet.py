@@ -565,7 +565,7 @@ class XResNet(nn.Module):
    #     x3 = x31 + x30
    #     print('x3 ', x3.shape)
         
-        
+        x2 = x2.view(x2.shape[0], -1)
         y  = self.lineLayer_end(x2)
    #     print('y ', y.shape)
         
