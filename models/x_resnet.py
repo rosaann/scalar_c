@@ -414,8 +414,8 @@ class XResNet(nn.Module):
                                 nn.ReLU(inplace=True),
                                 )
         self.lineLayer10qs1 = nn.Linear(22400, 23680)
-      #  self.lineLayer10s1 = nn.Linear(35840, 1600)
-        
+  
+        #######
         self.layers21 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True),
@@ -424,15 +424,31 @@ class XResNet(nn.Module):
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True),
                                 )
-       # self.layers23 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
-       #                         nn.BatchNorm2d(256),
-       #                         nn.ReLU(inplace=True),
-       #                         )
+       
         self.layers20 = nn.Sequential(nn.Conv2d(128, 256, (1,1), 1, 1),
                                 nn.BatchNorm2d(256),
                                 nn.ReLU(inplace=True),
                                 )
-        self.lineLayer20 = nn.Linear(8448, 1600)
+        self.lineLayer20q = nn.Linear(69888, 73472)
+        #########
+        
+        self.layers21s1 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers22s1 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers20s1 = nn.Sequential(nn.Conv2d(256, 256, (1,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+        self.lineLayer20qs1 = nn.Linear(69888, 73472)
+        
+        
+        
         
         self.layers31 = nn.Sequential(nn.Conv2d(33, 64, (4,1), 1, 1),
                                 nn.BatchNorm2d(64),
@@ -523,13 +539,11 @@ class XResNet(nn.Module):
         
         x1 = x11 + x10
         print('x1 ', x1.shape)
-        
+  ####      
         x21 = self.layers21(x1) 
         print('x21 ', x21.shape)
         x21 = self.layers22(x21)
         print('x22 ', x21.shape)
-      #  x21 = self.layers23(x21)
-      #  print('x23 ', x21.shape)
         x20 = self.layers20(x1)
         print('x20 ', x20.shape)
         x20 = x20.view(x20.shape[0], -1)
@@ -537,11 +551,29 @@ class XResNet(nn.Module):
         x20 = self.lineLayer20q(x20)
         print('x2 ', x20.shape)
         x20 = x20.view(x21.shape)
+        print('x20 1 ', x20.shape)
+        
+        x2 = x21 + x20
+        print('x2 ', x2.shape)
+        
+    ####
+        x21 = self.layers21s1(x2) 
+        print('x21s1 ', x21.shape)
+        x21 = self.layers22s1(x21)
+        print('x22s1 ', x21.shape)
+        x20 = self.layers20s1(x2)
+        print('x20s1 ', x20.shape)
+        x20 = x20.view(x20.shape[0], -1)
+        print('views1 ', x20.shape)
+        x20 = self.lineLayer20qs1(x20)
+        print('x2s1 ', x20.shape)
+        x20 = x20.view(x21.shape)
         print('x20s1 1 ', x20.shape)
         
         x2 = x21 + x20
-        print('x2 ', x1.shape)
+        print('x2s1 ', x2.shape)
         
+        ####
         x31 = self.layers31(x) 
         print('x31 ', x31.shape)
         x31 = self.layers32(x31)
