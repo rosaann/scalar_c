@@ -388,61 +388,61 @@ class XResNet(nn.Module):
                                 nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers12 = nn.Sequential(nn.Conv2d(64, 128 ,(2,1), 1, 1),
-                                nn.BatchNorm2d(128),
+        self.layers12 = nn.Sequential(nn.Conv2d(64, 64 ,(2,1), 1, 1),
+                                nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers10 = nn.Sequential(nn.Conv2d(33, 128, (1,1), 1, (1, 1)),
-                                nn.BatchNorm2d(128),
+        self.layers10 = nn.Sequential(nn.Conv2d(33, 64, (1,1), 1, (1, 1)),
+                                nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
         self.lineLayer10q = nn.Linear(11904, 12672)
         #self.lineLayer10 = nn.Linear(35840, 1600)
         ###
-        self.layers11s1 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
-                                nn.BatchNorm2d(128),
+        self.layers11s1 = nn.Sequential(nn.Conv2d(64, 64, (2,1), 1, 1),
+                                nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers12s1 = nn.Sequential(nn.Conv2d(128, 128 ,(2,1), 1, 1),
-                                nn.BatchNorm2d(128),
+        self.layers12s1 = nn.Sequential(nn.Conv2d(64, 64 ,(2,1), 1, 1),
+                                nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers10s1 = nn.Sequential(nn.Conv2d(128, 128, (1,1), 1, (1, 1)),
-                                nn.BatchNorm2d(128),
+        self.layers10s1 = nn.Sequential(nn.Conv2d(64, 64, (1,1), 1, (1, 1)),
+                                nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
                                 )
         self.lineLayer10qs1 = nn.Linear(22400, 23680)
   
         #######
-        self.layers21 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
-                                nn.BatchNorm2d(256),
+        self.layers21 = nn.Sequential(nn.Conv2d(64, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers22 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
-                                nn.BatchNorm2d(256),
+        self.layers22 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers20 = nn.Sequential(nn.Conv2d(128, 256, (1,1), 1, 1),
-                                nn.BatchNorm2d(256),
+        self.layers20 = nn.Sequential(nn.Conv2d(64, 128, (1,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
         self.lineLayer20q = nn.Linear(69888, 73472)
         #########
         
-        self.layers21s1 = nn.Sequential(nn.Conv2d(256, 64, (2,1), 1, 1),
-                                nn.BatchNorm2d(64),
+        self.layers21s1 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
-        self.layers22s1 = nn.Sequential(nn.Conv2d(64, 64, (2,1), 1, 1),
-                                nn.BatchNorm2d(64),
+        self.layers22s1 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers20s1 = nn.Sequential(nn.Conv2d(64, 64, (1,1), 1, 1),
-                                nn.BatchNorm2d(64),
+        self.layers20s1 = nn.Sequential(nn.Conv2d(128, 128, (1,1), 1, 1),
+                                nn.BatchNorm2d(128),
                                 nn.ReLU(inplace=True),
                                 )
         self.lineLayer20qs1 = nn.Linear(6988, 3472)
