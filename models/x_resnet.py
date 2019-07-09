@@ -450,46 +450,7 @@ class XResNet(nn.Module):
         
         
         
-        self.layers31 = nn.Sequential(nn.Conv2d(33, 64, (4,1), 1, 1),
-                                nn.BatchNorm2d(64),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers32 = nn.Sequential(nn.Conv2d(64, 128, (3,1), 1, 1),
-                                nn.BatchNorm2d(128),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers33 = nn.Sequential(nn.Conv2d(128, 154, (2,1), 1, 1),
-                                nn.BatchNorm2d(154),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers30 = nn.Sequential(nn.Conv2d(33, 32, (1,1), 1, 1),
-                                nn.BatchNorm2d(32),
-                                nn.ReLU(inplace=True),
-                                )
-        self.lineLayer30 = nn.Linear(4480, 4096)
         
-        
-        self.layers41 = nn.Sequential(nn.Conv2d(33, 64, (5,1), 1, 1),
-                                nn.BatchNorm2d(64),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers42 = nn.Sequential(nn.Conv2d(64, 128, (4,1), 1, 1),
-                                nn.BatchNorm2d(128),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers43 = nn.Sequential(nn.Conv2d(128, 154, (3,1), 1, 1),
-                                nn.BatchNorm2d(154),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers44 = nn.Sequential(nn.Conv2d(154, 164, (2,1), 1, 1),
-                                nn.BatchNorm2d(164),
-                                nn.ReLU(inplace=True),
-                                )
-        self.layers40 = nn.Sequential(nn.Conv2d(33, 64, (1,1), 1, 1),
-                                nn.BatchNorm2d(64),
-                                nn.ReLU(inplace=True),
-                                )
-        self.lineLayer40 = nn.Linear(4480, 4096)
         
         self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
                                 nn.BatchNorm2d(4),
