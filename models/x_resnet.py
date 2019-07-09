@@ -549,21 +549,21 @@ class XResNet(nn.Module):
         print('x2s1 ', x2.shape)
         
         #######
-        x31 = self.layers31(x2) 
-        print('x31 ', x31.shape)
-        x31 = self.layers32(x31)
-        print('x32 ', x31.shape)
-        x30 = self.layers30(x2)
-        print('x30 ', x30.shape)
-        x30 = x30.view(x30.shape[0], -1)
-        print('view ', x30.shape)
-        x30 = self.lineLayer30q(x30)
-        print('x3 ', x30.shape)
-        x30 = x30.view(x31.shape)
-        print('x30 1 ', x30.shape)
-        
-        x3 = x31 + x30
-        print('x3 ', x3.shape)
+       # x31 = self.layers31(x2) 
+      #  print('x31 ', x31.shape)
+      #  x31 = self.layers32(x31)
+       # print('x32 ', x31.shape)
+       # x30 = self.layers30(x2)
+       # print('x30 ', x30.shape)
+       # x30 = x30.view(x30.shape[0], -1)
+      #  print('view ', x30.shape)
+      #  x30 = self.lineLayer30q(x30)
+      #  print('x3 ', x30.shape)
+      #  x30 = x30.view(x31.shape)
+      #  print('x30 1 ', x30.shape)
+      #  
+      #  x3 = x31 + x30
+      #  print('x3 ', x3.shape)
         
         
         y = y.view(x3.shape[0], 1, 40, 40)
@@ -571,9 +571,9 @@ class XResNet(nn.Module):
       #  print('layers1 ', y.shape)
         y = self.layers_y1(y)
      #   print('layers2 ', y.shape)
-        y = self.layers_y2(y)
+    #    y = self.layers_y2(y)
      #   print('layers3 ', y.shape)
-        y = self.layers_y3(y)
+    #    y = self.layers_y3(y)
       #  print('layers3 ', y.shape)
         y = y.view(y.shape[0], -1)
       #  print('view ', y.shape)
