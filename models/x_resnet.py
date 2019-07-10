@@ -465,7 +465,7 @@ class XResNet(nn.Module):
        # self.lineLayer30q = nn.Linear(66176, 68992)
         
        ###
-        self.lineLayer_end = nn.Linear(3880, 841)
+        self.lineLayer_end = nn.Linear(68992, 841)
         
         
       #  self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
@@ -557,7 +557,7 @@ class XResNet(nn.Module):
         x30 = torch.cat((x30, ze.cuda()), 3)
       #  
         x3 = x31 + x30
-        print('x3 ', x3.shape)
+       # print('x3 ', x3.shape)
         
         x3 = x3.view(x3.shape[0], -1)
         y  = self.lineLayer_end(x3)
