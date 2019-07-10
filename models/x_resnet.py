@@ -492,7 +492,7 @@ class XResNet(nn.Module):
         x10 = self.layers10(x)
         print('x10 ', x10.shape)
         sha = x10.shape
-        x10 = torch.cat((x10, torch.zeros(sha[0],sha[1], sha[1], 2) ), 3)
+        x10 = torch.cat((x10, torch.zeros(sha[0],sha[1], sha[1], 2) ).cuda(), 3)
         print('x10. ', x10.shape)
       #  x10 = x10.view(x10.shape[0], -1)
       #  x10 = self.lineLayer10q(x10)
