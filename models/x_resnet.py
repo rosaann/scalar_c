@@ -7,6 +7,7 @@ Created on Fri Jul  5 15:24:47 2019
 """
 
 import torch.nn as nn
+import torch
 #from .utils import load_state_dict_from_url
 
 
@@ -463,7 +464,7 @@ class XResNet(nn.Module):
                                 )
        # self.lineLayer30q = nn.Linear(66176, 68992)
         
-        self.lineLayer_end = nn.Linear(38880, 841)
+        self.lineLayer_end = nn.Linear(3880, 841)
         
         
       #  self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
@@ -481,22 +482,25 @@ class XResNet(nn.Module):
       #  self.lineLayer = nn.Linear(31648, 29*29)
     def forward(self, x):
         # Initial block
-     #   print('x ', x.shape)
+        print('x ', x.shape)
         x11 = self.layers11(x) 
-      #  print('x11 ', x11.shape)
+        print('x11 ', x11.shape)
         x11 = self.layers12(x11)
-     #   print('x12 ', x11.shape)
+        print('x12 ', x11.shape)
        # x11 = self.layers13(x11)
        # print('x13 ', x11.shape)
         x10 = self.layers10(x)
-     #   print('x10 ', x10.shape)
-        x10 = x10.view(x10.shape[0], -1)
-        x10 = self.lineLayer10q(x10)
-        x10 = x10.view(x11.shape)
+        print('x10 ', x10.shape)
+        sha = x10.shape
+        x10 = torch.cat((x10, torch.zeros(sha[0],sha[1], sha[1], 2) ), 3)
+        print('x10. ', x10.shape)
+      #  x10 = x10.view(x10.shape[0], -1)
+      #  x10 = self.lineLayer10q(x10)
+      #  x10 = x10.view(x11.shape)
      #   print('x10 1 ', x10.shape)
         
         x1 = x11 + x10
-    #    print('x1 ', x1.shape)
+        print('x1 ', x1.shape)
 ###########
         x11 = self.layers11s1(x1) 
     #    print('x11s1 ', x11.shape)
