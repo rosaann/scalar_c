@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python test.py --config=configs/netx.yml
+python test.py --config=configs/x_resnet18.yml
