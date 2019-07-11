@@ -458,7 +458,7 @@ class XResNet(nn.Module):
                                 nn.ReLU(inplace=True),
                                 )
        
-        self.layers30 = nn.Sequential(nn.Conv2d(94, 32, (1,1), 1, 1),
+        self.layers30 = nn.Sequential(nn.Conv2d(96, 32, (1,1), 1, 1),
                                 nn.BatchNorm2d(32),
                                 nn.ReLU(inplace=True),
                                 )
