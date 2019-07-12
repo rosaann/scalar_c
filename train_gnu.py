@@ -184,6 +184,13 @@ def run(config):
   
     train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
           writer, last_epoch+1)
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='airbus')
+    parser.add_argument('--config', dest='config_file',
+                        help='configuration filename',
+                        default=None, type=str)
+    return parser.parse_args()
     
 def main():
     import warnings
