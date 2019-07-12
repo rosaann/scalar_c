@@ -57,9 +57,10 @@ class GCN(nn.Module):
         return g.ndata.pop('h')
 
 class Regression_X1(nn.Module):
-    def __init__(self, in_dim, hidden_dim, n_classes):
+    def __init__(self):
         super(Regression_X1, self).__init__()
-
+        in_dim = 4
+        hidden_dim = 32
         self.layers = nn.ModuleList([
             GCN(in_dim, hidden_dim, F.relu),
             GCN(hidden_dim, hidden_dim, F.relu)])
