@@ -18,7 +18,7 @@ import torch.nn.functional as F
 from tensorboardX import SummaryWriter
 #from dataset.dataset_factory import get_gnu_dataloader
 from models.gnc import Regression_X1
-from dataset.dgl_dataset_factory import get_dataloader
+from dataset.dgl_dataset_factory import get_gnu_dataloader
 from transforms.transform_factory import get_transform
 from models.model_factory import get_model
 from losses.loss_factory import get_loss

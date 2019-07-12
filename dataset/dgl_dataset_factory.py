@@ -23,36 +23,7 @@ from .dgl_dataset import DGLDataset
 #from .test import TestDataset
 
 
-def get_dataset(data):
-    print('d_name ', data.name)
-    f = globals().get(data.name)
 
-    return f()
-
-
-def get_dataloader( batch_size, split, **_):
-    dataset = DefaultDataset(split)
-
-    is_train = 'train' == split
-
-    dataloader = DataLoader(dataset,
-                            shuffle=is_train,
-                            batch_size=batch_size,
-                            drop_last=is_train,
-                            num_workers=6,
-                            pin_memory=False)
-    return dataloader
-
-def get_test_dataloader( batch_size, **_):
-    dataset = TestDataset()
-
-    dataloader = DataLoader(dataset,
-                            shuffle=False,
-                            batch_size=batch_size,
-                            drop_last=False,
-                            num_workers=6,
-                            pin_memory=False)
-    return dataloader
 
 def get_gnu_dataloader(batch_size, split, **_):
     dataset = DGLDataset(split)
