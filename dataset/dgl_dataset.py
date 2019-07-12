@@ -172,7 +172,7 @@ class DGLDataset(Dataset):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx].data['h'] = np.array( [tp, x, y, z])
+                    g.nodes[idx].data['h'] = th.tensor( [tp, x, y, z])
                     
                 
                 gt = []
