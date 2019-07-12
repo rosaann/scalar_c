@@ -10,6 +10,7 @@ import torch.utils.data.sampler
 from torch.utils.data import DataLoader
 
 from .default import DefaultDataset, TestDataset
+from .dgl_dataset import 
 #from .small import SmallDataset
 #from .test import TestDataset
 
@@ -36,6 +37,17 @@ def get_dataloader( batch_size, split, **_):
 
 def get_test_dataloader( batch_size, **_):
     dataset = TestDataset()
+
+    dataloader = DataLoader(dataset,
+                            shuffle=False,
+                            batch_size=batch_size,
+                            drop_last=False,
+                            num_workers=6,
+                            pin_memory=False)
+    return dataloader
+
+def get_gnu_dataloader(batch_size, split, **_):
+    dataset = DGLDataset(split)
 
     dataloader = DataLoader(dataset,
                             shuffle=False,

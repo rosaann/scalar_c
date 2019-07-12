@@ -170,7 +170,7 @@ class DGLDataset(Dataset):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx]['d'] = [tp, x, y, z]
+                    g.nodes[idx]['h'] = [tp, x, y, z]
                 
                 gt = []
                 for edge_info in edges:
