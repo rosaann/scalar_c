@@ -119,7 +119,7 @@ def gen_train_data():
         return train_data_list
 
 def gen_random_index_list():
-        txt_random_index_file = 'data/random_index_list.txt'
+        txt_random_index_file = 'data/dgl_random_index_list.txt'
         if os.path.exists(txt_random_index_file):
             f = open(txt_random_index_file, 'r') 
             random_index_list = ast.literal_eval(f.read())
