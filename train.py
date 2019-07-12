@@ -17,7 +17,7 @@ import torch
 import torch.nn.functional as F
 from tensorboardX import SummaryWriter
 
-#from dataset.dataset_factory import get_dataloader
+from dataset.dataset_factory import get_dataloader
 from transforms.transform_factory import get_transform
 from models.model_factory import get_model
 from losses.loss_factory import get_loss
