@@ -661,7 +661,7 @@ class XResNet2(nn.Module):
        # self.lineLayer30q = nn.Linear(66176, 68992)
         
        ###
-        self.lineLayer_end = nn.Linear(68992, 841)
+        self.lineLayer_end = nn.Linear(137984, 841)
         
         
       #  self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),

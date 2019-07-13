@@ -174,9 +174,9 @@ def gen_train_data():
             gt_data[int(index_0)][int(index_1)] = float(scalar_coupling)
             gt_data[int(index_1)][int(index_0)] = float(scalar_coupling)
          #   print('gt_data ', gt_data)
-            if i > 30 :
+          #  if i > 30 :
           #      print('self.train_data_list ', self.train_data_list)
-                break
+         #       break
         train_data_list.append(train_data)
         #save_data_to_local(text_file_train_all, train_data_list)
         save_data_to_local(text_file_train_all, train_data_list)
