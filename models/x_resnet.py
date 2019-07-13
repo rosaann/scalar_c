@@ -580,7 +580,7 @@ class XResNet(nn.Module):
 class XResNet2(nn.Module):
     
     def __init__(self):
-        super(XResNet, self).__init__()
+        super(XResNet2, self).__init__()
         self.layers11 = nn.Sequential(nn.Conv2d(33, 64, (2,1), 1, 1),
                                 nn.BatchNorm2d(64),
                                 nn.ReLU(inplace=True),
