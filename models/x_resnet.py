@@ -575,4 +575,200 @@ class XResNet(nn.Module):
      #   y = self.lineLayer(y)
       #  print('line ', y.shape)
         y = y.reshape(y.shape[0], 29, 29)
-        return y        
+        return y   
+
+class XResNet2(nn.Module):
+    
+    def __init__(self):
+        super(XResNet, self).__init__()
+        self.layers11 = nn.Sequential(nn.Conv2d(33, 64, (2,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers12 = nn.Sequential(nn.Conv2d(64, 64 ,(2,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers10 = nn.Sequential(nn.Conv2d(33, 64, (1,1), 1, (1, 1)),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+    #    self.lineLayer10q = nn.Linear(5952, 6336)
+        #self.lineLayer10 = nn.Linear(35840, 1600)
+        ###
+        self.layers11s1 = nn.Sequential(nn.Conv2d(64, 64, (2,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers12s1 = nn.Sequential(nn.Conv2d(64, 64 ,(2,1), 1, 1),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers10s1 = nn.Sequential(nn.Conv2d(64, 64, (1,1), 1, (1, 1)),
+                                nn.BatchNorm2d(64),
+                                nn.ReLU(inplace=True),
+                                )
+    #    self.lineLayer10qs1 = nn.Linear(11200, 11840)
+  
+        #######
+        self.layers21 = nn.Sequential(nn.Conv2d(64, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers22 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers20 = nn.Sequential(nn.Conv2d(64, 128, (1,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+    #    self.lineLayer20q = nn.Linear(26208, 27552)
+        #########
+        
+        self.layers21s1 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers22s1 = nn.Sequential(nn.Conv2d(128, 128, (2,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers20s1 = nn.Sequential(nn.Conv2d(128, 128, (1,1), 1, 1),
+                                nn.BatchNorm2d(128),
+                                nn.ReLU(inplace=True),
+                                )
+     #   self.lineLayer20qs1 = nn.Linear(37152, 38880)
+        #######
+       
+        self.layers31 = nn.Sequential(nn.Conv2d(128, 256, (2,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+        self.layers32 = nn.Sequential(nn.Conv2d(256, 256, (2,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+       
+        self.layers30 = nn.Sequential(nn.Conv2d(128, 256, (1,1), 1, 1),
+                                nn.BatchNorm2d(256),
+                                nn.ReLU(inplace=True),
+                                )
+       # self.lineLayer30q = nn.Linear(66176, 68992)
+        
+       ###
+        self.lineLayer_end = nn.Linear(68992, 841)
+        
+        
+      #  self.layers_y1 = nn.Sequential(nn.Conv2d(1, 4, (2,1), 1, 1),
+      #                          nn.BatchNorm2d(4),
+     #                           nn.ReLU(inplace=True),
+     #   self.layers_y2 = nn.Sequential(nn.Conv2d(4, 8, (2,1), 1, 1),
+     #                           nn.BatchNorm2d(8),
+     #                           nn.ReLU(inplace=True),
+    #                            )
+     #   self.layers_y3 = nn.Sequential(nn.Conv2d(8, 16, (2,1), 1, 1),
+    #                            nn.BatchNorm2d(16),
+     #                           nn.ReLU(inplace=True),
+     #                           )
+        
+      #  self.lineLayer = nn.Linear(31648, 29*29)
+    def forward(self, x):
+        # Initial block
+     #   print('x ', x.shape)
+        x11 = self.layers11(x) 
+     #   print('x11 ', x11.shape)
+        x11 = self.layers12(x11)
+    #    print('x12 ', x11.shape)
+       # x11 = self.layers13(x11)
+       # print('x13 ', x11.shape)
+        x10 = self.layers10(x)
+     #   print('x10 ', x10.shape)
+        sha = x10.shape
+        ze = torch.zeros(sha[0],sha[1], sha[2], 2) 
+        x10 = torch.cat((x10, ze.cuda()), 3)
+     #   print('x10. ', x10.shape)
+        
+        x1 = x11 + x10
+    #    print('x1 ', x1.shape)
+###########
+        x11 = self.layers11s1(x1) 
+    #    print('x11s1 ', x11.shape)
+        x11 = self.layers12s1(x11)
+    #    print('x12s1 ', x11.shape)
+       # x11 = self.layers13(x11)
+       # print('x13 ', x11.shape)
+        x10 = self.layers10s1(x1)
+    #    print('x10s1 ', x10.shape)
+        sha = x10.shape
+        ze = torch.zeros(sha[0],sha[1], sha[2], 2) 
+        x10 = torch.cat((x10, ze.cuda()), 3)
+     #   print('x10s1 1 ', x10.shape)
+        
+        x1 = x11 + x10
+    #    print('x1 ', x1.shape)
+  ####      
+        x21 = self.layers21(x1) 
+    #    print('x21 ', x21.shape)
+        x21 = self.layers22(x21)
+    #    print('x22 ', x21.shape)
+        x20 = self.layers20(x1)
+    #    print('x20 ', x20.shape)
+        sha = x20.shape
+        ze = torch.zeros(sha[0],sha[1], sha[2], 2) 
+        x20 = torch.cat((x20, ze.cuda()), 3)
+  #      print('x20 1 ', x20.shape)
+        
+        x2 = x21 + x20
+    #    print('x2 ', x2.shape)
+        
+    ####
+        x21 = self.layers21s1(x2) 
+    #    print('x21s1 ', x21.shape)
+        x21 = self.layers22s1(x21)
+     #   print('x22s1 ', x21.shape)
+        x20 = self.layers20s1(x2)
+     #   print('x20s1 ', x20.shape)
+        sha = x20.shape
+        ze = torch.zeros(sha[0],sha[1], sha[2], 2) 
+        x20 = torch.cat((x20, ze.cuda()), 3)
+     #   print('x20s1 1 ', x20.shape)
+        
+        x2 = x21 + x20
+    #    print('x2s1 ', x2.shape)
+        
+        #######
+        x31 = self.layers31(x2) 
+    #    print('x31 ', x31.shape)
+        x31 = self.layers32(x31)
+    #    print('x32 ', x31.shape)
+        x30 = self.layers30(x2)
+    #    print('x30 ', x30.shape)
+        sha = x30.shape
+        ze = torch.zeros(sha[0],sha[1], sha[2], 2) 
+        x30 = torch.cat((x30, ze.cuda()), 3)
+      #  
+        x3 = x31 + x30
+       # print('x3 ', x3.shape)
+        
+        x3 = x3.view(x3.shape[0], -1)
+        y  = self.lineLayer_end(x3)
+   #     print('y ', y.shape)
+        
+      #  print('layers1 ', y.shape)
+    #    y = self.layers_y1(y)
+     #   print('layers2 ', y.shape)
+    #    y = self.layers_y2(y)
+     #   print('layers3 ', y.shape)
+    #    y = self.layers_y3(y)
+      #  print('layers3 ', y.shape)
+     #   y = y.view(y.shape[0], -1)
+      #  print('view ', y.shape)
+     #   y = self.lineLayer(y)
+      #  print('line ', y.shape)
+        y = y.reshape(y.shape[0], 29, 29)
+        return y             
