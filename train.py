@@ -38,7 +38,7 @@ from torchvision import transforms
 from utils.confusion_matrix import ConfusionMatrix
 from utils.r2score import R2Score
 from models.linknet import LinkNet, NetX, NetX2
-from models.x_resnet import XResNet
+from models.x_resnet import XResNet,XResNet2
 
 def extract_instance_masks_from_binary_mask(args):
     _id, binary_mask = args

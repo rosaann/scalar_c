@@ -238,8 +238,8 @@ def gen_stuc_set_list():
             model_info[atom_index][1] = x
             model_info[atom_index][2] = y
             model_info[atom_index][3] = z
-        #    if i > 20:
-         #       break
+            if i > 20:
+                break
         model_info_set[molecule_name] = model_info
         
        # np2 = int(len())
