@@ -248,17 +248,17 @@ def gen_stuc_set_list():
         return model_info_set
 
 print('**DefaultDataset ')
-#model_info_set = gen_stuc_set_list()
+model_info_set = gen_stuc_set_list()
 print('self.gen_stuc_set_list()')
 
-#train_data_list = gen_train_data()
+train_data_list = gen_train_data()
 print('self.gen_train_data()')
 
-#gt_data_list = get_gt_data()
+gt_data_list = get_gt_data()
 print('self.get_gt_data()')      
 
         
-#random_index_list = gen_random_index_list()
+random_index_list = gen_random_index_list()
         
 print('self.gen_random_index_list ')    
 test_data_list = gen_test_data()
