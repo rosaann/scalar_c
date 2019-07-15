@@ -12,7 +12,17 @@ import torch.nn.functional as F
 import dgl.function as fn
 import torch
 import torch.nn as nn
+from dgl.data import MiniGCDataset
+import dgl
 
+def collate(samples):
+    # The input `samples` is a list of pairs
+    #  (graph, label).
+    graphs, labels = map(list, zip(*samples))
+    batched_graph = dgl.batch(graphs)
+    return batched_graph, torch.tensor(labels)
+#import matplotlib.pyplot as plt
+#import networkx as nx
 
 # Sends a message of node feature h.
 msg = fn.copy_src(src='h', out='m')
