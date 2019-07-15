@@ -189,6 +189,7 @@ class DGLDataset(Dataset):
                 self.data_list.append(g)
                 self.gt_list.append(gt)
             
+            self.gt_list = np.array(self.gt_list)
             self.data_list = np.array(self.data_list)
             tshape = self.data_list.shape
             print('self.data_list ', tshape)
@@ -196,17 +197,39 @@ class DGLDataset(Dataset):
         if split == 'val':
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
-                self.val_data_list.append(train_data_list[random_index_list[i]])
-                self.gt_list.append(gt_data_list[random_index_list[i]])
-            self.val_data_list = np.array(self.val_data_list)
-            tshape = self.val_data_list.shape
-            print('self.data_list ', tshape)
-            self.val_data_list = self.val_data_list.reshape(tshape[0],tshape[2], tshape[1])
-            self.val_data_list = self.val_data_list[:,:,np.newaxis]
-            print('self.data_list2 ', self.val_data_list.shape)
-            self.val_data_list = np.array(self.val_data_list)
+                d_data = train_data_list[random_index_list[i]]
+                
+                nodes = d_data['nodes']
+                edges = d_data['edges']
+                
+                g = dgl.DGLGraph()
+                g.add_nodes(len(nodes))
+                
+                for node_info in nodes:
+                    idx = int(node_info['idx'])
+                    tp = int(node_info['t'])
+                    x = float(node_info['x'])
+                    y = float(node_info['y'])
+                    z = float(node_info['z'])
+                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]])
+                    
+                gt = []
+                for edge_info in edges:
+                    idx0 = int(edge_info['index0'])
+                    idx1 = int(edge_info['index1'])
+                    et = int(edge_info['et'])
+                    sc = float(edge_info['sc'])
+                    g.add_edge(idx0, idx1)
+                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
+                    gt.append(sc)
+                    
+                self.data_list.append(g)
+                self.gt_list.append(gt)
+            
             self.gt_list = np.array(self.gt_list)
-            print('self.gt_list ', self.gt_list.shape) 
+            self.data_list = np.array(self.data_list)
+            tshape = self.data_list.shape
+            print('self.data_list ', tshape)
         #self.g_multi.g_multi.add_nodes(len( df_struc.iterrows() ))
 
         
