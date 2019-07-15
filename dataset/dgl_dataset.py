@@ -147,7 +147,7 @@ random_index_list = gen_random_index_list()
 print('self.gen_random_index_list ')  
 
     
-class DGLDataset(Dataset):
+class DGLDataset(object):
     def __init__(self, split
                  ):
         self.split = split
@@ -186,7 +186,7 @@ class DGLDataset(Dataset):
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                     gt.append(sc)
                 
-                self.data_list.append(DGLGraph(g))
+                self.data_list.append(g)
                 self.gt_list.append(gt)
             
             self.gt_list = np.array(self.gt_list)
@@ -223,7 +223,7 @@ class DGLDataset(Dataset):
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                     gt.append(sc)
                     
-                self.data_list.append(DGLGraph(g))
+                self.data_list.append(g)
                 self.gt_list.append(gt)
             
             self.gt_list = np.array(self.gt_list)
