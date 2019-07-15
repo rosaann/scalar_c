@@ -21,17 +21,26 @@ from torch.utils.data import DataLoader
 from .dgl_dataset import DGLDataset
 #from .small import SmallDataset
 #from .test import TestDataset
+import dgl
 
-
-
+def collate(samples):
+    # The input `samples` is a list of pairs
+    #  (graph, label).
+    graphs, labels = map(list, zip(*samples))
+    batched_graph = dgl.batch(graphs)
+    return batched_graph, torch.tensor(labels)
 
 def get_gnu_dataloader(batch_size, split, **_):
     dataset = DGLDataset(split)
 
-    dataloader = DataLoader(dataset,
-                            shuffle=False,
-                            batch_size=batch_size,
-                            drop_last=False,
-                            num_workers=6,
-                            pin_memory=False)
+  #  dataloader = DataLoader(dataset,
+  #                          shuffle=False,
+  #                          batch_size=batch_size,
+  #                          drop_last=False,
+  #                          num_workers=6,
+  #                          pin_memory=False)
+    
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False,
+                         collate_fn=collate)
+
     return dataloader
