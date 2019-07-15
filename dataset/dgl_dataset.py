@@ -7,7 +7,7 @@ Created on Thu Jul 11 14:39:45 2019
 """
 
 from torch.utils.data.dataset import Dataset
-import dgl
+import dgl.graph import DGLGraph
 import ast
 import os
 import tqdm
@@ -164,7 +164,7 @@ class DGLDataset(Dataset):
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 
-                g = dgl.DGLGraph()
+                g = DGLGraph()
                 g.add_nodes(len(nodes))
             #    {'idx': atom_index, 't': atom_index_dic[atom], 'x': x, 'y' : y, 'z' : z}
                 for node_info in nodes:
@@ -202,7 +202,7 @@ class DGLDataset(Dataset):
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 
-                g = dgl.DGLGraph()
+                g = DGLGraph()
                 g.add_nodes(len(nodes))
                 
                 for node_info in nodes:
