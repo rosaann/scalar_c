@@ -235,10 +235,10 @@ class DGLDataset(Dataset):
         
         
     def __getitem__(self, index):
-        if self.split == 'train':
+      #  if self.split == 'train':
             return self.data_list[index], self.gt_list[index]
-        else:
-            return self.data_list[index]
+      #  else:
+      #      return self.data_list[index]
         
     def __len__(self):
         return len( self.data_list)  
