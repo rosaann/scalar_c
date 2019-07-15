@@ -174,7 +174,7 @@ class DGLDataset(object):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]])
+                    g.nodes[idx].data['h'] = np.array( [[tp, x, y, z]])
                     
                 
                 gt = []
@@ -184,7 +184,7 @@ class DGLDataset(object):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
+                    g.edges[idx0, idx1].data['w'] = np.array( [et])
                     gt.append(sc)
                 
                 self.data_list.append(g)
