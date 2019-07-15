@@ -239,3 +239,6 @@ class DGLDataset(Dataset):
             return self.data_list[index], self.gt_list[index]
         else:
             return self.data_list[index]
+        
+    def __len__(self):
+        return len( self.data_list)  
