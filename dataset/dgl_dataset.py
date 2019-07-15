@@ -150,6 +150,7 @@ print('self.gen_random_index_list ')
 class DGLDataset(object):
     def __init__(self, split
                  ):
+        super(DGLDataset, self).__init__()
         self.split = split
         self.data_list = []
         self.gt_list = []
