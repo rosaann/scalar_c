@@ -76,8 +76,8 @@ def gen_stuc_set_list():
          #   print('ai ', atom_index, 'a ', atom, ' x ', x, ' y ', y, ' z ', z)
             info = {'idx': atom_index, 't': atom_index_dic[atom], 'x': x, 'y' : y, 'z' : z}
             model_info_list.append(info)
-            if i > 200:
-                break
+         #   if i > 200:
+         #       break
         model_info_set[molecule_name] = model_info_list
         
        # np2 = int(len())
@@ -115,8 +115,8 @@ def gen_train_data():
             scalar_coupling = row['scalar_coupling_constant']            
             train_data['edges'].append({'index0' : index_0, 'index1' : index_1, 'et' : t_index, 'sc' : float(scalar_coupling)})
          
-            if i > 200:
-                break
+         #   if i > 200:
+         #       break
         train_data_list.append(train_data)
         
         return train_data_list
