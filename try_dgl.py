@@ -92,6 +92,7 @@ epoch_losses = []
 for epoch in range(80):
     epoch_loss = 0
     for iter, (bg, label) in enumerate(data_loader):
+        print('bg ', bg)
         prediction = model(bg)
         loss = loss_func(prediction, label)
         optimizer.zero_grad()
