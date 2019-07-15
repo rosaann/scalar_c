@@ -186,7 +186,7 @@ class DGLDataset(Dataset):
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                     gt.append(sc)
                 
-                self.data_list.append(g)
+                self.data_list.append(DGLGraph(g))
                 self.gt_list.append(gt)
             
             self.gt_list = np.array(self.gt_list)
@@ -223,7 +223,7 @@ class DGLDataset(Dataset):
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                     gt.append(sc)
                     
-                self.data_list.append(g)
+                self.data_list.append(DGLGraph(g))
                 self.gt_list.append(gt)
             
             self.gt_list = np.array(self.gt_list)
