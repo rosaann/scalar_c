@@ -7,7 +7,7 @@ Created on Thu Jul 11 14:39:45 2019
 """
 
 from torch.utils.data.dataset import Dataset
-import dgl.graph import DGLGraph
+from dgl.graph import DGLGraph
 import ast
 import os
 import tqdm
