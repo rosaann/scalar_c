@@ -52,6 +52,7 @@ class GCN(nn.Module):
     def forward(self, g):
         # Initialize the node features with h.
        # g.ndata['h'] = feature
+        print('ggg ', g)
         g.update_all(msg, reduce)
         g.apply_nodes(func=self.apply_mod)
         return g.ndata.pop('h')
