@@ -70,6 +70,7 @@ class Regression_X1(nn.Module):
     def forward(self, g):
         # For undirected graphs, in_degree is the same as
         # out_degree.
+        print('g_reg ', g)
         x = self.gcn1(g)
         x = self.gcn2(g)
         x = self.regression(x)
