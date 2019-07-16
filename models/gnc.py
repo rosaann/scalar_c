@@ -55,7 +55,8 @@ class GCN(nn.Module):
         print('ggg ', g)
         g.update_all(msg, reduce)
         g.apply_nodes(func=self.apply_mod)
-        return g.ndata.pop('h')
+        return g
+     #   return g.ndata.pop('h')
 
 class Regression_X1(nn.Module):
     def __init__(self):
