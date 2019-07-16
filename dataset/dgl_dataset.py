@@ -188,9 +188,10 @@ class DGLDataset(object):
                     gt.append(sc)
                 
                 self.data_list.append(g)
-                self.gt_list.append(gt)
+              #  self.gt_list.append(gt)
+                self.gt_list.append(1)
             
-            self.gt_list = np.array(self.gt_list)
+          #  self.gt_list = np.array(self.gt_list)
          #   self.data_list = np.array(self.data_list)
          #   tshape = self.data_list.shape
         #    print('self.data_list ', tshape)
