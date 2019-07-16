@@ -58,9 +58,9 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
      #   gt = data['gt']
        # paths = data['path']
         
-        if torch.cuda.is_available():
-            images = images.cuda().float()
-            gt = gt.cuda().float()
+      #  if torch.cuda.is_available():
+      #      images = images.cuda().float()
+      #      gt = gt.cuda().float()
         
         binary_masks = model(images)
         
