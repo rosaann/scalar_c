@@ -26,6 +26,7 @@ import dgl
 def collate(samples):
     # The input `samples` is a list of pairs
     #  (graph, label).
+    print('samples ', samples)
     graphs, labels = map(list, zip(*samples))
     batched_graph = dgl.batch(graphs)
     return batched_graph, torch.tensor(labels)
