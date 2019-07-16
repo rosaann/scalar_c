@@ -61,19 +61,17 @@ class Regression_X1(nn.Module):
         super(Regression_X1, self).__init__()
         in_dim = 4
         hidden_dim = 32
-        self.layers = nn.ModuleList([
-            GCN(in_dim, hidden_dim, F.relu),
-            GCN(hidden_dim, hidden_dim, F.relu)])
+        
+        self.gcn1 = GCN(in_dim, hidden_dim, F.relu)
+        self.gcn2 = GCN(hidden_dim, hidden_dim, F.relu)
         self.regression = nn.Linear(hidden_dim, 1)
 
-    def forward(self, g):
+    def forward(self, g, features):
         # For undirected graphs, in_degree is the same as
         # out_degree.
-        h = g.in_degrees().view(-1, 1).float()
-        for conv in self.layers:
-            h = conv(g, h)
-        g.ndata['h'] = h
-        hg = dgl.mean_nodes(g, 'h')
-        return self.regression(hg)
+        x = self.gcn1(g, features)
+        x = self.gcn1(g, x)
+        x = self.regression(x)
+        return x
     
 
