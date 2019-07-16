@@ -111,8 +111,8 @@ def train_segmenter(config, model, train_dataloader, eval_dataloaders, criterion
     metrics = R2Score()
     if torch.cuda.device_count() > 1:
         model = torch.nn.DataParallel(model)
-    if torch.cuda.is_available():
-        model = model.cuda()
+   # if torch.cuda.is_available():
+   #     model = model.cuda()
 
     postfix_dict = {'train/lr': 0.0,
                     'train/acc': 0.0,
