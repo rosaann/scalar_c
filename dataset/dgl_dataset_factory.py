@@ -16,6 +16,7 @@ import numpy as np
 import torch.utils.data
 import torch.utils.data.sampler
 from torch.utils.data import DataLoader
+import torch
 
 #from .default import DefaultDataset, TestDataset
 from .dgl_dataset import DGLDataset
@@ -30,7 +31,7 @@ def collate(samples):
     graphs, labels = map(list, zip(*samples))
     print('graphs ', graphs)
     print('labels ', labels)
-    batched_graph = dgl.batch(graphs)
+    batched_graph = dgl.batch(graphs).to (torch.device("cuda" ))
     print('batched_graph ', batched_graph)
     return batched_graph, torch.tensor(labels)
 

@@ -151,7 +151,7 @@ class DGLDataset(object):
     def __init__(self, split
                  ):
         super(DGLDataset, self).__init__()
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda" )
         self.split = split
         self.data_list = []
         self.gt_list = []
@@ -175,7 +175,7 @@ class DGLDataset(object):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]]).to(self.device)
+                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]])
                     
                 
              #   gt = []
@@ -185,7 +185,7 @@ class DGLDataset(object):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).to(self.device)
+                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                  #   gt.append(sc)
                     self.gt_list.append(sc)
                 
@@ -215,7 +215,7 @@ class DGLDataset(object):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]]).to(self.device)
+                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]])
                     
                 gt = []
                 for edge_info in edges:
@@ -224,7 +224,7 @@ class DGLDataset(object):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).to(self.device)
+                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
                     gt.append(sc)
                     
                 self.data_list.append(g)
