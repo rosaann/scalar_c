@@ -28,7 +28,10 @@ def collate(samples):
     #  (graph, label).
     print('samples ', samples)
     graphs, labels = map(list, zip(*samples))
+    print('graphs ', graphs)
+    print('labels ', labels)
     batched_graph = dgl.batch(graphs)
+    print('batched_graph ', batched_graph)
     return batched_graph, torch.tensor(labels)
 
 def get_gnu_dataloader(batch_size, split, **_):
