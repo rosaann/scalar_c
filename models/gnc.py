@@ -66,6 +66,7 @@ class Regression_X1(nn.Module):
         
         self.gcn1 = GCN(in_dim, hidden_dim, F.relu)
         self.gcn2 = GCN(hidden_dim, hidden_dim, F.relu)
+        self.gcn3 = GCN(hidden_dim, 1, F.relu)
       #  self.regression = nn.Linear(hidden_dim, 1)
 
     def forward(self, g):
@@ -73,7 +74,8 @@ class Regression_X1(nn.Module):
         # out_degree.
         print('g_reg ', g)
         x = self.gcn1(g)
-        x = self.gcn2(g)
+        x = self.gcn2(x)
+        x = self.gcn3(x)
     #    x = self.regression(x)
         print('x ', x)
         y = x.ndata['h']
