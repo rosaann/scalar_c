@@ -35,6 +35,7 @@ def collate(samples):
   #  print('batched_graph ', batched_graph)
   #  batched_graph = batched_graph.to(torch.device("cuda" ))
   #  batched_graph =  batched_graph.cuda()
+    labels = np.array(labels)
     print('labels  ', labels.shape)
     return batched_graph , torch.tensor(labels.reshape(-1))
 
