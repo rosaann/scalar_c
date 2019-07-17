@@ -27,12 +27,12 @@ import dgl
 def collate(samples):
     # The input `samples` is a list of pairs
     #  (graph, label).
-    print('samples ', samples)
+  #  print('samples ', samples)
     graphs, labels = map(list, zip(*samples))
-    print('graphs ', graphs)
-    print('labels ', labels)
+  #  print('graphs ', graphs)
+  #  print('labels ', labels)
     batched_graph = dgl.batch(graphs)
-    print('batched_graph ', batched_graph)
+  #  print('batched_graph ', batched_graph)
   #  batched_graph = batched_graph.to(torch.device("cuda" ))
   #  batched_graph =  batched_graph.cuda()
   #  print('batched_graph after ', batched_graph)

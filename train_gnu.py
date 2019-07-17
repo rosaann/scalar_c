@@ -65,10 +65,11 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             if torch.cuda.is_available():
       #      images = images.cuda().float()
                 gt = gt.cuda().float()
-        
+            print('img ', images)
+            print('gt ', gt)
             binary_masks = model(images)
             
-            
+            print('binary_masks ', binary_masks)
             loss = criterion(binary_masks, gt)
            # if i < 10:
             pred = binary_masks.data.cpu().numpy()
