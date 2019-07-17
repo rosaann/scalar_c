@@ -53,7 +53,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
    # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
     
     total_loss = 0
-    for iter, (images, gt) in enumerate(dataloader):
+    for i, (images, gt) in enumerate(dataloader):
      #  images = data['data']
      #   gt = data['gt']
        # paths = data['path']
