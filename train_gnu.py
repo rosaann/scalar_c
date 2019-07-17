@@ -63,11 +63,11 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         for i, (images, gt) in enumerate(dataloader):
            # print('-------------uu------------')
             gt_list = []
-            print('len gt-- ', len(gt))
+            print('gt-- ', gt)
             for g in gt:
                 gt_list.append(g)
             
-            print('len gt_list-- ', len(gt_list))
+            print('len gt_list-- ', gt_list)
             gt_list = torch.tensor(gt_list)
             if torch.cuda.is_available():
       #      images = images.cuda().float()
@@ -79,7 +79,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             loss = criterion(binary_masks, gt_list)
            # if i < 10:
             pred = binary_masks.data.cpu().numpy()
-            gt = gt.cpu().numpy()
+            gt_list = gt_list.cpu().numpy()
            # print('metrics ', metrics)
             rc_t, rc_part, msq_t, msq_part, mae_t, mae_part = metrics.count(gt, pred)
             rc_total_list.append(rc_t)

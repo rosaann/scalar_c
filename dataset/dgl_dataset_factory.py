@@ -36,7 +36,7 @@ def collate(samples):
   #  batched_graph = batched_graph.to(torch.device("cuda" ))
   #  batched_graph =  batched_graph.cuda()
   #  labels = np.array(labels)
-   # print('labels  ', labels.shape)
+    print('labels  ', labels.shape, ' ', labels)
     return batched_graph , labels
 
 def get_gnu_dataloader(batch_size, split, **_):
