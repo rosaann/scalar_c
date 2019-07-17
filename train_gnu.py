@@ -40,7 +40,78 @@ from utils.confusion_matrix import ConfusionMatrix
 from utils.r2score import R2Score
 
 
+def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
+                          epoch, writer, postfix_dict, metrics):
+    model.eval()
 
+    with torch.no_grad():
+        batch_size = config.train_segmenter.batch_size
+        total_size = len(dataloader.dataset)
+        total_step = math.ceil(total_size / batch_size)
+
+       # probability_list = []
+       # label_list = []
+        loss_list = []
+      #  tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
+      #  out_images_dir = './data/val_result/'
+      #  print('total_step val ', total_step)
+        rc_total_list = []
+        rc_part_list = []
+       
+        mae_total_list = []
+        mae_part_list = []
+        for i, (images, gt) in enumerate(dataloader):
+           # print('-------------uu------------')
+            if torch.cuda.is_available():
+      #      images = images.cuda().float()
+                gt = gt.cuda().float()
+        
+            binary_masks = model(images)
+            
+            
+            loss = criterion(binary_masks, gt)
+           # if i < 10:
+            pred = binary_masks.data.cpu().numpy()
+            gt = gt.cpu().numpy()
+           # print('metrics ', metrics)
+            rc_t, rc_part, msq_t, msq_part, mae_t, mae_part = metrics.count(gt, pred)
+            rc_total_list.append(rc_t)
+            rc_part_list.append(rc_part)
+           # msq_total_list.append(msq_t)
+          #  msq_part_list.append(msq_part)
+            mae_total_list.append(mae_t)
+            mae_part_list.append(mae_part)
+            # measure accuracy and record loss
+            loss_list.append(loss.item())
+            
+
+            f_epoch = epoch + i / total_step
+            desc = '{:5s}'.format('val')
+            desc += ', {:06d}/{:06d}, {:.2f} epoch'.format(i, total_step, f_epoch)
+          #  tbar.set_description(desc)
+          #  tbar.set_postfix(**postfix_dict)
+
+        
+      #  metrics.reset()
+        
+        log_dict = {}
+       
+        log_dict['loss'] = sum(loss_list) 
+        log_dict['total_r2'] = sum(rc_total_list)/len(rc_total_list)
+        log_dict['used_r2'] = sum(rc_part_list) / len(rc_part_list)
+       # log_dict['msq_total'] = sum(msq_total_list) / len(msq_total_list)
+       # log_dict['msq_part'] = sum(msq_part_list) / len(msq_part_list)
+        log_dict['mae_total'] = sum(mae_total_list) / len(mae_total_list)
+        log_dict['mae_part'] = sum(mae_part_list) / len(mae_part_list)
+
+        for key, value in log_dict.items():
+            if writer is not None:
+             #   print('key ', key)
+            #    print('value ', value)
+                writer.add_scalar('val/{}'.format(key), value, epoch)
+            postfix_dict['val/{}'.format(key)] = value
+
+        return metrics
 def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer,
                        epoch, writer, postfix_dict):
     model.train()
