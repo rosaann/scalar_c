@@ -115,8 +115,8 @@ def gen_train_data():
             scalar_coupling = row['scalar_coupling_constant']            
             train_data['edges'].append({'index0' : index_0, 'index1' : index_1, 'et' : t_index, 'sc' : float(scalar_coupling)})
          
-            if i > 200:
-                break
+          #  if i > 200:
+          #      break
         train_data_list.append(train_data)
         
         return train_data_list
@@ -201,34 +201,36 @@ class DGLDataset(object):
         if split == 'val':
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
-                d_data = train_data_list[random_index_list[i]]
-                
+                 d_data = train_data_list[random_index_list[i]]
+                if i == 0:
+                    print('d_data ', d_data)
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 
                 g = DGLGraph()
                 g.add_nodes(len(nodes))
-                
+            #    {'idx': atom_index, 't': atom_index_dic[atom], 'x': x, 'y' : y, 'z' : z}
                 for node_info in nodes:
                     idx = int(node_info['idx'])
                     tp = int(node_info['t'])
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]])
+                    g.nodes[idx].data['h'] = torch.tensor( [[tp, x, y, z]]).cuda()
                     
-                gt = []
+                
+             #   gt = []
                 for edge_info in edges:
                     idx0 = int(edge_info['index0'])
                     idx1 = int(edge_info['index1'])
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et])
-                    gt.append(sc)
-                    
+                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
+                 #   gt.append(sc)
+                    self.gt_list.append(sc)
+                
                 self.data_list.append(g)
-                self.gt_list.append([gt])
             
           #  self.gt_list = np.array(self.gt_list)
          #   self.data_list = np.array(self.data_list)
