@@ -168,6 +168,7 @@ class DGLDataset(object):
                 
                 g = DGLGraph()
                 g.add_nodes(len(nodes))
+                gt = []
             #    {'idx': atom_index, 't': atom_index_dic[atom], 'x': x, 'y' : y, 'z' : z}
                 for node_info in nodes:
                     idx = int(node_info['idx'])
@@ -186,10 +187,11 @@ class DGLDataset(object):
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
-                 #   gt.append(sc)
-                    self.gt_list.append(sc)
+                    gt.append(sc)
+                    
                 
                 self.data_list.append(g)
+                self.gt_list.append(gt)
               #  self.gt_list.append([gt])
                # self.gt_list.append(1)
             
@@ -208,6 +210,7 @@ class DGLDataset(object):
                 
                 g = DGLGraph()
                 g.add_nodes(len(nodes))
+                gt = []
             #    {'idx': atom_index, 't': atom_index_dic[atom], 'x': x, 'y' : y, 'z' : z}
                 for node_info in nodes:
                     idx = int(node_info['idx'])
@@ -226,12 +229,12 @@ class DGLDataset(object):
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
-                 #   gt.append(sc)
+                    gt.append(sc)
                     self.gt_list.append(sc)
                 
                 self.data_list.append(g)
-            
-          #  self.gt_list = np.array(self.gt_list)
+                self.gt_list.append(gt)
+            self.gt_list = np.array(self.gt_list)
          #   self.data_list = np.array(self.data_list)
          #   tshape = self.data_list.shape
          #   print('self.data_list ', tshape)

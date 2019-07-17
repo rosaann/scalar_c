@@ -35,8 +35,8 @@ def collate(samples):
   #  print('batched_graph ', batched_graph)
   #  batched_graph = batched_graph.to(torch.device("cuda" ))
   #  batched_graph =  batched_graph.cuda()
-  #  print('batched_graph after ', batched_graph)
-    return batched_graph , torch.tensor(labels)
+    print('labels  ', labels.shape)
+    return batched_graph , torch.tensor(labels.reshape(-1))
 
 def get_gnu_dataloader(batch_size, split, **_):
     dataset = DGLDataset(split)
