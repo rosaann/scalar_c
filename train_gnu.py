@@ -63,8 +63,11 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         for i, (images, gt) in enumerate(dataloader):
            # print('-------------uu------------')
             gt_list = []
+            print('len gt-- ', len(gt))
             for g in gt:
-                gt_list.extend(g)
+                gt_list.append(g)
+            
+            print('len gt_list-- ', len(gt_list))
             gt_list = torch.tensor(gt_list)
             if torch.cuda.is_available():
       #      images = images.cuda().float()
