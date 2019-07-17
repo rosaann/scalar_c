@@ -52,7 +52,7 @@ class GCN(nn.Module):
     def forward(self, g):
         # Initialize the node features with h.
        # g.ndata['h'] = feature
-        print('ggg ', g)
+   #     print('ggg ', g)
         g.update_all(msg, reduce)
         g.apply_nodes(func=self.apply_mod)
         return g
@@ -66,7 +66,7 @@ class Regression_X1(nn.Module):
         
         self.gcn1 = GCN(in_dim, hidden_dim, F.relu)
         self.gcn2 = GCN(hidden_dim, hidden_dim, F.relu)
-        self.regression = nn.Linear(hidden_dim, 1)
+      #  self.regression = nn.Linear(hidden_dim, 1)
 
     def forward(self, g):
         # For undirected graphs, in_degree is the same as
@@ -74,7 +74,8 @@ class Regression_X1(nn.Module):
         print('g_reg ', g)
         x = self.gcn1(g)
         x = self.gcn2(g)
-        x = self.regression(x)
+    #    x = self.regression(x)
+        print('out ', x)
         return x
     
 
