@@ -16,10 +16,10 @@ class R2Score:
         print('dd')
         
     def count(self, tar_list, pre_list):
-        print('target ', tar_list.shape, ' ',tar_list )
+        print('target ',len( tar_list), ' ',tar_list )
         tar_x = tar_list[:,np.newaxis]
       #  print('tar_x ', tar_x.shape)
-        print('prediction ', pre_list.shape, ' ', pre_list)
+        print('prediction ',len( pre_list), ' ', pre_list)
         tar_x = tar_x.reshape(-1)
       #  print('tar_x_1 ', tar_x.shape)
         

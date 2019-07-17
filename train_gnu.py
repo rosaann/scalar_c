@@ -65,7 +65,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             gt_list = []
             print('gt-- ', gt)
             for g in gt:
-                gt_list.append(g)
+                gt_list.extend(g)
             
             print('len gt_list-- ', gt_list)
             gt_list = torch.tensor(gt_list)
@@ -136,8 +136,11 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
      #   gt = data['gt']
        # paths = data['path']
         gt_list = []
+        print('gt-- t ', gt)
         for g in gt:
             gt_list.extend(g)
+            
+        print('len gt_list-- t ', gt_list)
         gt_list = torch.tensor(gt_list)
         if torch.cuda.is_available():
       #      images = images.cuda().float()

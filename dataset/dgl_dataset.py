@@ -194,8 +194,8 @@ class DGLDataset(object):
                 self.gt_list.append(gt)
               #  self.gt_list.append([gt])
                # self.gt_list.append(1)
-        print('len data ', len(self.data_list))  
-        print('len gt ', len(self.gt_list))
+            print('len data ', len(self.data_list))  
+            print('len gt ', len(self.gt_list))
         #    self.gt_list = np.array(self.gt_list)
          #   self.data_list = np.array(self.data_list)
          #   tshape = self.data_list.shape
@@ -205,7 +205,8 @@ class DGLDataset(object):
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
                 d_data = train_data_list[random_index_list[i]]
-               
+                if i == 0:
+                    print('d_data ', d_data)
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 
@@ -231,10 +232,13 @@ class DGLDataset(object):
                     g.add_edge(idx0, idx1)
                     g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
                     gt.append(sc)
-                    self.gt_list.append(sc)
+                    
                 
                 self.data_list.append(g)
                 self.gt_list.append(gt)
+                
+            print('len v data ', len(self.data_list))  
+            print('len v gt ', len(self.gt_list))
         #    self.gt_list = np.array(self.gt_list)
          #   self.data_list = np.array(self.data_list)
          #   tshape = self.data_list.shape
