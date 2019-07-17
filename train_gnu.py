@@ -81,7 +81,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             pred = binary_masks.data.cpu().numpy()
             gt_list = gt_list.cpu().numpy()
            # print('metrics ', metrics)
-            rc_t, rc_part, msq_t, msq_part, mae_t, mae_part = metrics.count(gt_list, pred)
+            rc_t, rc_part,  mae_t, mae_part = metrics.count(gt_list, pred)
             rc_total_list.append(rc_t)
             rc_part_list.append(rc_part)
            # msq_total_list.append(msq_t)

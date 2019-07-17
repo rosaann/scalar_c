@@ -78,7 +78,7 @@ class Regression_X1(nn.Module):
         x = self.gcn3(x)
     #    x = self.regression(x)
         print('x ', x)
-        y = x.ndata['h']
+        y = x.edata
         print('out ', y)
         return y
     
