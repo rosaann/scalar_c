@@ -37,7 +37,7 @@ def collate(samples):
   #  batched_graph =  batched_graph.cuda()
   #  labels = np.array(labels)
    # print('labels  ', labels.shape)
-    return batched_graph , np.array(labels)
+    return batched_graph , labels
 
 def get_gnu_dataloader(batch_size, split, **_):
     dataset = DGLDataset(split)

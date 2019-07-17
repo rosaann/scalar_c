@@ -129,11 +129,14 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
      #  images = data['data']
      #   gt = data['gt']
        # paths = data['path']
-        
+        gt_list = []
+        for g in gt:
+            gt_list.extend(g)
+        gt_list = torch.tensor(gt_list)
         if torch.cuda.is_available():
       #      images = images.cuda().float()
+            gt_list = gt_list.cuda()
             print('gt--- ', gt.shape)
-            gt = gt.cuda().float()
         
         binary_masks = model(images)
         
