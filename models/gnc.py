@@ -200,8 +200,8 @@ class Regression_X1(nn.Module):
                          )
 
     def forward(self, g):
-        if self.features is not None:
-            g.ndata['id'] = self.features
+       # if self.features is not None:
+       #     g.ndata['id'] = self.features
         for layer in self.layers:
             layer(g)
         return g.ndata.pop('h')
