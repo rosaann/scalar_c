@@ -101,14 +101,16 @@ class RGCNLayer(nn.Module):
         # weight bases in equation (3)
         self.weight = nn.Parameter(torch.Tensor(self.num_bases, self.in_feat,
                                                 self.out_feat))
+        
+        print('self.weight ', self.weight.shape)
         if self.num_bases < self.num_rels:
             # linear combination coefficients in equation (3)
             self.w_comp = nn.Parameter(torch.Tensor(self.num_rels, self.num_bases))
-
+            print('self.w_comp ', self.w_comp.shape)
         # add bias
         if self.bias:
             self.bias = nn.Parameter(torch.Tensor(out_feat))
-
+            print('self.bias ', self.bias.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight,
                                 gain=nn.init.calculate_gain('relu'))
@@ -123,31 +125,43 @@ class RGCNLayer(nn.Module):
         if self.num_bases < self.num_rels:
             # generate all weights from bases (equation (3))
             weight = self.weight.view(self.in_feat, self.num_bases, self.out_feat)
+            print('---f--weight--1-- ', weight.shape)
             weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
                                                         self.in_feat, self.out_feat)
+            print('---f--weight--2-- ', weight.shape)
         else:
             weight = self.weight
+            print('---f--weight--3-- ', weight.shape)
 
         if self.is_input_layer:
             def message_func(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                 embed = weight.view(-1, self.out_feat)
+                print('embed ', embed.shape)
                 index = edges.data['w'] * self.in_feat #+ edges.src['id']
-                return {'msg': embed[index]}
+                print('index ', index)
+                msg = embed[index]
+                print('msg --', msg.shape)
+                return {'msg': msg}
         else:
             def message_func(edges):
                 w = weight[edges.data['w']]
+                print('w ', w.shape)
                 msg = torch.bmm(edges.src['h'].unsqueeze(1), w).squeeze()
+                print('msg ', msg.shape)
                # msg = msg * edges.data['norm']
                 return {'msg': msg}
 
         def apply_func(nodes):
             h = nodes.data['h']
+            print('h ', h.shape)
             if self.bias:
                 h = h + self.bias
+                print('h1 ', h.shape)
             if self.activation:
                 h = self.activation(h)
+                print('h2 ', h.shape)
             return {'h': h}
 
         g.update_all(message_func, fn.sum(msg='msg', out='h'), apply_func)
@@ -202,6 +216,7 @@ class Regression_X1(nn.Module):
     def forward(self, g):
        # if self.features is not None:
        #     g.ndata['id'] = self.features
-        for layer in self.layers:
+        for i, layer in enumerate( self.layers):
+            print('f-- ', i)
             layer(g)
         return g.ndata.pop('h')
