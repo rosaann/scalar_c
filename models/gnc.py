@@ -133,13 +133,13 @@ class RGCNLayer(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                 embed = weight.view(-1, self.out_feat)
-                index = edges.data['rel_type'] * self.in_feat + edges.src['id']
-                return {'msg': embed[index] * edges.data['norm']}
+                index = edges.data['w'] * self.in_feat + edges.src['id']
+                return {'msg': embed[index]}
         else:
             def message_func(edges):
-                w = weight[edges.data['rel_type']]
+                w = weight[edges.data['w']]
                 msg = torch.bmm(edges.src['h'].unsqueeze(1), w).squeeze()
-                msg = msg * edges.data['norm']
+               # msg = msg * edges.data['norm']
                 return {'msg': msg}
 
         def apply_func(nodes):
@@ -153,10 +153,10 @@ class RGCNLayer(nn.Module):
         g.update_all(message_func, fn.sum(msg='msg', out='h'), apply_func)
         
 class Regression_X1(nn.Module):
-    def __init__(self, in_dim = 4, h_dim = 48, out_dim = 1, num_rels,
+    def __init__(self, in_dim = 4, h_dim = 48, out_dim = 1, num_rels = 1,
                  num_bases=-1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
-        self.num_nodes = in_dim
+        self.in_dim = in_dim
         self.h_dim = h_dim
         self.out_dim = out_dim
         self.num_rels = num_rels
@@ -183,12 +183,12 @@ class Regression_X1(nn.Module):
         self.layers.append(h2o)
 
     # initialize feature for each node
-   # def create_features(self):
-   #     features = torch.arange(self.num_nodes)
-  #      return features
+    def create_features(self):
+        features = torch.arange(self.in_dim)
+        return features
 
     def build_input_layer(self):
-        return RGCNLayer(self.num_nodes, self.h_dim, self.num_rels, self.num_bases,
+        return RGCNLayer(self.in_dim, self.h_dim, self.num_rels, self.num_bases,
                          activation=F.relu, is_input_layer=True)
 
     def build_hidden_layer(self):
