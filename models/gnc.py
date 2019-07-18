@@ -154,8 +154,11 @@ class RGCNLayer(nn.Module):
                 return {'msg': msg}
 
         def apply_func(nodes):
+            h2 = nodes.data['h2']
+            print('h2 ', h2.shape)
             h = nodes.data['h']
             print('h ', h.shape)
+            
             if self.bias:
                 h = h + self.bias
                 print('h1 ', h.shape)
@@ -164,7 +167,7 @@ class RGCNLayer(nn.Module):
                 print('h2 ', h.shape)
             return {'h': h}
 
-        g.update_all(message_func, fn.sum(msg='msg', out='h'), apply_func)
+        g.update_all(message_func, fn.sum(msg='msg', out='h2'), apply_func)
         
 class Regression_X1(nn.Module):
     def __init__(self, in_dim = 4, h_dim = 48, out_dim = 1, num_rels = 1,
