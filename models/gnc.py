@@ -100,16 +100,16 @@ class RGCNLayer(nn.Module):
 
         # weight bases in equation (3)
         self.weight = nn.Parameter(torch.Tensor(self.num_bases, self.in_feat,
-                                                self.out_feat))
+                                                self.out_feat)).cuda()
         
         print('self.weight ', self.weight.shape)
         if self.num_bases < self.num_rels:
             # linear combination coefficients in equation (3)
-            self.w_comp = nn.Parameter(torch.Tensor(self.num_rels, self.num_bases))
+            self.w_comp = nn.Parameter(torch.Tensor(self.num_rels, self.num_bases).cuda())
             print('self.w_comp ', self.w_comp.shape)
         # add bias
         if self.bias:
-            self.bias = nn.Parameter(torch.Tensor(out_feat))
+            self.bias = nn.Parameter(torch.Tensor(out_feat).cuda())
             print('self.bias ', self.bias.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight,
