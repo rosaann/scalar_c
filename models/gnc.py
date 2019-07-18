@@ -137,6 +137,9 @@ class RGCNLayer(nn.Module):
             def message_func(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
+                node = edges.src
+                
+                print('node ', node.shape)
                 embed = weight.view(-1, self.out_feat)
                 print('embed ', embed.shape)
                 index = edges.data['w'] * self.in_feat #+ edges.src['id']
