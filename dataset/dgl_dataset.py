@@ -115,8 +115,8 @@ def gen_train_data():
             scalar_coupling = row['scalar_coupling_constant']            
             train_data['edges'].append({'index0' : index_0, 'index1' : index_1, 'et' : t_index, 'sc' : float(scalar_coupling)})
          
-          #  if i > 200:
-          #      break
+            if i > 200:
+                break
         train_data_list.append(train_data)
         
         return train_data_list
