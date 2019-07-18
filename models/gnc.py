@@ -133,7 +133,7 @@ class RGCNLayer(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                 embed = weight.view(-1, self.out_feat)
-                index = edges.data['w'] * self.in_feat + edges.src['id']
+                index = edges.data['w'] * self.in_feat #+ edges.src['id']
                 return {'msg': embed[index]}
         else:
             def message_func(edges):
@@ -167,7 +167,7 @@ class Regression_X1(nn.Module):
         self.build_model()
 
         # create initial features
-        self.features = self.create_features()
+      #  self.features = self.create_features()
 
     def build_model(self):
         self.layers = nn.ModuleList()
