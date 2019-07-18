@@ -143,6 +143,8 @@ class RGCNLayer(nn.Module):
                 print('node  s ', node.shape)
                 embed = weight.view(-1, self.out_feat)
                 print('embed ', embed.shape)
+                print('edge w ', edges.data['w'].shape)
+                print('self.in_feat ', self.in_feat)
                 index = edges.data['w'] * self.in_feat #+ edges.src['id']
                 print('index ', index)
                 msg = embed[index]
