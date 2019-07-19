@@ -53,7 +53,23 @@ class GCN(nn.Module):
         # Initialize the node features with h.
        # g.ndata['h'] = feature
    #     print('ggg ', g)
-        g.update_all(msg, reduce)
+         def message_func(edges):
+                # for input layer, matrix multiply can be converted to be
+                # an embedding lookup using source node id
+                node = edges.src['h']
+                
+                print('node ', node)
+                print('node  s ', node.shape)
+                embed = weight.view(-1, self.out_feat)
+                print('embed ', embed.shape)
+                print('edge w ', edges.data['w'].shape)
+                print('self.in_feat ', self.in_feat)
+                index = edges.data['w'] * self.in_feat #+ edges.src['id']
+                print('index ', index)
+                msg = embed[index]
+                print('msg --', msg.shape)
+                return {'msg': msg}
+        g.update_all(message_func, reduce)
         g.apply_nodes(func=self.apply_mod)
         return g
      #   return g.ndata.pop('h')
