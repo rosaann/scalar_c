@@ -16,6 +16,7 @@ from dgl.data import MiniGCDataset
 import matplotlib.pyplot as plt
 import networkx as nx
 from functools import partial
+import os
 # Sends a message of node feature h.
 msg = fn.copy_src(src='h', out='m')
 
@@ -97,7 +98,13 @@ class Reg_Old(nn.Module):
         y = x.edata
         print('out ', y)
         return y
-    
+
+def find_type_index_dic():
+    type_index_dic_dir = 'data/type_index_dic.txt'
+    if os.path.exists(type_index_dic_dir):
+        with open(type_index_dic_dir, 'r') as f: 
+            type_index_dic_dir = ast.literal_eval(f.read())
+            return type_index_dic_dir    
 class RGCNLayer(nn.Module):
     def __init__(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
                  activation=None, is_input_layer=False):
@@ -198,10 +205,11 @@ class Regression_X1(nn.Module):
         self.in_dim = in_dim
         self.h_dim = h_dim
         self.out_dim = out_dim
-        self.num_rels = num_rels
-        self.num_bases = num_bases
+        #self.num_rels = num_rels
+        self.type_index_dic = find_type_index_dic()
+        self.num_rels = len( self.type_index_dic.keys())
         self.num_hidden_layers = num_hidden_layers
-
+        
         # create rgcn layers
         self.build_model()
 
