@@ -48,6 +48,6 @@ model_classifier:
       attention_size: 32
     
 model_segmenter:
-    name: 'resnet18_segmenter'
+    name: 'Regression_X1'
     
       

@@ -9,6 +9,7 @@ def adam(parameters, lr=5e-5, betas=(0.9, 0.999), weight_decay=0,
          amsgrad=False, **_):
   if isinstance(betas, str):
     betas = eval(betas)
+  print('parameters ', parameters)
   return optim.Adam(parameters, lr=lr, betas=betas, weight_decay=weight_decay,
                     amsgrad=amsgrad)
 
