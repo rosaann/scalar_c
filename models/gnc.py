@@ -216,7 +216,7 @@ class Regression_X1(nn.Module):
 
         # create initial features
       #  self.features = self.create_features()
-
+        self.i2h = self.build_input_layer()
     def build_model(self):
         self.layers = nn.ModuleList()
         # input to hidden
