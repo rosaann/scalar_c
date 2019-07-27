@@ -49,6 +49,5 @@ model_classifier:
     
 model_segmenter:
     name: 'resnet18_segmenter'
-    params:
-      cnn: 'se_resnext50'
-      attention_size: 32
+    
+      
