@@ -211,7 +211,7 @@ class Regression_X1(nn.Module):
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
-        self.build_model()
+        self.build_model() 
 
         # create initial features
       #  self.features = self.create_features()
