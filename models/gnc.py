@@ -16,7 +16,7 @@ from dgl.data import MiniGCDataset
 import matplotlib.pyplot as plt
 import networkx as nx
 from functools import partial
-import os
+import os, ast
 # Sends a message of node feature h.
 msg = fn.copy_src(src='h', out='m')
 
@@ -70,9 +70,9 @@ class GCN(nn.Module):
                 msg = embed[index]
                 print('msg --', msg.shape)
                 return {'msg': msg}
-        g.update_all(message_func, reduce)
-        g.apply_nodes(func=self.apply_mod)
-        return g
+         g.update_all(message_func, reduce)
+         g.apply_nodes(func=self.apply_mod)
+         return g
      #   return g.ndata.pop('h')
 
 class Reg_Old(nn.Module):
