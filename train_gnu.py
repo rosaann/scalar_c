@@ -38,6 +38,7 @@ import cv2
 from torchvision import transforms
 from utils.confusion_matrix import ConfusionMatrix
 from utils.r2score import R2Score
+import torch.optim as optim
 
 
 def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
@@ -239,10 +240,11 @@ def run(config):
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = get_loss(config.loss_segmenter)
-    optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
-    
+   # optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
+    optimizer_segmenter = optim.Adam(model_segmenter.parameters(), lr=5e-5)
     ####
     checkpoint_segmenter = get_initial_checkpoint(config.train_segmenter.dir)
+    
     if checkpoint_segmenter is not None:
         last_epoch, step = load_checkpoint(model_segmenter, optimizer_segmenter, checkpoint_segmenter)
     else:
