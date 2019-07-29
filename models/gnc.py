@@ -286,8 +286,8 @@ class Regression_X1(nn.Module):
             print('h ', h.shape)
             
          #   if self.bias_in:
-            h = h + bias_in
-            print('h1 ', h.shape)
+         #   h = h + bias_in
+         #   print('h1 ', h.shape)
          #   if self.activation_in:
             h = activation_in(h)
             print('h2 ', h.shape)
@@ -353,8 +353,8 @@ class Regression_X1(nn.Module):
             print('h ', h.shape)
             
           #  if self.bias:
-            h = h + self.bias_h0
-            print('h1 h0 ', h.shape)
+        #    h = h + self.bias_h0
+         #   print('h1 h0 ', h.shape)
            # if self.activation:
             h = self.activation_h0(h)
             print('h2 h0 ', h.shape)
@@ -421,8 +421,8 @@ class Regression_X1(nn.Module):
             print('h ', h.shape)
             
           #  if self.bias:
-            h = h + self.bias_out
-            print('h1 out ', h.shape)
+         #   h = h + self.bias_out
+        #    print('h1 out ', h.shape)
          #   if self.activation:
             h = self.activation_out(h)
             print('h2 out ', h.shape)
