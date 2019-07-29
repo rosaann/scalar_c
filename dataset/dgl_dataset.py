@@ -186,11 +186,12 @@ class DGLDataset(object):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    if not g.edata['w']:
-                        g.edata['w'] =  torch.tensor( []).cuda()
-                    g.edata['w'].cat( torch.tensor( [et]).cuda(), 1)
+                    if 'w' not in g.edata.keys():
+                        g.edata['w'] =  torch.tensor( [[et]]).cuda()
+                    else :
+                        g.edata['w'].cat( torch.tensor( [et]).cuda(), 0)
                     gt.append(sc)
-                    
+                print('g ', g)   
                 
                 self.data_list.append(g)
                 self.gt_list.append(gt)
