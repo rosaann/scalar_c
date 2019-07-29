@@ -17,6 +17,7 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from functools import partial
 import os, ast
+from functools import partial
 # Sends a message of node feature h.
 msg = fn.copy_src(src='h', out='m')
 
@@ -215,23 +216,8 @@ class Regression_X1(nn.Module):
         self.build_input_layer(in_dim, h_dim, self.num_rels, num_bases)
         self.build_hidden_0_layer(h_dim, h_dim, self.num_rels, num_bases)
         self.build_out_layer(h_dim, out_dim, self.num_rels, num_bases)
-      #  self.build_model() 
+      
 
-        # create initial features
-      #  self.features = self.create_features()
-         #                                       5))
-    def build_model(self):
-        self.layers = nn.ModuleList()
-        # input to hidden
-       # self.i2h = self.build_input_layer()
-        #self.layers.append(i2h)
-        # hidden to hidden
-        for _ in range(self.num_hidden_layers):
-            h2h = self.build_hidden_layer()
-            self.layers.append(h2h)
-        # hidden to output
-        h2o = self.build_output_layer()
-        self.layers.append(h2o)
 
     # initialize feature for each node
     def create_features(self):
@@ -242,7 +228,7 @@ class Regression_X1(nn.Module):
                  activation=None, is_input_layer=False):
         self.weight_in = nn.Parameter(torch.Tensor(num_bases, in_feat,
                                                 out_feat))
-        
+        self.activation_in = F.relu
         print('self.weight_in ', self.weight_in.shape)
         if num_bases < num_rels:
             # linear combination coefficients in equation (3)
@@ -266,10 +252,10 @@ class Regression_X1(nn.Module):
     def forward_in(self, g):
          
             # generate all weights from bases (equation (3))
-         weight = self.weight_in.view(self.in_dim, self.num_bases, self.out_dim)
+         weight = self.weight_in.view(self.in_dim, self.num_bases, self.h_dim)
          print('---f--weight--1-in- ', weight.shape)
          weight = torch.matmul(self.w_comp_in, weight).view(self.num_rels,
-                                                        self.in_dim, self.out_dim)
+                                                        self.in_dim, self.h_dim)
          print('---f--weight--2-in- ', weight.shape)
       #   else:
       #      weight = self.weight
@@ -281,7 +267,7 @@ class Regression_X1(nn.Module):
                 
                 print('node in ', node)
                 print('node in s ', node.shape)
-                embed = weight.view(-1, self.out_feat)
+                embed = weight.view(-1, self.h_feat)
                 print('embed in ', embed.shape)
                 print('edge in w ', edges.data['w'].shape)
                 print('self.in_feat ', self.in_feat)
@@ -296,12 +282,12 @@ class Regression_X1(nn.Module):
             h = nodes.data['h']
             print('h ', h.shape)
             
-            if self.bias:
-                h = h + self.bias_in
-                print('h1 ', h.shape)
-            if self.activation:
-                h = self.activation(h)
-                print('h2 ', h.shape)
+         #   if self.bias_in:
+            h = h + self.bias_in
+            print('h1 ', h.shape)
+         #   if self.activation_in:
+            h = self.activation_in(h)
+            print('h2 ', h.shape)
             return {'h': h}
 
          g.update_all(message_func_in, fn.sum(msg='msg', out='h2'), apply_func_in)
@@ -312,6 +298,7 @@ class Regression_X1(nn.Module):
                                                 out_feat))
         
         print('self.weight_h0 ', self.weight_h0.shape)
+        self.activation_h0 = F.relu
         if num_bases < num_rels:
             # linear combination coefficients in equation (3)
             self.w_comp_h0 = nn.Parameter(torch.Tensor(num_rels, num_bases))
@@ -362,12 +349,12 @@ class Regression_X1(nn.Module):
             h = nodes.data['h']
             print('h ', h.shape)
             
-            if self.bias:
-                h = h + self.bias_h0
-                print('h1 h0 ', h.shape)
-            if self.activation:
-                h = self.activation(h)
-                print('h2 h0 ', h.shape)
+          #  if self.bias:
+            h = h + self.bias_h0
+            print('h1 h0 ', h.shape)
+           # if self.activation:
+            h = self.activation_h0(h)
+            print('h2 h0 ', h.shape)
             return {'h': h}
 
          g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
@@ -378,6 +365,8 @@ class Regression_X1(nn.Module):
                                                 out_feat))
         
         print('self.weight_out ', self.weight_out.shape)
+        self.activation_out = partial(F.softmax, dim=1)
+        
         if num_bases < num_rels:
             # linear combination coefficients in equation (3)
             self.w_comp_out = nn.Parameter(torch.Tensor(num_rels, num_bases))
@@ -428,12 +417,12 @@ class Regression_X1(nn.Module):
             h = nodes.data['h']
             print('h ', h.shape)
             
-            if self.bias:
-                h = h + self.bias_out
-                print('h1 h0 ', h.shape)
-            if self.activation:
-                h = self.activation(h)
-                print('h2 h0 ', h.shape)
+          #  if self.bias:
+            h = h + self.bias_out
+            print('h1 out ', h.shape)
+         #   if self.activation:
+            h = self.activation_out(h)
+            print('h2 out ', h.shape)
             return {'h': h}
 
          g.update_all(message_func_out, fn.sum(msg='msg', out='h2'), apply_func_out)
