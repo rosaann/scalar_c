@@ -189,7 +189,7 @@ class DGLDataset(object):
                     if 'w' not in g.edata.keys():
                         g.edata['w'] =  torch.tensor( [[et]]).cuda()
                     else :
-                        g.edata['w'].cat( torch.tensor( [et]).cuda(), 0)
+                        g.edata['w'].expand( torch.tensor( [et]).cuda(), 0)
                     gt.append(sc)
                 print('g ', g)   
                 
