@@ -194,7 +194,7 @@ class DGLDataset(object):
                 #        g.edata['w'].expand( torch.tensor( [et]).cuda())
                     gt.append(sc)
                 print('e ', e)
-                g.edata['w'] = torch.tensor(e).cuda()
+                g.edata['we'] = torch.tensor(e).cuda()
                 print('g ', g)   
                 
                 self.data_list.append(g)

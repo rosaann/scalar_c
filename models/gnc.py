@@ -272,9 +272,9 @@ class Regression_X1(nn.Module):
                 print('node in s ', node.shape)
                 embed = weight.view(-1, self.h_dim)
                 print('embed in ', embed.shape)
-                print('edge in w ', edges.data['w'].shape, ' ', edges.data['w'])
+                print('edge in w ', edges.data['we'].shape, ' ', edges.data['we'])
                 print('self.in_feat ', self.in_dim)
-                index = edges.data['w'] * self.in_dim #+ edges.src['id']
+                index = edges.data['we'] * self.in_dim #+ edges.src['id']
                 print('index in ', index)
                 msg = embed[index]
                 print('msg -in-', msg.shape)
