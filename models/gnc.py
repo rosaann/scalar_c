@@ -327,7 +327,7 @@ class Regression_X1(nn.Module):
          weight = self.weight_h0.view(self.h_dim, self.num_bases, self.h_dim)
          print('---f--weight--1-h0- ', weight.shape)
          weight = torch.matmul(self.w_comp_h0, weight).view(self.num_rels,
-                                                        self.in_dim, self.h_dim)
+                                                        self.h_dim, self.h_dim)
          print('---f--weight--2-h0- ', weight.shape)
          
          def message_func_h0(edges):
@@ -417,14 +417,14 @@ class Regression_X1(nn.Module):
          def apply_func_out(nodes):
             h2 = nodes.data['h2']
             print('h2 ', h2.shape)
-            h = nodes.data['h']
-            print('h ', h.shape)
+         #   h = nodes.data['h']
+         #   print('h ', h.shape)
             
           #  if self.bias:
          #   h = h + self.bias_out
         #    print('h1 out ', h.shape)
          #   if self.activation:
-            h = self.activation_out(h)
+            h = self.activation_out(h2)
             print('h2 out ', h.shape)
             return {'h': h}
 
