@@ -275,7 +275,7 @@ class Regression_X1(nn.Module):
                 print('edge in w ', edges.data['we'].shape)
                 print('self.in_feat ', self.in_dim)
                 index = edges.data['we'] * self.in_dim #+ edges.src['id']
-                print('index in ', index)
+                print('index in ', index.shape, ' ', index)
                 msg = embed[index]
                 print('msg -in-', msg.shape)
                 return {'msg': msg}
