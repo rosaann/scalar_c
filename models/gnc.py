@@ -262,7 +262,7 @@ class Regression_X1(nn.Module):
       #      print('---f--weight--3-in- ', weight.shape)
       #   bias_in = self.bias_in
          activation_in = self.activation_in
-         def message_func(edges):
+         def message_func_in(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                 embed = weight.view(-1, self.h_dim)
