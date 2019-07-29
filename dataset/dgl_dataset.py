@@ -180,17 +180,20 @@ class DGLDataset(object):
                     
                 
              #   gt = []
+                e = []
                 for edge_info in edges:
                     idx0 = int(edge_info['index0'])
                     idx1 = int(edge_info['index1'])
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    if 'w' not in g.edata.keys():
-                        g.edata['w'] =  torch.tensor( [[et]]).cuda()
-                    else :
-                        g.edata['w'].expand( torch.tensor( [et]).cuda())
+                    e.append([et])
+                 #   if 'w' not in g.edata.keys():
+                 #       g.edata['w'] =  torch.tensor( [[et]]).cuda()
+                #    else :
+                #        g.edata['w'].expand( torch.tensor( [et]).cuda())
                     gt.append(sc)
+                g.edata['w'] = torch.tensor(e).cuda()
                 print('g ', g)   
                 
                 self.data_list.append(g)
