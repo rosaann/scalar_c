@@ -235,9 +235,9 @@ class Regression_X1(nn.Module):
             self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases))
             print('self.w_comp_in ', self.w_comp_in.shape)
         # add bias
-        if bias:
-            self.bias_in = nn.Parameter(torch.Tensor(out_feat))
-            print('self.bias ', self.bias_in.shape)
+      #  if bias:
+        self.bias_in = nn.Parameter(torch.Tensor(out_feat))
+        print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_in,
                                 gain=nn.init.calculate_gain('relu'))
@@ -304,9 +304,9 @@ class Regression_X1(nn.Module):
             self.w_comp_h0 = nn.Parameter(torch.Tensor(num_rels, num_bases))
             print('self.w_comp_h0 ', self.w_comp_h0.shape)
         # add bias
-        if bias:
-            self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
-            print('self.biash0 ', self.bias_h0.shape)
+        
+        self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
+        print('self.biash0 ', self.bias_h0.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_h0,
                                 gain=nn.init.calculate_gain('relu'))
@@ -372,9 +372,9 @@ class Regression_X1(nn.Module):
             self.w_comp_out = nn.Parameter(torch.Tensor(num_rels, num_bases))
             print('self.w_comp_out ', self.w_comp_out.shape)
         # add bias
-        if bias:
-            self.bias_out = nn.Parameter(torch.Tensor(out_feat))
-            print('self.bias_out ', self.bias_out.shape)
+        
+        self.bias_out = nn.Parameter(torch.Tensor(out_feat))
+        print('self.bias_out ', self.bias_out.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_out,
                                 gain=nn.init.calculate_gain('relu'))
