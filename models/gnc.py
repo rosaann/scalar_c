@@ -235,9 +235,31 @@ class Regression_X1(nn.Module):
         features = torch.arange(self.in_dim)
         return features
 
-    def build_input_layer(self):
-        return RGCNLayer(self.in_dim, self.h_dim, self.num_rels, self.num_bases,
-                         activation=F.relu, is_input_layer=True)
+    def build_input_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
+                 activation=None, is_input_layer=False):
+        self.weight_in = nn.Parameter(torch.Tensor(num_bases, in_feat,
+                                                out_feat))
+        
+        print('self.weight_in ', self.weight_in.shape)
+        if num_bases < num_rels:
+            # linear combination coefficients in equation (3)
+            self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases).cuda())
+            print('self.w_comp_in ', self.w_comp_in.shape)
+        # add bias
+        if bias:
+            bias = nn.Parameter(torch.Tensor(out_feat).cuda())
+            print('self.bias ', bias.shape)
+        # init trainable parameters
+        nn.init.xavier_uniform_(self.weight_in,
+                                gain=nn.init.calculate_gain('relu'))
+        if num_bases < num_rels:
+            nn.init.xavier_uniform_(self.w_comp_in,
+                                    gain=nn.init.calculate_gain('relu'))
+        if bias:
+            nn.init.xavier_uniform_(bias,
+                                    gain=nn.init.calculate_gain('relu'))
+            
+       
 
     def build_hidden_layer(self):
         return RGCNLayer(self.h_dim, self.h_dim, self.num_rels, self.num_bases,
@@ -250,7 +272,52 @@ class Regression_X1(nn.Module):
     def forward(self, g):
        # if self.features is not None:
        #     g.ndata['id'] = self.features
+        self.forward_in(g)
         for i, layer in enumerate( self.layers):
             print('f-- ', i)
             layer(g)
         return g.ndata.pop('h')
+    
+    def forward_in(self, g):
+         if self.num_bases < self.num_rels:
+            # generate all weights from bases (equation (3))
+            weight = self.weight.view(self.in_feat, self.num_bases, self.out_feat)
+            print('---f--weight--1-in- ', weight.shape)
+            weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
+                                                        self.in_feat, self.out_feat)
+            print('---f--weight--2-in- ', weight.shape)
+         else:
+            weight = self.weight
+            print('---f--weight--3-in- ', weight.shape)
+         def message_func_in(edges):
+                # for input layer, matrix multiply can be converted to be
+                # an embedding lookup using source node id
+                node = edges.src['h']
+                
+                print('node in ', node)
+                print('node in s ', node.shape)
+                embed = weight.view(-1, self.out_feat)
+                print('embed in ', embed.shape)
+                print('edge in w ', edges.data['w'].shape)
+                print('self.in_feat ', self.in_feat)
+                index = edges.data['w'] * self.in_feat #+ edges.src['id']
+                print('index in ', index)
+                msg = embed[index]
+                print('msg -in-', msg.shape)
+                return {'msg': msg}
+         def apply_func_in(nodes):
+            h2 = nodes.data['h2']
+            print('h2 ', h2.shape)
+            h = nodes.data['h']
+            print('h ', h.shape)
+            
+            if self.bias:
+                h = h + self.bias
+                print('h1 ', h.shape)
+            if self.activation:
+                h = self.activation(h)
+                print('h2 ', h.shape)
+            return {'h': h}
+
+         g.update_all(message_func_in, fn.sum(msg='msg', out='h2'), apply_func_in)
+         
