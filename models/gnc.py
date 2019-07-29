@@ -34,15 +34,32 @@ def reduce(nodes):
     accum = torch.mean(nodes.mailbox['m'], 1)
     return {'h': accum}
 
+def find_type_index_dic():
+    type_index_dic_dir = 'data/type_index_dic.txt'
+    if os.path.exists(type_index_dic_dir):
+        with open(type_index_dic_dir, 'r') as f: 
+            type_index_dic_dir = ast.literal_eval(f.read())
+            return type_index_dic_dir 
+        
 class NodeApplyModule(nn.Module):
     """Update the node feature hv with ReLU(Whv+b)."""
     def __init__(self, in_feats, out_feats, activation):
         super(NodeApplyModule, self).__init__()
-        self.linear = nn.Linear(in_feats, out_feats)
+       # self.linear = nn.Linear(in_feats, out_feats)
+        self.weight = nn.Parameter(torch.Tensor(self.num_bases, self.in_feats,
+                                                self.outs_feat)).cuda()
         self.activation = activation
 
     def forward(self, node):
-        h = self.linear(node.data['h'])
+       # h = self.linear(node.data['h'])
+        print('node ', node)
+        node_d = node.data['h']
+        print('node_d ', node_d.shape)
+        edge_d = node.edata['we']
+        print('edge_d ', edge_d.shape)
+        
+        h =  torch.bmm( node_d, edge_d)
+        print('h ', h.shape)
         h = self.activation(h)
         return {'h' : h}
 
@@ -51,32 +68,17 @@ class GCN(nn.Module):
         super(GCN, self).__init__()
         self.apply_mod = NodeApplyModule(in_feats, out_feats, activation)
 
-    def forward(self, g):
+    def forward(self, g, feature):
         # Initialize the node features with h.
-       # g.ndata['h'] = feature
-   #     print('ggg ', g)
-         def message_func(edges):
-                # for input layer, matrix multiply can be converted to be
-                # an embedding lookup using source node id
-                node = edges.src['h']
-                
-                print('node ', node)
-                print('node  s ', node.shape)
-                embed = weight.view(-1, self.out_feat)
-                print('embed ', embed.shape)
-                print('edge w ', edges.data['w'].shape)
-                print('self.in_feat ', self.in_feat)
-                index = edges.data['w'] * self.in_feat #+ edges.src['id']
-                print('index ', index)
-                msg = embed[index]
-                print('msg --', msg.shape)
-                return {'msg': msg}
-         g.update_all(message_func, reduce)
-         g.apply_nodes(func=self.apply_mod)
-         return g
+        g.ndata['h'] = feature
+        
+        
+        g.update_all(msg, reduce)
+        g.apply_nodes(func=self.apply_mod)
+        return g.ndata.pop('h')
      #   return g.ndata.pop('h')
 
-class Reg_Old(nn.Module):
+class Regression_X1(nn.Module):
     def __init__(self):
         super(Regression_X1, self).__init__()
         in_dim = 4
@@ -100,12 +102,7 @@ class Reg_Old(nn.Module):
         print('out ', y)
         return y
 
-def find_type_index_dic():
-    type_index_dic_dir = 'data/type_index_dic.txt'
-    if os.path.exists(type_index_dic_dir):
-        with open(type_index_dic_dir, 'r') as f: 
-            type_index_dic_dir = ast.literal_eval(f.read())
-            return type_index_dic_dir    
+   
 class RGCNLayer(nn.Module):
     def __init__(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
                  activation=None, is_input_layer=False):
@@ -199,7 +196,7 @@ class RGCNLayer(nn.Module):
 
         g.update_all(message_func, fn.sum(msg='msg', out='h2'), apply_func)
         
-class Regression_X1(nn.Module):
+class Regression_X1_tem(nn.Module):
     def __init__(self, in_dim = 4, h_dim = 64, out_dim = 1, num_rels = 1,
                  num_bases=1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
