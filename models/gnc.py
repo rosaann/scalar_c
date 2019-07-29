@@ -392,9 +392,9 @@ class Regression_X1(nn.Module):
     def forward_out(self, g):
          
         # generate all weights from bases (equation (3))
-         weight = self.weight.view(self.h_dim, self.num_bases, self.out_dim)
+         weight = self.weight_out.view(self.h_dim, self.num_bases, self.out_dim)
          print('---f--weight--1-out- ', weight.shape)
-         weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
+         weight = torch.matmul(self.w_comp_out, weight).view(self.num_rels,
                                                         self.h_dim, self.out_dim)
          print('---f--weight--2-out- ', weight.shape)
          
