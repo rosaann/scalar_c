@@ -193,6 +193,7 @@ class DGLDataset(object):
                 #    else :
                 #        g.edata['w'].expand( torch.tensor( [et]).cuda())
                     gt.append(sc)
+                print('e ', e)
                 g.edata['w'] = torch.tensor(e).cuda()
                 print('g ', g)   
                 
