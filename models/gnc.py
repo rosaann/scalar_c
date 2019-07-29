@@ -200,7 +200,7 @@ class RGCNLayer(nn.Module):
         
 class Regression_X1(nn.Module):
     def __init__(self, in_dim = 4, h_dim = 64, out_dim = 1, num_rels = 1,
-                 num_bases=-1, num_hidden_layers=2):
+                 num_bases=1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
         self.in_dim = in_dim
         self.h_dim = h_dim
