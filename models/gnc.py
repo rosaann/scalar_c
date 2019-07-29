@@ -220,8 +220,8 @@ class Regression_X1(nn.Module):
     def build_model(self):
         self.layers = nn.ModuleList()
         # input to hidden
-        i2h = self.build_input_layer()
-        self.layers.append(i2h)
+        self.i2h = self.build_input_layer()
+        #self.layers.append(i2h)
         # hidden to hidden
         for _ in range(self.num_hidden_layers):
             h2h = self.build_hidden_layer()
