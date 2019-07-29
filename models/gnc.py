@@ -81,7 +81,7 @@ class GCN(nn.Module):
         return g.ndata.pop('h')
      #   return g.ndata.pop('h')
 
-class Regression_X1(nn.Module):
+class Regression_X1_Up(nn.Module):
     def __init__(self):
         super(Regression_X1, self).__init__()
         in_dim = 4
@@ -199,7 +199,7 @@ class RGCNLayer(nn.Module):
 
         g.update_all(message_func, fn.sum(msg='msg', out='h2'), apply_func)
         
-class Regression_X1_tem(nn.Module):
+class Regression_X1(nn.Module):
     def __init__(self, in_dim = 4, h_dim = 64, out_dim = 1, num_rels = 1,
                  num_bases=1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
@@ -260,14 +260,22 @@ class Regression_X1_tem(nn.Module):
       #   else:
       #      weight = self.weight
       #      print('---f--weight--3-in- ', weight.shape)
-         bias_in = self.bias_in
+      #   bias_in = self.bias_in
          activation_in = self.activation_in
          def message_func(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-                embed = weight.view(-1, self.out_feat)
+                embed = weight.view(-1, self.h_dim)
+                print('embed ', embed.shape)
                 index = edges.data['we'] 
-                return {'msg': embed[index] * edges.data['norm']}
+                print('index ', index.shape, ' ', index)
+                w = embed[index]
+                print('w ', w.shape, ' ', w)
+                node_data = edges.src['h']
+                print('node_data ', node_data.shape, ' ', node_data)
+                msg = w * node_data
+                print('msg ', msg.shape, ' ', msg)
+                return {'msg': msg}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
             print('h2 ', h2.shape)
