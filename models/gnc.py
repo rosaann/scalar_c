@@ -46,8 +46,8 @@ class NodeApplyModule(nn.Module):
     def __init__(self, in_feats, out_feats, activation):
         super(NodeApplyModule, self).__init__()
        # self.linear = nn.Linear(in_feats, out_feats)
-        self.weight = nn.Parameter(torch.Tensor(self.num_bases, self.in_feats,
-                                                self.outs_feat)).cuda()
+        self.weight = nn.Parameter(torch.Tensor(self.num_bases, in_feats,
+                                                out_feat)).cuda()
         self.activation = activation
 
     def forward(self, node):
