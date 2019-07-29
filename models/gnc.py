@@ -212,8 +212,10 @@ class Regression_X1(nn.Module):
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
-        self.build_input_layer(in_dim, out_dim, self.num_rels, num_bases)
-        self.build_model() 
+        self.build_input_layer(in_dim, h_dim, self.num_rels, num_bases)
+        self.build_hidden_0_layer(h_dim, h_dim, self.num_rels, num_bases)
+        self.build_out_layer(h_dim, out_dim, self.num_rels, num_bases)
+      #  self.build_model() 
 
         # create initial features
       #  self.features = self.create_features()
@@ -244,12 +246,12 @@ class Regression_X1(nn.Module):
         print('self.weight_in ', self.weight_in.shape)
         if num_bases < num_rels:
             # linear combination coefficients in equation (3)
-            self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases).cuda())
+            self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases))
             print('self.w_comp_in ', self.w_comp_in.shape)
         # add bias
         if bias:
-            bias = nn.Parameter(torch.Tensor(out_feat).cuda())
-            print('self.bias ', bias.shape)
+            self.bias_in = nn.Parameter(torch.Tensor(out_feat))
+            print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_in,
                                 gain=nn.init.calculate_gain('relu'))
@@ -257,39 +259,21 @@ class Regression_X1(nn.Module):
             nn.init.xavier_uniform_(self.w_comp_in,
                                     gain=nn.init.calculate_gain('relu'))
         if bias:
-            nn.init.xavier_uniform_(bias,
+            nn.init.xavier_uniform_(self.bias_in,
                                     gain=nn.init.calculate_gain('relu'))
             
-       
-
-    def build_hidden_layer(self):
-        return RGCNLayer(self.h_dim, self.h_dim, self.num_rels, self.num_bases,
-                         activation=F.relu)
-
-    def build_output_layer(self):
-        return RGCNLayer(self.h_dim, self.out_dim, self.num_rels, self.num_bases
-                         )
-
-    def forward(self, g):
-       # if self.features is not None:
-       #     g.ndata['id'] = self.features
-        self.forward_in(g)
-        for i, layer in enumerate( self.layers):
-            print('f-- ', i)
-            layer(g)
-        return g.ndata.pop('h')
     
     def forward_in(self, g):
-         if self.num_bases < self.num_rels:
+         
             # generate all weights from bases (equation (3))
-            weight = self.weight.view(self.in_feat, self.num_bases, self.out_feat)
-            print('---f--weight--1-in- ', weight.shape)
-            weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
-                                                        self.in_feat, self.out_feat)
-            print('---f--weight--2-in- ', weight.shape)
-         else:
-            weight = self.weight
-            print('---f--weight--3-in- ', weight.shape)
+         weight = self.weight.view(self.in_dim, self.num_bases, self.out_dim)
+         print('---f--weight--1-in- ', weight.shape)
+         weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
+                                                        self.in_dim, self.out_dim)
+         print('---f--weight--2-in- ', weight.shape)
+      #   else:
+      #      weight = self.weight
+      #      print('---f--weight--3-in- ', weight.shape)
          def message_func_in(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
@@ -313,7 +297,7 @@ class Regression_X1(nn.Module):
             print('h ', h.shape)
             
             if self.bias:
-                h = h + self.bias
+                h = h + self.bias_in
                 print('h1 ', h.shape)
             if self.activation:
                 h = self.activation(h)
@@ -321,4 +305,145 @@ class Regression_X1(nn.Module):
             return {'h': h}
 
          g.update_all(message_func_in, fn.sum(msg='msg', out='h2'), apply_func_in)
+    
+    def build_hidden_0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
+                 activation=None, is_input_layer=False):
+        self.weight_h0 = nn.Parameter(torch.Tensor(num_bases, in_feat,
+                                                out_feat))
+        
+        print('self.weight_h0 ', self.weight_h0.shape)
+        if num_bases < num_rels:
+            # linear combination coefficients in equation (3)
+            self.w_comp_h0 = nn.Parameter(torch.Tensor(num_rels, num_bases))
+            print('self.w_comp_h0 ', self.w_comp_h0.shape)
+        # add bias
+        if bias:
+            self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
+            print('self.biash0 ', self.bias_h0.shape)
+        # init trainable parameters
+        nn.init.xavier_uniform_(self.weight_h0,
+                                gain=nn.init.calculate_gain('relu'))
+        if num_bases < num_rels:
+            nn.init.xavier_uniform_(self.w_comp_h0,
+                                    gain=nn.init.calculate_gain('relu'))
+        if bias:
+            nn.init.xavier_uniform_(self.bias_h0,
+                                    gain=nn.init.calculate_gain('relu'))
+            
+    
+    def forward_h0(self, g):
          
+        # generate all weights from bases (equation (3))
+         weight = self.weight.view(self.in_dim, self.num_bases, self.h_dim)
+         print('---f--weight--1-h0- ', weight.shape)
+         weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
+                                                        self.in_dim, self.h_dim)
+         print('---f--weight--2-h0- ', weight.shape)
+         
+         def message_func_h0(edges):
+                # for input layer, matrix multiply can be converted to be
+                # an embedding lookup using source node id
+                node = edges.src['h']
+                
+                print('node h0 ', node)
+                print('node h0 s ', node.shape)
+                embed = weight.view(-1, self.out_dim)
+                print('embed h0 ', embed.shape)
+                print('edge h0 w ', edges.data['w'].shape)
+                print('self.h0_feat ', self.in_dim)
+                index = edges.data['w'] * self.in_dim #+ edges.src['id']
+                print('index h0 ', index)
+                msg = embed[index]
+                print('msg -h0-', msg.shape)
+                return {'msg': msg}
+         def apply_func_h0(nodes):
+            h2 = nodes.data['h2']
+            print('h2 ', h2.shape)
+            h = nodes.data['h']
+            print('h ', h.shape)
+            
+            if self.bias:
+                h = h + self.bias_h0
+                print('h1 h0 ', h.shape)
+            if self.activation:
+                h = self.activation(h)
+                print('h2 h0 ', h.shape)
+            return {'h': h}
+
+         g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
+
+    def build_out_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
+                 activation=None, is_input_layer=False):
+        self.weight_out = nn.Parameter(torch.Tensor(num_bases, in_feat,
+                                                out_feat))
+        
+        print('self.weight_out ', self.weight_out.shape)
+        if num_bases < num_rels:
+            # linear combination coefficients in equation (3)
+            self.w_comp_out = nn.Parameter(torch.Tensor(num_rels, num_bases))
+            print('self.w_comp_out ', self.w_comp_out.shape)
+        # add bias
+        if bias:
+            self.bias_out = nn.Parameter(torch.Tensor(out_feat))
+            print('self.bias_out ', self.bias_out.shape)
+        # init trainable parameters
+        nn.init.xavier_uniform_(self.weight_out,
+                                gain=nn.init.calculate_gain('relu'))
+        if num_bases < num_rels:
+            nn.init.xavier_uniform_(self.w_comp_out,
+                                    gain=nn.init.calculate_gain('relu'))
+        if bias:
+            nn.init.xavier_uniform_(self.bias_out,
+                                    gain=nn.init.calculate_gain('relu'))
+            
+    
+    def forward_out(self, g):
+         
+        # generate all weights from bases (equation (3))
+         weight = self.weight.view(self.h_dim, self.num_bases, self.out_dim)
+         print('---f--weight--1-out- ', weight.shape)
+         weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
+                                                        self.h_dim, self.out_dim)
+         print('---f--weight--2-out- ', weight.shape)
+         
+         def message_func_out(edges):
+                # for input layer, matrix multiply can be converted to be
+                # an embedding lookup using source node id
+                node = edges.src['h']
+                
+                print('node out ', node)
+                print('node out s ', node.shape)
+                embed = weight.view(-1, self.out_dim)
+                print('embed out ', embed.shape)
+                print('edge out w ', edges.data['w'].shape)
+                print('self.out_feat ', self.in_dim)
+                index = edges.data['w'] * self.in_dim #+ edges.src['id']
+                print('index out ', index)
+                msg = embed[index]
+                print('msg -out-', msg.shape)
+                return {'msg': msg}
+         def apply_func_out(nodes):
+            h2 = nodes.data['h2']
+            print('h2 ', h2.shape)
+            h = nodes.data['h']
+            print('h ', h.shape)
+            
+            if self.bias:
+                h = h + self.bias_out
+                print('h1 h0 ', h.shape)
+            if self.activation:
+                h = self.activation(h)
+                print('h2 h0 ', h.shape)
+            return {'h': h}
+
+         g.update_all(message_func_out, fn.sum(msg='msg', out='h2'), apply_func_out)
+    
+
+    def forward(self, g):
+       # if self.features is not None:
+       #     g.ndata['id'] = self.features
+        self.forward_in(g)
+        self.forward_h0(g)
+        self.forward_out(g)
+        
+        return g.ndata.pop('h')     
