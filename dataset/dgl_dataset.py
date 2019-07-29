@@ -186,7 +186,7 @@ class DGLDataset(object):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     g.add_edge(idx0, idx1)
-                    g.edges[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
+                    g.edata[idx0, idx1].data['w'] = torch.tensor( [et]).cuda()
                     gt.append(sc)
                     
                 
