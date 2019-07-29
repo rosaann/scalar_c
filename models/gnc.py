@@ -268,13 +268,13 @@ class Regression_X1(nn.Module):
                 embed = weight.view(-1, self.h_dim)
                 print('embed ', embed.shape)
                 index = edges.data['we'] 
-                print('index ', index.shape, ' ', index)
+                print('index ', index.shape, ' ')
                 w = embed[index]
-                print('w ', w.shape, ' ', w)
+                print('w ', w.shape, ' ')
                 node_data = edges.src['h']
-                print('node_data ', node_data.shape, ' ', node_data)
+                print('node_data ', node_data.shape, ' ')
                 msg = w * node_data
-                print('msg ', msg.shape, ' ', msg)
+                print('msg ', msg.shape, ' ')
                 return {'msg': msg}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
