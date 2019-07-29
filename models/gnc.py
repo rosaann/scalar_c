@@ -212,6 +212,7 @@ class Regression_X1(nn.Module):
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
+        self.build_input_layer(in_dim, out_dim, self.num_rels, num_bases)
         self.build_model() 
 
         # create initial features
@@ -220,7 +221,7 @@ class Regression_X1(nn.Module):
     def build_model(self):
         self.layers = nn.ModuleList()
         # input to hidden
-        self.i2h = self.build_input_layer()
+       # self.i2h = self.build_input_layer()
         #self.layers.append(i2h)
         # hidden to hidden
         for _ in range(self.num_hidden_layers):
