@@ -333,15 +333,15 @@ class Regression_X1(nn.Module):
          def message_func_h0(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-                node = edges.src['h']
+            #    node = edges.src['h']
                 
-                print('node h0 ', node)
-                print('node h0 s ', node.shape)
+            #    print('node h0 ', node)
+            #    print('node h0 s ', node.shape)
                 embed = weight.view(-1, self.h_dim)
                 print('embed h0 ', embed.shape)
-                print('edge h0 w ', edges.data['w'].shape)
+                print('edge h0 w ', edges.data['we'].shape)
                 print('self.h0_feat ', self.h_dim)
-                index = edges.data['w'] * self.h_dim #+ edges.src['id']
+                index = edges.data['we'] * self.h_dim #+ edges.src['id']
                 print('index h0 ', index)
                 msg = embed[index]
                 print('msg -h0-', msg.shape)
@@ -401,15 +401,15 @@ class Regression_X1(nn.Module):
          def message_func_out(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-                node = edges.src['h']
+          #      node = edges.src['h']
                 
-                print('node out ', node)
-                print('node out s ', node.shape)
+              #  print('node out ', node)
+              #  print('node out s ', node.shape)
                 embed = weight.view(-1, self.out_dim)
                 print('embed out ', embed.shape)
-                print('edge out w ', edges.data['w'].shape)
+                print('edge out w ', edges.data['we'].shape)
                 print('self.out_feat ', self.in_dim)
-                index = edges.data['w'] * self.in_dim #+ edges.src['id']
+                index = edges.data['we'] * self.in_dim #+ edges.src['id']
                 print('index out ', index)
                 msg = embed[index]
                 print('msg -out-', msg.shape)
