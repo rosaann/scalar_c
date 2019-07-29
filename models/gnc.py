@@ -267,11 +267,11 @@ class Regression_X1(nn.Module):
                 
                 print('node in ', node)
                 print('node in s ', node.shape)
-                embed = weight.view(-1, self.h_feat)
+                embed = weight.view(-1, self.h_dim)
                 print('embed in ', embed.shape)
                 print('edge in w ', edges.data['w'].shape)
-                print('self.in_feat ', self.in_feat)
-                index = edges.data['w'] * self.in_feat #+ edges.src['id']
+                print('self.in_feat ', self.in_dim)
+                index = edges.data['w'] * self.in_dim #+ edges.src['id']
                 print('index in ', index)
                 msg = embed[index]
                 print('msg -in-', msg.shape)
@@ -321,7 +321,7 @@ class Regression_X1(nn.Module):
     def forward_h0(self, g):
          
         # generate all weights from bases (equation (3))
-         weight = self.weight_h0.view(self.in_dim, self.num_bases, self.h_dim)
+         weight = self.weight_h0.view(self.h_dim, self.num_bases, self.h_dim)
          print('---f--weight--1-h0- ', weight.shape)
          weight = torch.matmul(self.w_comp_h0, weight).view(self.num_rels,
                                                         self.in_dim, self.h_dim)
@@ -334,11 +334,11 @@ class Regression_X1(nn.Module):
                 
                 print('node h0 ', node)
                 print('node h0 s ', node.shape)
-                embed = weight.view(-1, self.out_dim)
+                embed = weight.view(-1, self.h_dim)
                 print('embed h0 ', embed.shape)
                 print('edge h0 w ', edges.data['w'].shape)
-                print('self.h0_feat ', self.in_dim)
-                index = edges.data['w'] * self.in_dim #+ edges.src['id']
+                print('self.h0_feat ', self.h_dim)
+                index = edges.data['w'] * self.h_dim #+ edges.src['id']
                 print('index h0 ', index)
                 msg = embed[index]
                 print('msg -h0-', msg.shape)
