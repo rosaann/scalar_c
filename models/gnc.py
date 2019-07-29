@@ -43,20 +43,21 @@ def find_type_index_dic():
         
 class NodeApplyModule(nn.Module):
     """Update the node feature hv with ReLU(Whv+b)."""
-    def __init__(self, in_feats, out_feats, activation):
+    def __init__(self,num_ref, in_feats, out_feats, activation):
         super(NodeApplyModule, self).__init__()
        # self.linear = nn.Linear(in_feats, out_feats)
-        self.weight = nn.Parameter(torch.Tensor(self.num_bases, in_feats,
-                                                out_feat)).cuda()
+        self.weight_whole = nn.Parameter(torch.Tensor(num_ref, out_feats,
+                                                in_feats)).cuda()
         self.activation = activation
 
     def forward(self, node):
        # h = self.linear(node.data['h'])
         print('node ', node)
+        print('weight_whole ', self.weight_whole.shape)
         node_d = node.data['h']
         print('node_d ', node_d.shape)
         edge_d = node.edata['we']
-        print('edge_d ', edge_d.shape)
+        print('edge_d ', edge_d.shape, ' ', edge_d)
         
         h =  torch.bmm( node_d, edge_d)
         print('h ', h.shape)
@@ -66,14 +67,16 @@ class NodeApplyModule(nn.Module):
 class GCN(nn.Module):
     def __init__(self, in_feats, out_feats, activation):
         super(GCN, self).__init__()
-        self.apply_mod = NodeApplyModule(in_feats, out_feats, activation)
+        self.type_index_dic = find_type_index_dic()
+        self.num_rels = len( self.type_index_dic.keys())
+        self.apply_mod = NodeApplyModule(self.num_rels, in_feats, out_feats, activation)
 
     def forward(self, g, feature):
         # Initialize the node features with h.
         g.ndata['h'] = feature
-        
-        
+               
         g.update_all(msg, reduce)
+        
         g.apply_nodes(func=self.apply_mod)
         return g.ndata.pop('h')
      #   return g.ndata.pop('h')
@@ -259,23 +262,12 @@ class Regression_X1_tem(nn.Module):
       #      print('---f--weight--3-in- ', weight.shape)
          bias_in = self.bias_in
          activation_in = self.activation_in
-         def message_func_in(edges):
+         def message_func(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-               # print('edges ', edges)
-             #   node = edges.src['h']
-                
-              #  print('node in ', node)
-              #  print('node in s ', node.shape)
-                embed = weight.view(-1, self.h_dim)
-                print('embed in ', embed.shape)
-                print('edge in w ', edges.data['we'].shape)
-                print('self.in_feat ', self.in_dim)
-                index = edges.data['we'] * self.in_dim #+ edges.src['id']
-                print('index in ', index.shape, ' ', index)
-                msg = embed[index]
-                print('msg -in-', msg.shape)
-                return {'msg': msg}
+                embed = weight.view(-1, self.out_feat)
+                index = edges.data['we'] 
+                return {'msg': embed[index] * edges.data['norm']}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
             print('h2 ', h2.shape)
