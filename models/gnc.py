@@ -252,10 +252,10 @@ class Regression_X1(nn.Module):
     def forward_in(self, g):
          
             # generate all weights from bases (equation (3))
-         weight = self.weight_in.view(self.in_dim, self.num_bases, self.h_dim)
+         weight = self.weight_in.view(self.h_dim, self.num_bases, self.in_dim)
          print('---f--weight--1-in- ', weight.shape)
          weight = torch.matmul(self.w_comp_in, weight).view(self.num_rels,
-                                                        self.in_dim, self.h_dim)
+                                                        self.h_dim, self.in_dim)
          print('---f--weight--2-in- ', weight.shape)
       #   else:
       #      weight = self.weight
