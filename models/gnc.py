@@ -237,7 +237,7 @@ class Regression_X1(nn.Module):
             print('self.w_comp_in ', self.w_comp_in.shape)
         # add bias
       #  if bias:
-        self.bias_in = nn.Parameter(torch.Tensor(out_feat))
+        self.bias_in = nn.Parameter(torch.Tensor(in_feat))
         print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_in,
