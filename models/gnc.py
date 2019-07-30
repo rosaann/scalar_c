@@ -287,7 +287,7 @@ class Regression_X1(nn.Module):
                 
                 msg = np.array(msg)
                 print('msg ', msg.shape, ' ')
-                return {'msg':torch( msg).cuda()}
+                return {'msg':torch.Tensor( msg).cuda()}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
             print('h2 ', h2.shape)
