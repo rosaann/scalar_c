@@ -428,8 +428,8 @@ class Regression_X1(nn.Module):
               #  print('msg ', msg.shape, ' ')
                 return {'msg':msg}
          def reduce_func_out(nodes):
-             print('nodes ', nodes.shape, ' ', nodes)
-             print('nodes.mailbox', nodes.mailbox['msg'].shape, ' ', nodes.mailbox['msg'])
+             print('nodes ',  nodes)
+             print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
