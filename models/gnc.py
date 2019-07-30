@@ -259,11 +259,8 @@ class Regression_X1(nn.Module):
       #   print('---f--weight--2-in- ', weight.shape) 
          bias_in = self.bias_in
          activation_in = self.activation_in
-         def message_func_in(edges):
-                # for input layer, matrix multiply can be converted to be
-                # an embedding lookup using source node id
-               # embed = weight.view(-1, self.h_dim)
-                print('message_func_in ', edges) 
+         def edge_message_func_in(edges):
+                print('edge_message_func_in ', edges) 
                 msg = ''
                 index = edges.data['we'] 
                 wd = edges.data['wd']
@@ -285,7 +282,19 @@ class Regression_X1(nn.Module):
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
                     
               #  print('msg ', msg.shape, ' ')
-                return {'msg':msg, 'wd':msg}
+                return {'wd':msg}
+         def message_func_in(edges):
+                # for input layer, matrix multiply can be converted to be
+                # an embedding lookup using source node id
+               # embed = weight.view(-1, self.h_dim)
+                print('message_func_in ', edges) 
+                msg = ''
+               # index = edges.data['we'] 
+                wd = edges.data['wd']
+                
+                
+              #  print('msg ', msg.shape, ' ')
+                return {'msg':wd}
         
          def reduce_func_in(nodes):
              print('reduce_func_in nodes ',  nodes)
@@ -305,8 +314,9 @@ class Regression_X1(nn.Module):
             h = activation_in(h)
             print('h2 ', h.shape)
             return {'h': h}
-
-         g.update_all(message_func_in, reduce_func_in, apply_func_in)
+         g.apply_edges(edge_message_func_in)
+         return g.edata['wd']
+        # g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
     def build_h0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
                  activation=None, is_input_layer=False):
