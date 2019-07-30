@@ -261,7 +261,7 @@ class Regression_X1(nn.Module):
       #   else:
       #      weight = self.weight
       #      print('---f--weight--3-in- ', weight.shape)
-      #   bias_in = self.bias_in
+         bias_in = self.bias_in
          activation_in = self.activation_in
          def message_func_in(edges):
                 # for input layer, matrix multiply can be converted to be
@@ -300,8 +300,8 @@ class Regression_X1(nn.Module):
             print('h ', h.shape)
            
          #   if self.bias_in:
-         #   h = h + bias_in
-         #   print('h1 ', h.shape)
+            h = h + bias_in
+            print('h1 ', h.shape)
          #   if self.activation_in:
             h = activation_in(h)
             print('h2 ', h.shape)
