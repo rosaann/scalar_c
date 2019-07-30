@@ -266,11 +266,12 @@ class Regression_X1(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                # embed = weight.view(-1, self.h_dim)
-                embed = weight
+                embed = weight[0]
                 print('embed ', embed.shape)
                 index = edges.data['we'] 
                 print('index ', index.shape, ' ')
-                w = embed[index]
+            #    w = embed[index]
+                w = embed
                 print('w ', w.shape, ' ')
                 node_data = edges.src['h']
                 print('node_data ', node_data.shape, ' ')
