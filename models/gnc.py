@@ -449,4 +449,5 @@ class Regression_X1(nn.Module):
         self.forward_h0(g)
         self.forward_out(g)
         g.ndata.pop('h') 
+        print('g.edata ', g.edata)
         return g.edata    
