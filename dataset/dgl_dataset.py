@@ -235,9 +235,9 @@ class DGLDataset(object):
                     d.append(dn)
                 
              #   gt = []
-                e = []
-                d_e = []
-                for edge_info in edges:
+            e = []
+            d_e = []
+            for edge_info in edges:
                     idx0 = int(edge_info['index0'])
                     idx1 = int(edge_info['index1'])
                     et = int(edge_info['et'])
@@ -252,12 +252,12 @@ class DGLDataset(object):
                 #        g.edata['w'].expand( torch.tensor( [et]).cuda())
                     gt.append(sc)
               #  print('e ', e)
-                g.edata['we'] = torch.tensor(e).cuda()
-                g.edata['wd'] = torch.tensor(d_e).cuda()
+            g.edata['we'] = torch.tensor(e).cuda()
+            g.edata['wd'] = torch.tensor(d_e).cuda()
              #   print('g ', g)   
                 
-                self.data_list.append(g)
-                self.gt_list.append(gt)
+            self.data_list.append(g)
+            self.gt_list.append(gt)
                 
             print('len v data ', len(self.data_list))  
             print('len v gt ', len(self.gt_list))
