@@ -267,7 +267,7 @@ class Regression_X1(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                # embed = weight.view(-1, self.h_dim)
-                msg =np.array( [])
+                msg =[]
                 index = edges.data['we'] 
                 for i,w in enumerate(weight):
                     real_idx = index[i]
@@ -284,6 +284,7 @@ class Regression_X1(nn.Module):
                     print('node_data ', node_data.shape, ' ')
                     msg.append( F.linear(node_data, w))
                 
+                msg = np.array(msg)
                 print('msg ', msg.shape, ' ')
                 return {'msg':torch( msg).cuda()}
          def apply_func_in(nodes):
