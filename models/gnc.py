@@ -285,8 +285,8 @@ class Regression_X1(nn.Module):
                     print('node_data ', node_data.shape, ' ')
                     msg.append( F.linear(node_data, w))
                 
-               # msg = np.array(msg)
-               # print('msg ', msg.shape, ' ')
+                msg = np.array(msg)
+                print('msg ', msg.shape, ' ')
                 return {'msg':msg}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
