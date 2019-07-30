@@ -150,7 +150,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
         
         binary_masks = model(images)
         
-     #   print('binary_masks ', binary_masks.shape, ' ',  binary_masks)
+        print('binary_masks ', binary_masks.shape, ' ',  binary_masks)
      #   print('gt ', gt.shape, ' ', gt )
         loss = criterion(binary_masks, gt_list)
 
