@@ -269,8 +269,8 @@ class Regression_X1(nn.Module):
                # embed = weight.view(-1, self.h_dim)
                 msg =[]
                 index = edges.data['we'] 
-                for i,w in enumerate(weight):
-                    real_idx = index[i]
+                for i,real_idx in enumerate(index):
+                   
                     print('real_idx', real_idx)
                     embed = weight[real_idx]
                     print('embed ', embed.shape)
