@@ -236,7 +236,7 @@ class Regression_X1(nn.Module):
             self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_in = nn.Parameter(torch.Tensor(in_feat))
+        self.bias_in = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_in,
@@ -308,7 +308,7 @@ class Regression_X1(nn.Module):
             self.w_comp_h0 = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_h0 = nn.Parameter(torch.Tensor(in_feat))
+        self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_h0,
@@ -380,7 +380,7 @@ class Regression_X1(nn.Module):
             self.w_comp_out = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_out = nn.Parameter(torch.Tensor(in_feat))
+        self.bias_out = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_out,
