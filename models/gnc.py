@@ -283,6 +283,14 @@ class Regression_X1(nn.Module):
                     
               #  print('msg ', msg.shape, ' ')
                 return {'msg':msg}
+        
+         def reduce_func_in(nodes):
+             print('nodes ',  nodes)
+             print('nodes.mailbox', nodes.mailbox['msg'])
+             msg = torch.sum(nodes.mailbox['msg'], dim=1)
+             
+             return {'h2' : msg}
+         
          def apply_func_in(nodes):
            # h2 = nodes.data['h2']
            # print('h2 ', h2.shape)
@@ -295,7 +303,7 @@ class Regression_X1(nn.Module):
          #   print('h2 ', h.shape)
             return {'h': h}
 
-         g.update_all(message_func_in, fn.sum(msg='msg', out='h2'), apply_func_in)
+         g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
     def build_h0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
                  activation=None, is_input_layer=False):
@@ -452,8 +460,8 @@ class Regression_X1(nn.Module):
        # if self.features is not None:
        #     g.ndata['id'] = self.features
         self.forward_in(g)
-        self.forward_h0(g)
-        self.forward_out(g)
+      #  self.forward_h0(g)
+      #  self.forward_out(g)
         g.ndata.pop('h') 
         print('g.edata ', g.edata)
         return g.edata    
