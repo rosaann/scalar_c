@@ -273,7 +273,8 @@ class Regression_X1(nn.Module):
                 print('w ', w.shape, ' ')
                 node_data = edges.src['h']
                 print('node_data ', node_data.shape, ' ')
-                msg = w * node_data
+                msg = F.linear(node_data, w)
+                
                 print('msg ', msg.shape, ' ')
                 return {'msg': msg}
          def apply_func_in(nodes):
@@ -281,7 +282,7 @@ class Regression_X1(nn.Module):
             print('h2 ', h2.shape)
             h = nodes.data['h']
             print('h ', h.shape)
-            
+           
          #   if self.bias_in:
          #   h = h + bias_in
          #   print('h1 ', h.shape)
