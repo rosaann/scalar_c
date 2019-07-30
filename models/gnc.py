@@ -427,6 +427,12 @@ class Regression_X1(nn.Module):
                     
               #  print('msg ', msg.shape, ' ')
                 return {'msg':msg}
+         def reduce_func_out(nodes):
+             print('nodes ', nodes.shape, ' ', nodes)
+             print('nodes.mailbox', nodes.mailbox['msg'].shape, ' ', nodes.mailbox['msg'])
+             msg = torch.sum(nodes.mailbox['msg'], dim=1)
+             
+             return {'h2' : msg}
          def apply_func_out(nodes):
            # h2 = nodes.data['h2']
            # print('h2 ', h2.shape)
@@ -439,7 +445,7 @@ class Regression_X1(nn.Module):
          #   print('h2 ', h.shape)
             return {'h': h}
 
-         g.update_all(message_func_out, fn.sum(msg='msg', out='h2'), apply_func_out)
+         g.update_all(message_func_out, reduce_func_out, apply_func_out)
     
 
     def forward(self, g):
