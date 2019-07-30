@@ -18,6 +18,7 @@ import networkx as nx
 from functools import partial
 import os, ast
 from functools import partial
+import numpy as np
 # Sends a message of node feature h.
 msg = fn.copy_src(src='h', out='m')
 
@@ -266,19 +267,25 @@ class Regression_X1(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                # embed = weight.view(-1, self.h_dim)
-                embed = weight[0]
-                print('embed ', embed.shape)
+                msg =np.array( [])
                 index = edges.data['we'] 
-                print('index ', index.shape, ' ')
+                for i,w in enumerate(weight):
+                    real_idx = index[i]
+                    print('real_idx', real_idx)
+                    embed = weight[real_idx]
+                    print('embed ', embed.shape)
+                  #  print('embed ', embed.shape)
+                    
+                 #   print('index ', index.shape, ' ')
             #    w = embed[index]
-                w = embed
-                print('w ', w.shape, ' ')
-                node_data = edges.src['h']
-                print('node_data ', node_data.shape, ' ')
-                msg = F.linear(node_data, w)
+                    w = embed
+                  #  print('w ', w.shape, ' ')
+                    node_data = edges.src['h'][i]
+                    print('node_data ', node_data.shape, ' ')
+                    msg.append( F.linear(node_data, w))
                 
                 print('msg ', msg.shape, ' ')
-                return {'msg': msg}
+                return {'msg':torch( msg).cuda()}
          def apply_func_in(nodes):
             h2 = nodes.data['h2']
             print('h2 ', h2.shape)
