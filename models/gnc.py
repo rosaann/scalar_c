@@ -282,7 +282,7 @@ class Regression_X1(nn.Module):
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
                     
               #  print('msg ', msg.shape, ' ')
-                return {'wd':msg}
+                return {'r':msg}
          def message_func_in(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
@@ -315,7 +315,7 @@ class Regression_X1(nn.Module):
             print('h2 ', h.shape)
             return {'h': h}
          g.apply_edges(edge_message_func_in)
-         return g.edata['wd']
+         return g.edata.pop('r')
         # g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
     def build_h0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
