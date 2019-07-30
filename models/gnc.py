@@ -278,8 +278,8 @@ class Regression_X1(nn.Module):
                     
                  #   print('index ', index.shape, ' ')
             #    w = embed[index]
-                    w = embed
-                  #  print('w ', w.shape, ' ')
+                    w = embed[0]
+                    print('w ', w.shape, ' ')
                     node_data = edges.src['h'][i]
                     node_data = torch.unsqueeze (node_data, 0)
                     print('node_data ', node_data.shape, ' ')
