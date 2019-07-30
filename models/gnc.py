@@ -284,7 +284,7 @@ class Regression_X1(nn.Module):
                     node_data = edges.src['h'][i]
                     node_data = torch.unsqueeze (node_data, 0)
                     print('node_data ', node_data.shape, ' ')
-                    if msg == '':
+                    if i == 0:
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
