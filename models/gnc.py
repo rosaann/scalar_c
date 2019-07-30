@@ -215,7 +215,7 @@ class Regression_X1(nn.Module):
         self.num_bases = num_bases
         # create rgcn layers
         self.build_input_layer(in_dim, h_dim, self.num_rels, num_bases)
-        self.build_hidden_0_layer(h_dim, h_dim, self.num_rels, num_bases)
+        self.build_h0_layer(h_dim, h_dim, self.num_rels, num_bases)
         self.build_out_layer(h_dim, out_dim, self.num_rels, num_bases)
       
 
