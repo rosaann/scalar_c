@@ -263,6 +263,7 @@ class Regression_X1(nn.Module):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
                # embed = weight.view(-1, self.h_dim)
+                print('message_func_in ', edges) 
                 msg = ''
                 index = edges.data['we'] 
                 
@@ -285,15 +286,15 @@ class Regression_X1(nn.Module):
                 return {'msg':msg}
         
          def reduce_func_in(nodes):
-             print('nodes ',  nodes)
+             print('reduce_func_in nodes ',  nodes)
              print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
          
          def apply_func_in(nodes):
-           # h2 = nodes.data['h2']
-           # print('h2 ', h2.shape)
+          #  h2 = nodes.data['h2']
+            print('apply_func_in ', nodes)
             h = nodes.data['h2']
          #   print('h ', h.shape)
            
