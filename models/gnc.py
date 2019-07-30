@@ -281,6 +281,7 @@ class Regression_X1(nn.Module):
                     w = embed
                   #  print('w ', w.shape, ' ')
                     node_data = edges.src['h'][i]
+                    node_data = torch.unsqueeze (node_data)
                     print('node_data ', node_data.shape, ' ')
                     msg.append( F.linear(node_data, w))
                 
