@@ -201,7 +201,7 @@ class RGCNLayer(nn.Module):
         g.update_all(message_func, fn.sum(msg='msg', out='h2'), apply_func)
         
 class Regression_X1(nn.Module):
-    def __init__(self, in_dim = 4, h_dim = 64, out_dim = 1, num_rels = 1,
+    def __init__(self, in_dim = 4, h_dim = 1, out_dim = 1, num_rels = 1,
                  num_bases=1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
         self.in_dim = in_dim
@@ -214,7 +214,7 @@ class Regression_X1(nn.Module):
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
-        self.build_input_layer(in_dim, 1, self.num_rels, num_bases)
+        self.build_input_layer(in_dim, h_dim, self.num_rels, num_bases)
         self.build_h0_layer(h_dim, h_dim, self.num_rels, num_bases)
         self.build_out_layer(h_dim, out_dim, self.num_rels, num_bases)
       
