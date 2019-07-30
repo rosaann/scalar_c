@@ -214,7 +214,7 @@ class Regression_X1(nn.Module):
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
-        self.build_input_layer(in_dim, h_dim, self.num_rels, num_bases)
+        self.build_input_layer(in_dim, 1, self.num_rels, num_bases)
         self.build_h0_layer(h_dim, h_dim, self.num_rels, num_bases)
         self.build_out_layer(h_dim, out_dim, self.num_rels, num_bases)
       
@@ -266,6 +266,7 @@ class Regression_X1(nn.Module):
                 print('message_func_in ', edges) 
                 msg = ''
                 index = edges.data['we'] 
+                wd = edges.data['wd']
                 
                 for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
@@ -274,8 +275,9 @@ class Regression_X1(nn.Module):
  
                     w = embed[0]
                  #   print('w ', w.shape, ' ')
-                    node_data = edges.src['h'][i]
+                    node_data = wd[i]
                     node_data = torch.unsqueeze (node_data, 0)
+                    
                  #   print('node_data ', node_data.shape, ' ')
                     if i == 0:
                         msg = F.linear(node_data, w)
@@ -283,7 +285,7 @@ class Regression_X1(nn.Module):
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
                     
               #  print('msg ', msg.shape, ' ')
-                return {'msg':msg}
+                return {'msg':msg, 'wd':msg}
         
          def reduce_func_in(nodes):
              print('reduce_func_in nodes ',  nodes)
@@ -295,13 +297,13 @@ class Regression_X1(nn.Module):
          def apply_func_in(nodes):
           #  h2 = nodes.data['h2']
             print('apply_func_in ', nodes)
-            h = nodes.data['h2']
-         #   print('h ', h.shape)
+            h = nodes.edata['wd']
+            print('h ', h.shape)
            
             h = h + bias_in
-         #   print('h1 ', h.shape)
+            print('h1 ', h.shape)
             h = activation_in(h)
-         #   print('h2 ', h.shape)
+            print('h2 ', h.shape)
             return {'h': h}
 
          g.update_all(message_func_in, reduce_func_in, apply_func_in)
