@@ -311,7 +311,7 @@ class Regression_X1(nn.Module):
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
-                    edges.data['r'] = msg
+                edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
 
                 return {'msg':msg}
