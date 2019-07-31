@@ -286,18 +286,35 @@ class Regression_X1(nn.Module):
          def message_func_in(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-               # embed = weight.view(-1, self.h_dim)
-                print('message_func_in ', edges) 
-                print('edges d ', edges.data['we'])
-                print('edges src ', edges.src['h'])
-                print('edges des ', edges.dst['h'])
+               
+              #  print('message_func_in ', edges) 
+              #  print('edges d ', edges.data['we'])
+             #   print('edges src ', edges.src['h'])
+              #  print('edges des ', edges.dst['h'])
                 msg = ''
-               # index = edges.data['we'] 
-                wd = edges.data['wd']
+                index = edges.data['we'] 
+                src = edges.src['h']
+             #   wd = edges.data['wd']
                 
-                
+                for i,real_idx in enumerate(index):                   
+                   # print('real_idx', real_idx)
+                    embed = weight[real_idx]
+                  #  print('embed ', embed.shape)
+ 
+                    w = embed[0]
+                 #   print('w ', w.shape, ' ')
+                    node_data = src[i]
+                    node_data = torch.unsqueeze (node_data, 0)
+                    
+                 #   print('node_data ', node_data.shape, ' ')
+                    if i == 0:
+                        msg = F.linear(node_data, w)
+                    else:
+                        msg = torch.cat((msg, F.linear(node_data, w)), 0)
+                    edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
-                return {'msg':wd}
+
+                return {'msg':msg}
         
          def reduce_func_in(nodes):
              print('reduce_func_in nodes ',  nodes)
@@ -309,7 +326,7 @@ class Regression_X1(nn.Module):
          def apply_func_in(nodes):
           #  h2 = nodes.data['h2']
             print('apply_func_in ', nodes)
-            h = nodes.edata['wd']
+            h = nodes.edata['r']
             print('h ', h.shape)
            
             h = h + bias_in
