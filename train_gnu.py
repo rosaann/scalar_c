@@ -64,11 +64,11 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
         for i, (images, gt) in enumerate(dataloader):
            # print('-------------uu------------')
             gt_list = []
-            print('gt-- ', gt)
+          #  print('gt-- ', gt)
             for g in gt:
                 gt_list.extend(g)
             
-            print('len gt_list-- ', gt_list)
+        #    print('len gt_list-- ', gt_list)
             gt_list = torch.tensor(gt_list)
             if torch.cuda.is_available():
       #      images = images.cuda().float()
@@ -76,7 +76,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
             
             binary_masks = model(images)
             
-            print('binary_masks ', binary_masks)
+          #  print('binary_masks ', binary_masks)
             loss = criterion(binary_masks, gt_list)
            # if i < 10:
             pred = binary_masks.data.cpu().numpy()
@@ -137,11 +137,11 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
      #   gt = data['gt']
        # paths = data['path']
         gt_list = []
-        print('gt-- t ', gt)
+     #   print('gt-- t ', gt)
         for g in gt:
             gt_list.extend(g)
             
-        print('len gt_list-- t ', gt_list)
+     #   print('len gt_list-- t ', gt_list)
         gt_list = torch.tensor(gt_list)
         if torch.cuda.is_available():
       #      images = images.cuda().float()
@@ -150,7 +150,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
         
         binary_masks = model(images)
         
-        print('binary_masks ', binary_masks)
+      #  print('binary_masks ', binary_masks)
      #   print('gt ', gt.shape, ' ', gt )
         loss = criterion(binary_masks, gt_list)
 
