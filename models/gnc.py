@@ -288,6 +288,9 @@ class Regression_X1(nn.Module):
                 # an embedding lookup using source node id
                # embed = weight.view(-1, self.h_dim)
                 print('message_func_in ', edges) 
+                print('edges d ', edges[0].data['wd'])
+                print('edges src ', edges[0].src['h'])
+                print('edges des ', edges[0].des['h'])
                 msg = ''
                # index = edges.data['we'] 
                 wd = edges.data['wd']
@@ -314,6 +317,7 @@ class Regression_X1(nn.Module):
             h = activation_in(h)
             print('h2 ', h.shape)
             return {'h': h}
+         g.update_all(message_func_in, reduce_func_in, apply_func_in)
          g.apply_edges(edge_message_func_in)
          result = g.edata.pop('r')
          print('result ', result)
