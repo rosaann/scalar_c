@@ -103,8 +103,9 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
       #  metrics.reset()
         
         log_dict = {}
-       
-        log_dict['loss'] = sum(loss_list) 
+        tl = sum(loss_list) 
+        if tl < 10000:        
+            log_dict['loss'] = tl
         log_dict['total_r2'] = sum(rc_total_list)/len(rc_total_list)
         log_dict['used_r2'] = sum(rc_part_list) / len(rc_part_list)
        # log_dict['msq_total'] = sum(msq_total_list) / len(msq_total_list)
@@ -186,7 +187,8 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
 
     log_dict['lr'] = optimizer.param_groups[0]['lr']
     
-    log_dict['loss'] = total_loss
+    if total_loss < 10000:
+        log_dict['loss'] = total_loss
     if writer is not None:
         for key, value in log_dict.items():
             writer.add_scalar('train/{}'.format(key), value, epoch)
