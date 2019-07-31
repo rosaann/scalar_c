@@ -156,7 +156,7 @@ class DGLDataset(object):
         self.data_list = []
         self.gt_list = []
         n7 = int (len(random_index_list) * 0.7)
-        print('enter DGLDataset ', random_index_list)
+      #  print('enter DGLDataset ', random_index_list)
         if split == 'train':
             
             for i in random_index_list[ : n7]:
@@ -220,8 +220,8 @@ class DGLDataset(object):
             self.val_data_list = []
             for i in random_index_list[n7 : ]:
                 d_data = train_data_list[random_index_list[i]]
-                if i == 0:
-                    print('d_data ', d_data)
+              #  if i == 0:
+                #    print('d_data ', d_data)
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 

@@ -210,7 +210,7 @@ class Regression_X1(nn.Module):
         #self.num_rels = num_rels
         self.type_index_dic = find_type_index_dic()
         self.num_rels = len( self.type_index_dic.keys())
-        print('self.num_rels ', self.num_rels)
+      #  print('self.num_rels ', self.num_rels)
         self.num_hidden_layers = num_hidden_layers
         self.num_bases = num_bases
         # create rgcn layers
