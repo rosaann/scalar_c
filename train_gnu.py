@@ -61,7 +61,7 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        
         mae_total_list = []
         mae_part_list = []
-        for i, (images, gt) in enumerate(dataloader):
+        for i, (images, gt) in tqdm.tqdm(enumerate(dataloader)):
            # print('-------------uu------------')
             gt_list = []
           #  print('gt-- ', gt)
@@ -132,7 +132,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
    # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
     
     total_loss = 0
-    for i, (images, gt) in enumerate(dataloader):
+    for i, (images, gt) in tqdm.tqdm(enumerate(dataloader)):
      #  images = data['data']
      #   gt = data['gt']
        # paths = data['path']
