@@ -115,8 +115,8 @@ def gen_train_data():
             scalar_coupling = row['scalar_coupling_constant']            
             train_data['edges'].append({'index0' : index_0, 'index1' : index_1, 'et' : t_index, 'sc' : float(scalar_coupling)})
          
-            if i > 10:
-                break
+          #  if i > 10:
+          #      break
         train_data_list.append(train_data)
         
         return train_data_list
@@ -202,7 +202,7 @@ class DGLDataset(object):
                     gt.append(sc)
               #  print('e ', e)
                 g.edata['we'] = torch.tensor(e).cuda()
-                g.edata['wd'] = torch.tensor(d_e).cuda()
+               # g.edata['wd'] = torch.tensor(d_e).cuda()
              #   print('g ', g)   
                 
                 self.data_list.append(g)
@@ -261,7 +261,7 @@ class DGLDataset(object):
                     gt.append(sc)
               #  print('e ', e)
                 g.edata['we'] = torch.tensor(e).cuda()
-                g.edata['wd'] = torch.tensor(d_e).cuda()
+             #   g.edata['wd'] = torch.tensor(d_e).cuda()
              #   print('g ', g)   
                 
                 self.data_list.append(g)

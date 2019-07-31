@@ -317,22 +317,22 @@ class Regression_X1(nn.Module):
                 return {'msg':msg}
         
          def reduce_func_in(nodes):
-             print('reduce_func_in nodes ',  nodes)
-             print('nodes.mailbox', nodes.mailbox['msg'])
+          #   print('reduce_func_in nodes ',  nodes)
+         #    print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
          
          def apply_func_in(nodes):
           #  h2 = nodes.data['h2']
-            print('apply_func_in ', nodes)
+         #   print('apply_func_in ', nodes)
             h = nodes.data['h2']
-            print('h ', h.shape)
+         #   print('h ', h.shape)
            
             h = h + bias_in
-            print('h1 ', h.shape)
+         #   print('h1 ', h.shape)
             h = activation_in(h)
-            print('h2 ', h.shape)
+         #   print('h2 ', h.shape)
             return {'h': h}
          g.update_all(message_func_in, reduce_func_in, apply_func_in)
         # g.apply_edges(edge_message_func_in)
@@ -409,22 +409,22 @@ class Regression_X1(nn.Module):
                 return {'msg':msg}
         
          def reduce_func_h0(nodes):
-             print('reduce_func_in nodes ',  nodes)
-             print('nodes.mailbox', nodes.mailbox['msg'])
+           #  print('reduce_func_in nodes ',  nodes)
+          #   print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
          
          def apply_func_h0(nodes):
           #  h2 = nodes.data['h2']
-            print('apply_func_in ', nodes)
+          #  print('apply_func_in ', nodes)
             h = nodes.data['h2']
-            print('h ', h.shape)
+         #   print('h ', h.shape)
            
             h = h + bias_h0
-            print('h1 ', h.shape)
+         #   print('h1 ', h.shape)
             h = activation_h0(h)
-            print('h2 ', h.shape)
+          #  print('h2 ', h.shape)
             return {'h': h}
          g.update_all(message_func_h0, reduce_func_h0, apply_func_h0)
         # g.apply_edges(edge_message_func_in)
@@ -502,22 +502,22 @@ class Regression_X1(nn.Module):
                 return {'msg':msg}
         
          def reduce_func_out(nodes):
-             print('reduce_func_in nodes ',  nodes)
-             print('nodes.mailbox', nodes.mailbox['msg'])
+         #    print('reduce_func_in nodes ',  nodes)
+         #    print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
          
          def apply_func_out(nodes):
           #  h2 = nodes.data['h2']
-            print('apply_func_in ', nodes)
+         #   print('apply_func_in ', nodes)
             h = nodes.data['h2']
-            print('h ', h.shape)
+         #   print('h ', h.shape)
            
             h = h + bias_out
-            print('h1 ', h.shape)
+        #    print('h1 ', h.shape)
             h = activation_out(h)
-            print('h2 ', h.shape)
+        #    print('h2 ', h.shape)
             return {'h': h}
          g.update_all(message_func_out, reduce_func_out, apply_func_out)
         # g.apply_edges(edge_message_func_in)
@@ -533,5 +533,5 @@ class Regression_X1(nn.Module):
         self.forward_h0(g)
         r = self.forward_out(g)
        
-        print('r ', r)
+     #   print('r ', r)
         return r   
