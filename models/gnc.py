@@ -201,7 +201,7 @@ class RGCNLayer(nn.Module):
         g.update_all(message_func, fn.sum(msg='msg', out='h2'), apply_func)
         
 class Regression_X1(nn.Module):
-    def __init__(self, in_dim = 4, h_dim = 1, out_dim = 1, num_rels = 1,
+    def __init__(self, in_dim = 4, h_dim = 256, out_dim = 1, num_rels = 1,
                  num_bases=1, num_hidden_layers=2):
         super(Regression_X1, self).__init__()
         self.in_dim = in_dim
@@ -337,7 +337,7 @@ class Regression_X1(nn.Module):
          g.update_all(message_func_in, reduce_func_in, apply_func_in)
         # g.apply_edges(edge_message_func_in)
          result = g.edata.pop('r')
-         print('result ', result)
+        # print('result ', result)
          return result
         # g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
@@ -378,9 +378,15 @@ class Regression_X1(nn.Module):
          def message_func_h0(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-               # embed = weight.view(-1, self.h_dim)
+               
+              #  print('message_func_in ', edges) 
+              #  print('edges d ', edges.data['we'])
+             #   print('edges src ', edges.src['h'])
+              #  print('edges des ', edges.dst['h'])
                 msg = ''
                 index = edges.data['we'] 
+                src = edges.src['h']
+             #   wd = edges.data['wd']
                 
                 for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
@@ -389,29 +395,44 @@ class Regression_X1(nn.Module):
  
                     w = embed[0]
                  #   print('w ', w.shape, ' ')
-                    node_data = edges.src['h'][i]
+                    node_data = src[i]
                     node_data = torch.unsqueeze (node_data, 0)
+                    
                  #   print('node_data ', node_data.shape, ' ')
                     if i == 0:
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
-                    
+                edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
+
                 return {'msg':msg}
+        
+         def reduce_func_h0(nodes):
+             print('reduce_func_in nodes ',  nodes)
+             print('nodes.mailbox', nodes.mailbox['msg'])
+             msg = torch.sum(nodes.mailbox['msg'], dim=1)
+             
+             return {'h2' : msg}
+         
          def apply_func_h0(nodes):
-           # h2 = nodes.data['h2']
-           # print('h2 ', h2.shape)
+          #  h2 = nodes.data['h2']
+            print('apply_func_in ', nodes)
             h = nodes.data['h2']
-         #   print('h ', h.shape)
+            print('h ', h.shape)
            
             h = h + bias_h0
-         #   print('h1 ', h.shape)
+            print('h1 ', h.shape)
             h = activation_h0(h)
-         #   print('h2 ', h.shape)
+            print('h2 ', h.shape)
             return {'h': h}
+         g.update_all(message_func_h0, reduce_func_h0, apply_func_h0)
+        # g.apply_edges(edge_message_func_in)
+         result = g.edata.pop('r')
+        # print('result ', result)
+         return result
 
-         g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
+      #   g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
 
     def build_out_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
                  activation=None, is_input_layer=False):
@@ -450,9 +471,15 @@ class Regression_X1(nn.Module):
          def message_func_out(edges):
                 # for input layer, matrix multiply can be converted to be
                 # an embedding lookup using source node id
-               # embed = weight.view(-1, self.h_dim)
+               
+              #  print('message_func_in ', edges) 
+              #  print('edges d ', edges.data['we'])
+             #   print('edges src ', edges.src['h'])
+              #  print('edges des ', edges.dst['h'])
                 msg = ''
                 index = edges.data['we'] 
+                src = edges.src['h']
+             #   wd = edges.data['wd']
                 
                 for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
@@ -461,43 +488,50 @@ class Regression_X1(nn.Module):
  
                     w = embed[0]
                  #   print('w ', w.shape, ' ')
-                    node_data = edges.src['h'][i]
+                    node_data = src[i]
                     node_data = torch.unsqueeze (node_data, 0)
+                    
                  #   print('node_data ', node_data.shape, ' ')
                     if i == 0:
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
-                    
+                edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
+
                 return {'msg':msg}
+        
          def reduce_func_out(nodes):
-             print('nodes ',  nodes)
+             print('reduce_func_in nodes ',  nodes)
              print('nodes.mailbox', nodes.mailbox['msg'])
              msg = torch.sum(nodes.mailbox['msg'], dim=1)
              
              return {'h2' : msg}
+         
          def apply_func_out(nodes):
-           # h2 = nodes.data['h2']
-           # print('h2 ', h2.shape)
+          #  h2 = nodes.data['h2']
+            print('apply_func_in ', nodes)
             h = nodes.data['h2']
-         #   print('h ', h.shape)
+            print('h ', h.shape)
            
             h = h + bias_out
-         #   print('h1 ', h.shape)
+            print('h1 ', h.shape)
             h = activation_out(h)
-         #   print('h2 ', h.shape)
+            print('h2 ', h.shape)
             return {'h': h}
-
          g.update_all(message_func_out, reduce_func_out, apply_func_out)
+        # g.apply_edges(edge_message_func_in)
+         result = g.edata.pop('r')
+        # print('result ', result)
+         return result
     
 
     def forward(self, g):
        # if self.features is not None:
        #     g.ndata['id'] = self.features
         self.forward_in(g)
-      #  self.forward_h0(g)
-      #  self.forward_out(g)
-        g.ndata.pop('h') 
-        print('g.edata ', g.edata)
-        return g.edata    
+        self.forward_h0(g)
+        r = self.forward_out(g)
+       
+        print('r ', r)
+        return r   
