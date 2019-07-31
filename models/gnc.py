@@ -311,7 +311,7 @@ class Regression_X1(nn.Module):
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
-                edges.data['r'] = msg
+             #   edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
 
                 return {'msg':msg}
@@ -333,12 +333,12 @@ class Regression_X1(nn.Module):
          #   print('h1 ', h.shape)
             h = activation_in(h)
          #   print('h2 ', h.shape)
-            return {'h': h}
+            return {'h2': h}
          g.update_all(message_func_in, reduce_func_in, apply_func_in)
         # g.apply_edges(edge_message_func_in)
-         result = g.edata.pop('r')
+       #  result = g.edata.pop('r')
         # print('result ', result)
-         return result
+         return 
         # g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
     def build_h0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
@@ -385,7 +385,7 @@ class Regression_X1(nn.Module):
               #  print('edges des ', edges.dst['h'])
                 msg = ''
                 index = edges.data['we'] 
-                src = edges.src['h']
+                src = edges.src['h2']
              #   wd = edges.data['wd']
                 
                 for i,real_idx in enumerate(index):                   
@@ -403,7 +403,7 @@ class Regression_X1(nn.Module):
                         msg = F.linear(node_data, w)
                     else:
                         msg = torch.cat((msg, F.linear(node_data, w)), 0)
-                edges.data['r'] = msg
+               # edges.data['r'] = msg
               #  print('msg ', msg.shape, ' ')
 
                 return {'msg':msg}
@@ -425,12 +425,12 @@ class Regression_X1(nn.Module):
          #   print('h1 ', h.shape)
             h = activation_h0(h)
           #  print('h2 ', h.shape)
-            return {'h': h}
+            return {'h2': h}
          g.update_all(message_func_h0, reduce_func_h0, apply_func_h0)
         # g.apply_edges(edge_message_func_in)
-         result = g.edata.pop('r')
+       #  result = g.edata.pop('r')
         # print('result ', result)
-         return result
+         return 
 
       #   g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
 
@@ -478,7 +478,7 @@ class Regression_X1(nn.Module):
               #  print('edges des ', edges.dst['h'])
                 msg = ''
                 index = edges.data['we'] 
-                src = edges.src['h']
+                src = edges.src['h2']
              #   wd = edges.data['wd']
                 
                 for i,real_idx in enumerate(index):                   
@@ -511,16 +511,17 @@ class Regression_X1(nn.Module):
          def apply_func_out(nodes):
           #  h2 = nodes.data['h2']
          #   print('apply_func_in ', nodes)
-            h = nodes.data['h2']
+           # h = nodes.data['h2']
          #   print('h ', h.shape)
            
-            h = h + bias_out
+        #    h = h + bias_out
         #    print('h1 ', h.shape)
-            h = activation_out(h)
+         #   h = activation_out(h)
         #    print('h2 ', h.shape)
-            return {'h': h}
+            return 
          g.update_all(message_func_out, reduce_func_out, apply_func_out)
         # g.apply_edges(edge_message_func_in)
+         g.ndata.pop('h2')
          result = g.edata.pop('r')
         # print('result ', result)
          return result
