@@ -290,7 +290,7 @@ class Regression_X1(nn.Module):
                 print('message_func_in ', edges) 
                 print('edges d ', edges.data['wd'])
                 print('edges src ', edges.src['h'])
-                print('edges des ', edges.des['h'])
+                print('edges des ', edges.dst['h'])
                 msg = ''
                # index = edges.data['we'] 
                 wd = edges.data['wd']
