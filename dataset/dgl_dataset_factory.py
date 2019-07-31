@@ -50,6 +50,6 @@ def get_gnu_dataloader(batch_size, split, **_):
   #                          pin_memory=False)
     
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False,
-                         collate_fn=collate, num_workers=6)
+                         collate_fn=collate)
 
     return dataloader
