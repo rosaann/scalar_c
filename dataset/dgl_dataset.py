@@ -162,7 +162,7 @@ class DGLDataset(object):
             for i in random_index_list[ : n7]:
                 d_data = train_data_list[random_index_list[i]]
                 if i == 0:
-                    print('d_data ', d_data)
+                  #  print('d_data ', d_data)
                 nodes = d_data['nodes']
                 edges = d_data['edges']
                 
