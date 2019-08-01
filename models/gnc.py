@@ -236,7 +236,7 @@ class Regression_X1(nn.Module):
             self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_in = nn.Parameter(torch.Tensor(out_feat))
+      #  self.bias_in = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_in,
@@ -257,7 +257,7 @@ class Regression_X1(nn.Module):
          weight = torch.matmul(self.w_comp_in, weight).view(self.num_rels,
                                                        self.h_dim, self.in_dim)
       #   print('---f--weight--2-in- ', weight.shape) 
-         bias_in = self.bias_in
+     #    bias_in = self.bias_in
          activation_in = self.activation_in
          def edge_message_func_in(edges):
                 print('edge_message_func_in ', edges) 
@@ -329,7 +329,7 @@ class Regression_X1(nn.Module):
             h = nodes.data['h2']
          #   print('h ', h.shape)
            
-            h = h + bias_in
+          #  h = h + bias_in
          #   print('h1 ', h.shape)
             h = activation_in(h)
          #   print('h2 ', h.shape)
@@ -352,7 +352,7 @@ class Regression_X1(nn.Module):
             self.w_comp_h0 = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
+    #    self.bias_h0 = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_h0,
@@ -373,7 +373,7 @@ class Regression_X1(nn.Module):
          weight = torch.matmul(self.w_comp_h0, weight).view(self.num_rels,
                                                        self.h_dim, self.h_dim)
       #   print('---f--weight--2-in- ', weight.shape) 
-         bias_h0 = self.bias_h0
+     #    bias_h0 = self.bias_h0
          activation_h0 = self.activation_h0
          def message_func_h0(edges):
                 # for input layer, matrix multiply can be converted to be
@@ -421,7 +421,7 @@ class Regression_X1(nn.Module):
             h = nodes.data['h2']
          #   print('h ', h.shape)
            
-            h = h + bias_h0
+         #   h = h + bias_h0
          #   print('h1 ', h.shape)
             h = activation_h0(h)
           #  print('h2 ', h.shape)
@@ -445,7 +445,7 @@ class Regression_X1(nn.Module):
             self.w_comp_out = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias_out = nn.Parameter(torch.Tensor(out_feat))
+      #  self.bias_out = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
         nn.init.xavier_uniform_(self.weight_out,
@@ -466,7 +466,7 @@ class Regression_X1(nn.Module):
          weight = torch.matmul(self.w_comp_out, weight).view(self.num_rels,
                                                        self.out_dim, self.h_dim)
       #   print('---f--weight--2-in- ', weight.shape) 
-         bias_out = self.bias_out
+     #    bias_out = self.bias_out
          activation_out = self.activation_out
          def message_func_out(edges):
                 # for input layer, matrix multiply can be converted to be
@@ -511,12 +511,12 @@ class Regression_X1(nn.Module):
          def apply_func_out(nodes):
           #  h2 = nodes.data['h2']
          #   print('apply_func_in ', nodes)
-           # h = nodes.data['h2']
+            h = nodes.data['h2']
          #   print('h ', h.shape)
            
         #    h = h + bias_out
         #    print('h1 ', h.shape)
-         #   h = activation_out(h)
+            h = activation_out(h)
         #    print('h2 ', h.shape)
             return 
          g.update_all(message_func_out, reduce_func_out, apply_func_out)

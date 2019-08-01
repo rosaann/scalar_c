@@ -10,7 +10,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class GATLayer(nn.Module):
-    def __init__(self, g, in_dim, out_dim):
+    def __init__(self, g, in_dim, out_dim, num_rels, num_bases = 1):
         super(GATLayer, self).__init__()
         self.g = g
         # 公式 (1)
@@ -18,7 +18,8 @@ class GATLayer(nn.Module):
         # 公式 (2)
         self.attn_fc = nn.Linear(2 * out_dim, 1, bias=False)
         
-    def build_weight(self, num_bases,num_rels, in_feat, out_feat):
+        
+    def build_weight(self, in_feat, out_feat, num_rels, num_bases):
         self.weight = nn.Parameter(torch.Tensor(num_bases, in_feat,
                                                 out_feat))
         self.activation = F.relu
@@ -40,6 +41,10 @@ class GATLayer(nn.Module):
         nn.init.xavier_uniform_(self.bias_in,
                                     gain=nn.init.calculate_gain('relu'))
  
+        self.weight = self.weight_in.view(self.h_dim, self.num_bases, self.in_dim)
+       #  print('---f--weight--1-in- ', weight.shape)
+        self.weight = torch.matmul(self.w_comp_in, self.weight).view(self.num_rels,
+                                                       self.h_dim, self.in_dim)
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
         z2 = torch.cat([edges.src['h'], edges.dst['h']], dim=1)
@@ -48,10 +53,7 @@ class GATLayer(nn.Module):
  
     def message_func(self, edges):
         # 公式 (1)
-        weight = self.weight_in.view(self.h_dim, self.num_bases, self.in_dim)
-       #  print('---f--weight--1-in- ', weight.shape)
-        weight = torch.matmul(self.w_comp_in, weight).view(self.num_rels,
-                                                       self.h_dim, self.in_dim)
+        
         #
         msg = ''
         index = edges.data['we'] 
