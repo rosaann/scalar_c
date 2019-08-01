@@ -141,7 +141,7 @@ class MultiHeadGATLayer(nn.Module):
             return g
         
 class GAT_X1(nn.Module):
-    def __init__(self, in_dim = 4, hidden_dim = 128, out_dim = 1, num_heads = 1):
+    def __init__(self, in_dim = 4, hidden_dim = 12800, out_dim = 1, num_heads = 1):
         super(GAT_X1, self).__init__()
         self.type_index_dic = find_type_index_dic()
         self.num_rels = len( self.type_index_dic.keys())
