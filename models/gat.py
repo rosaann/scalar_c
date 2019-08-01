@@ -33,7 +33,7 @@ class GATLayer(nn.Module):
         
         
     def build_weight(self, in_feat, out_feat, num_rels, num_bases):
-        self.weight = nn.Parameter(torch.Tensor(num_bases, in_feat,
+        self.w = nn.Parameter(torch.Tensor(num_bases, in_feat,
                                                 out_feat))
         self.activation = F.relu
       #  print('self.weight_in ', self.weight_in.shape)
@@ -45,7 +45,7 @@ class GATLayer(nn.Module):
     #    self.bias = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
-        nn.init.xavier_uniform_(self.weight,
+        nn.init.xavier_uniform_(self.w,
                                 gain=nn.init.calculate_gain('relu'))
         
         nn.init.xavier_uniform_(self.w_comp,
@@ -54,9 +54,9 @@ class GATLayer(nn.Module):
     #    nn.init.xavier_uniform_(self.bias_in,
     #                                gain=nn.init.calculate_gain('relu'))
  
-        self.weight = self.weight.view(self.out_dim, self.num_bases, self.in_dim)
+        self.w = self.weight.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
-        self.weight = torch.matmul(self.w_comp, self.weight).view(self.num_rels,
+        self.w = torch.matmul(self.w_comp, self.w).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
@@ -75,7 +75,7 @@ class GATLayer(nn.Module):
                 
         for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
-            embed = self.weight[real_idx]
+            embed = self.w[real_idx]
                   #  print('embed ', embed.shape)
  
             w = embed[0]
