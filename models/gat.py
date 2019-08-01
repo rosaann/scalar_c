@@ -54,9 +54,9 @@ class GATLayer(nn.Module):
     #    nn.init.xavier_uniform_(self.bias_in,
     #                                gain=nn.init.calculate_gain('relu'))
  
-        self.w.view(self.out_dim, self.num_bases, self.in_dim)
+        w = self.w.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
-        self.w = torch.matmul(self.w_comp, self.w).view(self.num_rels,
+        self.w = torch.matmul(self.w_comp, w).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
