@@ -28,7 +28,7 @@ class GATLayer(nn.Module):
         # 公式 (1)
         self.fc = nn.Linear(in_dim, out_dim, bias=False)
         # 公式 (2)
-        self.attn_fc = nn.Linear(2 * out_dim, 1, bias=False)
+        self.attn_fc = nn.Linear(2 * in_dim, 1, bias=False)
         self.build_weight(in_dim, out_dim, num_rels, num_bases)
         
         
