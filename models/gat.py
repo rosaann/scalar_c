@@ -37,9 +37,9 @@ class GATLayer(nn.Module):
                                                 out_feat))
         self.activation = F.relu
       #  print('self.weight_in ', self.weight_in.shape)
-        if num_bases < num_rels:
+       # if num_bases < num_rels:
             # linear combination coefficients in equation (3)
-            self.w_comp = nn.Parameter(torch.Tensor(num_rels, num_bases))
+        self.w_comp = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
     #    self.bias = nn.Parameter(torch.Tensor(out_feat))
@@ -54,7 +54,7 @@ class GATLayer(nn.Module):
     #    nn.init.xavier_uniform_(self.bias_in,
     #                                gain=nn.init.calculate_gain('relu'))
  
-        self.weight = self.weight_in.view(self.out_dim, self.num_bases, self.in_dim)
+        self.weight = self.weight.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
         self.weight = torch.matmul(self.w_comp, self.weight).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
