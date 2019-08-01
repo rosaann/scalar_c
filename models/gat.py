@@ -57,6 +57,8 @@ class GATLayer(nn.Module):
         
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
+        print('es ', edges.src['h'].shape)
+        print('ed ', edges.dst['h'].shape)
         z2 = torch.cat([edges.src['h'], edges.dst['h']], dim=1)
         print('z2 ', z2.shape, ' ', z2)
         a = self.attn_fc(z2)
