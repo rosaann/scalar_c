@@ -54,10 +54,7 @@ class GATLayer(nn.Module):
     #    nn.init.xavier_uniform_(self.bias_in,
     #                                gain=nn.init.calculate_gain('relu'))
  
-        w = self.w.view(self.out_dim, self.num_bases, self.in_dim)
-       #  print('---f--weight--1-in- ', weight.shape)
-        self.w = torch.matmul(self.w_comp, w).view(self.num_rels,
-                                                       self.out_dim, self.in_dim)
+        
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
         z2 = torch.cat([edges.src['h'], edges.dst['h']], dim=1)
@@ -65,7 +62,10 @@ class GATLayer(nn.Module):
         return {'e' : F.leaky_relu(a)}
  
     def message_func(self, edges):
-        
+        w = self.w.view(self.out_dim, self.num_bases, self.in_dim)
+       #  print('---f--weight--1-in- ', weight.shape)
+        w = torch.matmul(self.w_comp, w).view(self.num_rels,
+                                                       self.out_dim, self.in_dim)
         
         #
         msg = ''
@@ -75,7 +75,7 @@ class GATLayer(nn.Module):
                 
         for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
-            embed = self.w[real_idx]
+            embed = w[real_idx]
                   #  print('embed ', embed.shape)
  
             w = embed[0]
