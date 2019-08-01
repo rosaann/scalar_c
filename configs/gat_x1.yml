@@ -7,7 +7,7 @@ train_classifier:
   
 train_segmenter:
   dir: './result/out/gat_x1'
-  batch_size: 800
+  batch_size: 600
   num_epochs: 50000
   name: 'gat_x1'
   num_grad_acc: 4
