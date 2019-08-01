@@ -139,7 +139,7 @@ class GAT_X1(nn.Module):
         self.type_index_dic = find_type_index_dic()
         self.num_rels = len( self.type_index_dic.keys())
         
-        self.layer1 = MultiHeadGATLayer( in_dim, hidden_dim, num_heads, self.num_rel)
+        self.layer1 = MultiHeadGATLayer( in_dim, hidden_dim, num_heads, self.num_rels)
         # 注意输入的维度是 hidden_dim * num_heads 因为多头的结果都被拼接在了
         # 一起。 此外输出层只有一个头。
         self.layer2 = MultiHeadGATLayer( hidden_dim * num_heads, out_dim, 1, self.num_rels)
