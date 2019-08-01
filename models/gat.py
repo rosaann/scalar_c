@@ -54,7 +54,7 @@ class GATLayer(nn.Module):
     #    nn.init.xavier_uniform_(self.bias_in,
     #                                gain=nn.init.calculate_gain('relu'))
  
-        self.w = self.weight.view(self.out_dim, self.num_bases, self.in_dim)
+        self.w = self.w.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
         self.w = torch.matmul(self.w_comp, self.w).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
