@@ -65,9 +65,9 @@ class GATLayer(nn.Module):
         return {'e' : F.leaky_relu(a)}
  
     def message_func(self, edges):
-        w = self.w.view(self.out_dim, self.num_bases, self.in_dim)
+        weight = self.w.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
-        w = torch.matmul(self.w_comp, w).view(self.num_rels,
+        weight = torch.matmul(self.w_comp, weight).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
         
         #
@@ -78,7 +78,7 @@ class GATLayer(nn.Module):
                 
         for i,real_idx in enumerate(index):                   
                    # print('real_idx', real_idx)
-            embed = w[real_idx]
+            embed = weight[real_idx]
                   #  print('embed ', embed.shape)
  
             w = embed[0]
