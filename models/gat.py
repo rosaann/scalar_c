@@ -39,24 +39,24 @@ class GATLayer(nn.Module):
       #  print('self.weight_in ', self.weight_in.shape)
         if num_bases < num_rels:
             # linear combination coefficients in equation (3)
-            self.w_comp_in = nn.Parameter(torch.Tensor(num_rels, num_bases))
+            self.w_comp = nn.Parameter(torch.Tensor(num_rels, num_bases))
           #  print('self.w_comp_in ', self.w_comp_in.shape)
        
-        self.bias = nn.Parameter(torch.Tensor(out_feat))
+    #    self.bias = nn.Parameter(torch.Tensor(out_feat))
    #     print('self.bias ', self.bias_in.shape)
         # init trainable parameters
-        nn.init.xavier_uniform_(self.weight_in,
+        nn.init.xavier_uniform_(self.weight,
                                 gain=nn.init.calculate_gain('relu'))
         
-        nn.init.xavier_uniform_(self.w_comp_in,
+        nn.init.xavier_uniform_(self.w_comp,
                                     gain=nn.init.calculate_gain('relu'))
         
-        nn.init.xavier_uniform_(self.bias_in,
-                                    gain=nn.init.calculate_gain('relu'))
+    #    nn.init.xavier_uniform_(self.bias_in,
+    #                                gain=nn.init.calculate_gain('relu'))
  
         self.weight = self.weight_in.view(self.out_dim, self.num_bases, self.in_dim)
        #  print('---f--weight--1-in- ', weight.shape)
-        self.weight = torch.matmul(self.w_comp_in, self.weight).view(self.num_rels,
+        self.weight = torch.matmul(self.w_comp, self.weight).view(self.num_rels,
                                                        self.out_dim, self.in_dim)
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
