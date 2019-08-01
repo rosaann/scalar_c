@@ -116,11 +116,11 @@ class GATLayer(nn.Module):
     
     
 class MultiHeadGATLayer(nn.Module):
-    def __init__(self, g, in_dim, out_dim, num_heads, num_ref, merge='cat'):
+    def __init__(self, in_dim, out_dim, num_heads, num_ref, merge='cat'):
         super(MultiHeadGATLayer, self).__init__()
         self.heads = nn.ModuleList()
         for i in range(num_heads):
-            self.heads.append(GATLayer(g, in_dim, out_dim))
+            self.heads.append(GATLayer( in_dim, out_dim, num_ref))
         self.merge = merge
  
     def forward(self, g):
@@ -139,10 +139,10 @@ class GAT_X1(nn.Module):
         self.type_index_dic = find_type_index_dic()
         self.num_rels = len( self.type_index_dic.keys())
         
-        self.layer1 = MultiHeadGATLayer( in_dim, hidden_dim, self.num_rels, num_heads)
+        self.layer1 = MultiHeadGATLayer( in_dim, hidden_dim, num_heads, self.num_rel)
         # 注意输入的维度是 hidden_dim * num_heads 因为多头的结果都被拼接在了
         # 一起。 此外输出层只有一个头。
-        self.layer2 = MultiHeadGATLayer( hidden_dim * num_heads, out_dim, self.num_rels, 1)
+        self.layer2 = MultiHeadGATLayer( hidden_dim * num_heads, out_dim, 1, self.num_rels)
  
     def forward(self, g):
         g = self.layer1(g)
