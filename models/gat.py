@@ -57,10 +57,10 @@ class GATLayer(nn.Module):
         
     def edge_attention(self, edges):
         # 公式 (2) 所需，边上的用户定义函数
-        print('es ', edges.src['h'].shape)
-        print('ed ', edges.dst['h'].shape)
+      #  print('es ', edges.src['h'].shape)
+      #  print('ed ', edges.dst['h'].shape)
         z2 = torch.cat([edges.src['h'], edges.dst['h']], dim=1)
-        print('z2 ', z2.shape, ' ', z2)
+    #    print('z2 ', z2.shape, ' ', z2)
         a = self.attn_fc(z2)
         return {'e' : F.leaky_relu(a)}
  
@@ -92,7 +92,7 @@ class GATLayer(nn.Module):
             else:
                  msg = torch.cat((msg, F.linear(node_data, w)), 0)
            #   edges.data['r'] = msg
-        print('msg ', msg.shape, ' ')
+      #  print('msg ', msg.shape, ' ')
         edges.data['r'] = msg
         return {'msg':msg, 'e' : edges.data['e']}
         # 公式 (3), (4)所需，传递消息用的用户定义函数
@@ -103,10 +103,10 @@ class GATLayer(nn.Module):
         # 公式 (3), (4)所需, 归约用的用户定义函数
         # 公式 (3)
         alpha = F.softmax(nodes.mailbox['e'], dim=1)
-        print('alpha ', alpha.shape, ' ', alpha)
+     #   print('alpha ', alpha.shape, ' ', alpha)
         # 公式 (4)
         h = torch.sum(alpha * nodes.mailbox['msg'], dim=1)
-        print('h ', h.shape, ' ', h)
+     #   print('h ', h.shape, ' ', h)
         return {'h' : h}
  
     def forward(self, g):
@@ -152,13 +152,13 @@ class GAT_X1(nn.Module):
         self.layer2 = MultiHeadGATLayer( hidden_dim * num_heads, out_dim, 1, self.num_rels)
  
     def forward(self, g):
-        print('forward 1')
+    #    print('forward 1')
         g = self.layer1(g)
-        print('forward 2')
+   #     print('forward 2')
         g.ndata['h'] = F.elu(g.ndata['h'])
         
         g = self.layer2(g)
-        print('forward 3')
+   #     print('forward 3')
         g.ndata.pop('h')
         result = g.edata.pop('r')
         return result
