@@ -338,7 +338,7 @@ class Regression_X1(nn.Module):
         # g.apply_edges(edge_message_func_in)
        #  result = g.edata.pop('r')
         # print('result ', result)
-         return 
+         return g
         # g.update_all(message_func_in, reduce_func_in, apply_func_in)
     
     def build_h0_layer(self, in_feat, out_feat, num_rels, num_bases=-1, bias=None,
@@ -430,7 +430,7 @@ class Regression_X1(nn.Module):
         # g.apply_edges(edge_message_func_in)
        #  result = g.edata.pop('r')
         # print('result ', result)
-         return 
+         return g
 
       #   g.update_all(message_func_h0, fn.sum(msg='msg', out='h2'), apply_func_h0)
 
@@ -530,8 +530,8 @@ class Regression_X1(nn.Module):
     def forward(self, g):
        # if self.features is not None:
        #     g.ndata['id'] = self.features
-        self.forward_in(g)
-        self.forward_h0(g)
+        g = self.forward_in(g)
+        g = self.forward_h0(g)
         r = self.forward_out(g)
        
      #   print('r ', r)

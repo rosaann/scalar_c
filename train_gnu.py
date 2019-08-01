@@ -239,7 +239,7 @@ def run(config):
    # train_dir = config.train.dir
     
    # model_segmenter = get_model(config.model_segmenter.name)
-    model_segmenter = Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
+    model_segmenter = GAT_X1() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = get_loss(config.loss_segmenter)
