@@ -117,7 +117,7 @@ class GATLayer(nn.Module):
         g.apply_edges(self.edge_attention)
         # 公式 (3) & (4)
         g.update_all(self.message_func, self.reduce_func)
-        return g
+        return g.ndata.pop('h')
     
     
 class MultiHeadGATLayer(nn.Module):
@@ -133,10 +133,12 @@ class MultiHeadGATLayer(nn.Module):
         head_outs = [attn_head(g) for attn_head in self.heads]
         if self.merge == 'cat':
             # 对输出特征维度（第1维）做拼接
-            return torch.cat(head_outs, dim=1)
+            g.ndata['h'] = torch.cat(head_outs, dim=1)
+            return g
         else:
             # 用求平均整合多头结果
-            return torch.mean(torch.stack(head_outs))
+            g.ndata['h'] = torch.mean(torch.stack(head_outs))
+            return g
         
 class GAT_X1(nn.Module):
     def __init__(self, in_dim = 4, hidden_dim = 128, out_dim = 1, num_heads = 1):
@@ -153,7 +155,7 @@ class GAT_X1(nn.Module):
         print('forward 1')
         g = self.layer1(g)
         print('forward 2')
-        g = F.elu(g)
+        g.ndata['h'] = F.elu(g.ndata['h'])
         
         g = self.layer2(g)
         print('forward 3')
