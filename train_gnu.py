@@ -19,7 +19,7 @@ from tensorboardX import SummaryWriter
 #from dataset.dataset_factory import get_gnu_dataloader
 from models.gnc import Regression_X1
 from models.gat import GAT_X1
-from dataset.dgl_dataset_factory import get_gnu_dataloader
+from dataset.dgl_dataset_factory import get_gnu_dataloader, get_pygeo_dataloader
 from transforms.transform_factory import get_transform
 from models.model_factory import get_model
 from losses.loss_factory import get_loss
@@ -268,9 +268,9 @@ def run(config):
     
     criterion_segmenter = nn.MSELoss()
     
-    train_segmenter_dataloaders = get_gnu_dataloader(config.train_segmenter.batch_size, 'train' )
+    train_segmenter_dataloaders = get_pygeo_dataloader(config.train_segmenter.batch_size, 'train' )
     
-    eval_segmenter_dataloaders = get_gnu_dataloader(config.train_segmenter.batch_size, 'val')
+    eval_segmenter_dataloaders = get_pygeo_dataloader(config.train_segmenter.batch_size, 'val')
   
     train_segmenter(config, model_segmenter, train_segmenter_dataloaders, eval_segmenter_dataloaders, criterion_segmenter, optimizer_segmenter, scheduler,
           writer, last_epoch+1)
