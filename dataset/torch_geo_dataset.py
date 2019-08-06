@@ -186,7 +186,7 @@ class QL0(InMemoryDataset):
                     x = float(node_info['x'])
                     y = float(node_info['y'])
                     z = float(node_info['z'])
-                    dn = [[tp, x, y, z]]
+                    dn = [tp, x, y, z]
                  #   n = torch.tensor( dn).cuda()
                     d.append(dn)
                     
