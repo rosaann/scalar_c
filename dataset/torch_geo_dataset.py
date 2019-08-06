@@ -15,6 +15,7 @@ import numpy as np
 import random
 from torch_geometric.data import (InMemoryDataset, download_url, extract_tar,
                                   Data)
+from itertools import repeat, product
 max_atom = 29
 
 
