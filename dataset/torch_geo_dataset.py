@@ -211,6 +211,7 @@ class QL0(InMemoryDataset):
              e_attr = torch.tensor(e_attr, dtype=torch.int)
              gt = torch.tensor(gt, dtype=torch.float)
              geo_data = Data(x=x, edge_index=edge_index.t().contiguous(), edge_attr = e_attr, y=gt)
+             print('geo_data ', geo_data)
              data_list.append(geo_data)
         
 
