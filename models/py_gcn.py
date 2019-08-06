@@ -20,7 +20,7 @@ n_features = 4
 # definenet
 class PY_GCG_NET(torch.nn.Module):
     def __init__(self):
-        super(Net, self).__init__()
+        super(PY_GCG_NET, self).__init__()
         self.conv1 = GCNConv(n_features, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
         self.bn1 = BatchNorm1d(128)
         self.conv2 = GCNConv(128, 64, cached=False)
