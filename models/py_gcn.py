@@ -15,6 +15,7 @@ from torch_geometric.nn import ChebConv
 from torch_geometric.nn import global_add_pool, global_mean_pool
 from torch_geometric.data import DataLoader
 from torch_scatter import scatter_mean
+from torch_geometric.nn import MetaLayer
 
 n_features = 4
 # definenet
@@ -26,12 +27,12 @@ class PY_GCG_NET(torch.nn.Module):
         self.conv2 = GCNConv(128, 64, cached=False)
         self.bn2 = BatchNorm1d(64)
         self.fc1 = Linear(64, 64)
-        self.bn3 = BatchNorm1d(64)
+      #  self.bn3 = BatchNorm1d(64)
         self.fc2 = Linear(64, 64)
         self.fc3 = Linear(64, 3)
          
     def forward(self, data):
-        x, edge_index = data.x, data.edge_index
+        x, edge_index = data.edge_attr, data.edge_index
         print('x ', x)
         print('edge_index ', edge_index)
         x = F.relu(self.conv1(x, edge_index))
@@ -46,8 +47,8 @@ class PY_GCG_NET(torch.nn.Module):
         print('x5 ', x.shape)
         x = F.relu(self.fc1(x))
         print('x6 ', x.shape)
-        x = self.bn3(x)
-        print('x7 ', x.shape)
+      #  x = self.bn3(x)
+     #   print('x7 ', x.shape)
         x = F.relu(self.fc2(x))
         print('x8 ', x.shape)
         x = F.dropout(x, p=0.2, training=self.training)
