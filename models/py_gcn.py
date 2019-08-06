@@ -17,7 +17,7 @@ from torch_geometric.data import DataLoader
 from torch_scatter import scatter_mean
 from torch_geometric.nn import MetaLayer
 
-n_features = 4
+n_features = 5
 # definenet
 class PY_GCG_NET(torch.nn.Module):
     def __init__(self):
