@@ -17,8 +17,7 @@ import torch
 import torch.nn.functional as F
 from tensorboardX import SummaryWriter
 #from dataset.dataset_factory import get_gnu_dataloader
-from models.gnc import Regression_X1
-from models.gat import GAT_X1
+from models.py_gcn import PY_GCG_NET
 from dataset.dataset_factory import get_pygeo_dataloader
 from transforms.transform_factory import get_transform
 from models.model_factory import get_model
@@ -239,7 +238,7 @@ def run(config):
    # train_dir = config.train.dir
     
    # model_segmenter = get_model(config.model_segmenter.name)
-    model_segmenter = GAT_X1() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
+    model_segmenter = PY_GCG_NET() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = get_loss(config.loss_segmenter)
