@@ -201,8 +201,9 @@ class QL0(InMemoryDataset):
                     et = int(edge_info['et'])
                     sc = float(edge_info['sc'])
                     e_idx.append([idx0, idx1])
-                    
-                    e_attr.append([et].extend(d[idx0]))
+                    e_at= [et, d[idx0][0], d[idx0][1], d[idx0][2], d[idx0][3]]
+                    print('e_at ', e_at)
+                    e_attr.append(e_at)
                     gt.append(sc)
                     
           #   geo_data = Data(x = d, edge_index =e_idx, edge_attr = e_attr, y=gt )
