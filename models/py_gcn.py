@@ -32,8 +32,8 @@ class PY_GCG_NET(torch.nn.Module):
          
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
-        print('x ', x.shape)
-        print('edge_index ', edge_index.shape)
+        print('x ', x)
+        print('edge_index ', edge_index)
         x = F.relu(self.conv1(x, edge_index))
         print('x1 ', x.shape)
         x = self.bn1(x)
