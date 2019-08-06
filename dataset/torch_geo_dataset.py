@@ -214,7 +214,45 @@ class QL0(InMemoryDataset):
         if self.pre_transform is not None:
             data_list = [self.pre_transform(data) for data in data_list]
 
-        data, slices = self.collate(data_list)
+        data, slices = self.collate_t(data_list)
         torch.save((data, slices), self.processed_paths[0])
+        
+    def collate_t(self, data_list):
+        r"""Collates a python list of data objects to the internal storage
+        format of :class:`torch_geometric.data.InMemoryDataset`."""
+        keys = data_list[0].keys
+        data = data_list[0].__class__()
+
+        for key in keys:
+            data[key] = []
+        slices = {key: [0] for key in keys}
+
+        for item, key in product(data_list, keys):
+            print('key ', key)
+            print('item ', item)
+            data[key].append(item[key])
+            if torch.is_tensor(item[key]):
+                s = slices[key][-1] + item[key].size(
+                    item.__cat_dim__(key, item[key]))
+            elif isinstance(item[key], int) or isinstance(item[key], float):
+                s = slices[key][-1] + 1
+            else:
+                raise ValueError('Unsupported attribute type')
+            slices[key].append(s)
+
+        if hasattr(data_list[0], '__num_nodes__'):
+            data.__num_nodes__ = []
+            for item in data_list:
+                data.__num_nodes__.append(item.num_nodes)
+
+        for key in keys:
+            if torch.is_tensor(data_list[0][key]):
+                data[key] = torch.cat(
+                    data[key], dim=data.__cat_dim__(key, data_list[0][key]))
+            else:
+                data[key] = torch.tensor(data[key])
+            slices[key] = torch.tensor(slices[key], dtype=torch.long)
+
+        return data, slices
 
 
