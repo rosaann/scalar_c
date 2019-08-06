@@ -7,8 +7,8 @@ import itertools
 import numpy as np
 import torch.utils.data
 import torch.utils.data.sampler
-from torch.utils.data import DataLoader
-
+#from torch.utils.data import DataLoader
+from torch_geometric.data import DataLoader
 #from .default import DefaultDataset, TestDataset
 from .torch_geo_dataset import QL0
 #from .dgl_dataset import DGLDataset
@@ -50,9 +50,8 @@ def get_test_dataloader( batch_size, **_):
 def get_pygeo_dataloader(batch_size, split):
     dataset = QL0('ql0', split)
     dataloader = DataLoader(dataset,
-                            shuffle=False,
+                            
                             batch_size=batch_size,
-                           # drop_last=is_train,
-                            num_workers=6,
-                            pin_memory=False)
+                            shuffle=False,
+                           )
     return dataloader
