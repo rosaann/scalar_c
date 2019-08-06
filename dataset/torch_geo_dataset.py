@@ -187,8 +187,8 @@ class QL0(InMemoryDataset):
                     y = float(node_info['y'])
                     z = float(node_info['z'])
                     dn = [[tp, x, y, z]]
-                    n = torch.tensor( dn).cuda()
-                    d.append(n)
+                 #   n = torch.tensor( dn).cuda()
+                    d.append(dn)
                     
                     
              e_attr = []
@@ -207,7 +207,7 @@ class QL0(InMemoryDataset):
                     
           #   geo_data = Data(x = d, edge_index =e_idx, edge_attr = e_attr, y=gt )
              edge_index = torch.tensor(e_idx)
-             x = torch.tensor([[-1], [0], [1]], dtype=torch.float)
+             x = torch.tensor([d, dtype=torch.float)
              geo_data = Data(x=x, edge_index=edge_index.t().contiguous())
              data_list.append(geo_data)
         
