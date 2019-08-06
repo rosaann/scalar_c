@@ -150,8 +150,9 @@ class QL0(InMemoryDataset):
                  transform=None,
                  pre_transform=None,
                  pre_filter=None):
-        super(QL0, self).__init__(root, transform, pre_transform, pre_filter)
         self.split = split
+        super(QL0, self).__init__(root, transform, pre_transform, pre_filter)
+        
         print('split ', self.split)
         self.data, self.slices = torch.load(self.processed_paths[0])
         
