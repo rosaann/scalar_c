@@ -131,7 +131,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
 
     log_dict = {}
    # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
-    
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     total_loss = 0
     for i, data in tqdm.tqdm(enumerate(dataloader)):
      #  images = data['data']
@@ -141,7 +141,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
         
         if torch.cuda.is_available():
       #      images = images.cuda().float()
-            data = data.cuda()
+            data = data.to(device)
          #   print('gt--- ', gt.shape)
         gt_list = data.y
         binary_masks = model(data)
