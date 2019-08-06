@@ -26,7 +26,7 @@ class PY_GCG_NET(torch.nn.Module):
         self.nnconv1 = NNConv(n_features, 128, conv1)
         self.bn1 = BatchNorm1d(128)
         
-        conv2 = NNConv(128, 256, cached=False)
+        conv2 = GCNConv(128, 256, cached=False)
         self.nnconv2 = NNConv(128, 256, conv2)
         self.bn2 = BatchNorm1d(256)
         self.fc1 = Linear(256, 512)
