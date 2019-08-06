@@ -210,7 +210,7 @@ class QL0(InMemoryDataset):
              edge_index = torch.tensor(e_idx)
              x = torch.tensor(d, dtype=torch.float)
              print('eattr ', e_attr)
-             e_attr = torch.tensor(e_attr, dtype=torch.int)
+             e_attr = torch.tensor(e_attr, dtype=torch.float)
              gt = torch.tensor(gt, dtype=torch.float)
              geo_data = Data(x=x, edge_index=edge_index.t().contiguous(), edge_attr = e_attr, y=gt)
              print('geo_data-- ', geo_data)
