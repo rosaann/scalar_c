@@ -9,7 +9,7 @@ import torch.utils.data
 import torch.utils.data.sampler
 from torch.utils.data import DataLoader
 
-from .default import DefaultDataset, TestDataset
+#from .default import DefaultDataset, TestDataset
 from .torch_geo_dataset import QL0
 #from .dgl_dataset import DGLDataset
 #from .small import SmallDataset

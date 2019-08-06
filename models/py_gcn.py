@@ -32,15 +32,28 @@ class PY_GCG_NET(torch.nn.Module):
          
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
+        print('x ', x.shape)
+        print('edge_index ', edge_index.shape)
         x = F.relu(self.conv1(x, edge_index))
+        print('x1 ', x.shape)
         x = self.bn1(x)
+        print('x2 ', x.shape)
         x = F.relu(self.conv2(x, edge_index))
+        print('x3 ', x.shape)
         x = self.bn2(x)
+        print('x4 ', x.shape)
         x = global_add_pool(x, data.batch)
+        print('x5 ', x.shape)
         x = F.relu(self.fc1(x))
+        print('x6 ', x.shape)
         x = self.bn3(x)
+        print('x7 ', x.shape)
         x = F.relu(self.fc2(x))
+        print('x8 ', x.shape)
         x = F.dropout(x, p=0.2, training=self.training)
+        print('x9 ', x.shape)
         x = self.fc3(x)
+        print('x10 ', x.shape)
         x = F.log_softmax(x, dim=1)
+        print('x11 ', x.shape)
         return x       
