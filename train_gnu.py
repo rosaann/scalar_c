@@ -133,23 +133,18 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
    # tbar = tqdm.tqdm(enumerate(dataloader), total=total_step)
     
     total_loss = 0
-    for i, (images, gt) in tqdm.tqdm(enumerate(dataloader)):
+    for i, data in tqdm.tqdm(enumerate(dataloader)):
      #  images = data['data']
      #   gt = data['gt']
        # paths = data['path']
-        gt_list = []
-     #   print('gt-- t ', gt)
-        for g in gt:
-            gt_list.extend(g)
-            
-     #   print('len gt_list-- t ', gt_list)
-        gt_list = torch.tensor(gt_list)
+        
+        
         if torch.cuda.is_available():
       #      images = images.cuda().float()
-            gt_list = gt_list.cuda()
+            data = data.cuda()
          #   print('gt--- ', gt.shape)
-        
-        binary_masks = model(images)
+        gt_list = data.y
+        binary_masks = model(data)
         
       #  print('binary_masks ', binary_masks)
      #   print('gt ', gt.shape, ' ', gt )
