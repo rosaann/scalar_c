@@ -207,7 +207,7 @@ class QL0(InMemoryDataset):
                     
           #   geo_data = Data(x = d, edge_index =e_idx, edge_attr = e_attr, y=gt )
              edge_index = torch.tensor(e_idx)
-             x = torch.tensor([d, dtype=torch.float)
+             x = torch.tensor(d, dtype=torch.float)
              geo_data = Data(x=x, edge_index=edge_index.t().contiguous())
              data_list.append(geo_data)
         
