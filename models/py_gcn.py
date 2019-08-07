@@ -112,7 +112,7 @@ class NodeModel(torch.nn.Module):
         return out
 class MetaLayer_t(torch.nn.Module):
     def __init__(self, edge_model=None, node_model=None):
-        super(MetaLayer, self).__init__()
+        super(MetaLayer_t, self).__init__()
         self.edge_model = edge_model
         self.node_model = node_model
    #     self.global_model = global_model
