@@ -61,11 +61,12 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        
         mae_total_list = []
         mae_part_list = []
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         for i, data in tqdm.tqdm(enumerate(dataloader)):
            # print('-------------uu------------')
             if torch.cuda.is_available():
       #      images = images.cuda().float()
-            data = data.to(device)
+                data = data.to(device)
          #   print('gt--- ', gt.shape)
             gt_list = data.y
             binary_masks = model(data)
