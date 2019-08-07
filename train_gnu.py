@@ -61,20 +61,14 @@ def evaluate_segmenter_single_epoch(config, model, dataloader, criterion,
        
         mae_total_list = []
         mae_part_list = []
-        for i, (images, gt) in tqdm.tqdm(enumerate(dataloader)):
+        for i, data in tqdm.tqdm(enumerate(dataloader)):
            # print('-------------uu------------')
-            gt_list = []
-          #  print('gt-- ', gt)
-            for g in gt:
-                gt_list.extend(g)
-            
-        #    print('len gt_list-- ', gt_list)
-            gt_list = torch.tensor(gt_list)
             if torch.cuda.is_available():
       #      images = images.cuda().float()
-                gt_list = gt_list.cuda()
-            
-            binary_masks = model(images)
+            data = data.to(device)
+         #   print('gt--- ', gt.shape)
+            gt_list = data.y
+            binary_masks = model(data)
             
           #  print('binary_masks ', binary_masks)
             loss = criterion(binary_masks, gt_list)
@@ -147,7 +141,7 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
         binary_masks = model(data)
        # x, edge_attr = model(data.x, data.edge_index, data.edge_attr)
       #  print('binary_masks ', binary_masks)
-        print('binary_masks ', binary_masks.shape, ' ', binary_masks )
+       # print('binary_masks ', binary_masks.shape, ' ', binary_masks )
         loss = criterion(binary_masks, gt_list)
 
             # measure accuracy and record loss
