@@ -110,7 +110,7 @@ class NodeModel_3(torch.nn.Module):
         super(NodeModel_3, self).__init__()
         self.node_mlp_1 = Sequential(Linear(1096, 640), ReLU())
         
-        self.node_mlp_2 = Sequential(Linear(640, 320), ReLU())
+        self.node_mlp_2 = Sequential(Linear(1480, 320), ReLU())
 
     def forward(self, x, edge_index, edge_attr):
 
