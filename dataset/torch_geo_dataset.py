@@ -134,13 +134,13 @@ def gen_random_index_list():
 
 
 print('**DGL_DefaultDataset ')
-model_info_set = gen_stuc_set_list()
+#model_info_set = gen_stuc_set_list()
 print('self.gen_stuc_set_list()')
 
-train_data_list = gen_train_data()
+#train_data_list = gen_train_data()
 print('self.gen_train_data()')     
   
-random_index_list = gen_random_index_list()
+#random_index_list = gen_random_index_list()
         
 print('self.gen_random_index_list ')  
 
