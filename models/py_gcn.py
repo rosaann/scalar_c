@@ -158,9 +158,13 @@ class PY_SYN_METAAS(torch.nn.Module):
     def __init__(self):
         super(PY_SYN_METAAS, self).__init__()
         self.meta1 = MetaLayer_t(EdgeModel_1(), NodeModel_1())
+        self.meta2 = MetaLayer_t(EdgeModel_2(), NodeModel_2())
         
     def forward(self, data):
         x, edge_attr = self.meta1(data.x, data.edge_index, data.edge_attr)
+        x, edge_attr = self.meta2(x, data.edge_index, edge_attr)
+        print('out edge_attr', edge_attr.shape, ' ', edge_attr)
+        return edge_attr
         
 class PY_GCG_NET(torch.nn.Module):
     def __init__(self):
