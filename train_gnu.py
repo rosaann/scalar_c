@@ -231,7 +231,7 @@ def run(config):
     model_segmenter = PY_SYN_METAAS()# PY_GCG_NET() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
-    criterion_segmenter = F.nll_loss #get_loss(config.loss_segmenter)
+    criterion_segmenter = nn.L1Loss() #get_loss(config.loss_segmenter)
    # optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
     optimizer_segmenter = optim.Adam(model_segmenter.parameters(), lr=5e-4)
     ####
