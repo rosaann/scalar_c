@@ -63,7 +63,7 @@ class EdgeModel_2(torch.nn.Module):
 class NodeModel_2(torch.nn.Module):
     def __init__(self):
         super(NodeModel_2, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(168, 256), ReLU())
+        self.node_mlp_1 = Sequential(Linear(424, 256), ReLU())
         
 
     def forward(self, x, edge_index, edge_attr):
