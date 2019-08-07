@@ -66,7 +66,7 @@ class PY_GCG_NET(torch.nn.Module):
 class EdgeModel(torch.nn.Module):
     def __init__(self):
         super(EdgeModel, self).__init__()
-        self.edge_mlp = Sequential(Linear(1, 64), ReLU(), Linear(64, 1))
+        self.edge_mlp = Sequential(Linear(9, 84), ReLU(), Linear(84, 39))
 
     def forward(self, src, dest, edge_attr):
         # source, target: [E, F_x], where E is the number of edges.
