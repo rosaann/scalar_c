@@ -214,7 +214,7 @@ class PY_SYN_METAAS(torch.nn.Module):
         self.gc3 =   GCNConv(256, 316)       
         self.meta3 = MetaLayer_t(EdgeModel_3(), NodeModel_3())
         
-        self.gc4 =   GCNConv(316, 512)       
+        self.gc4 =   GCNConv(512, 618)       
         self.meta4 = MetaLayer_t(EdgeModel_4(), NodeModel_4())
         
         self.gc5 =   GCNConv(512, 4)       
