@@ -23,7 +23,7 @@ class EdgeModel_1(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_1, self).__init__()
       #  self.edge_mlp = Sequential(Linear(9, 84), ReLU())
-        l1 = Linear(1, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
+        l1 = Linear(1, 128) # if you defined cache=True, the shape of batch must be same!
         self.nnconv1 = NNConv(9, 84, l1)
         self.bn1 = BatchNorm1d(84)
         
@@ -40,7 +40,7 @@ class NodeModel_1(torch.nn.Module):
     def __init__(self):
         super(NodeModel_1, self).__init__()
        # self.node_mlp_1 = Sequential(Linear(88, 128), ReLU())
-        l1 = Linear(88, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
+        l1 = Linear(88, 128) # if you defined cache=True, the shape of batch must be same!
         self.nnconv1 = NNConv(88, 128, l1)
         self.bn1 = BatchNorm1d(128)
         
