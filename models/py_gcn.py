@@ -42,7 +42,7 @@ class NodeModel_1(torch.nn.Module):
     def __init__(self):
         super(NodeModel_1, self).__init__()
         self.node_mlp_1 = Sequential(Linear(43, 64), ReLU(), Linear(64, 128), ReLU())
-        self.node_mlp_2 = Sequential(Linear(128,256), ReLU(), Linear(132, 256), ReLU())
+        self.node_mlp_2 = Sequential(Linear(132,256), ReLU(), Linear(256, 64), ReLU())
 
     def forward(self, x, edge_index, edge_attr):
         # x: [N, F_x], where N is the number of nodes.
