@@ -17,7 +17,7 @@ import torch
 import torch.nn.functional as F
 from tensorboardX import SummaryWriter
 #from dataset.dataset_factory import get_gnu_dataloader
-from models.py_gcn import PY_GCG_NET
+from models.py_gcn import PY_GCG_NET, PY_MetaLayer
 from dataset.dataset_factory import get_pygeo_dataloader
 from transforms.transform_factory import get_transform
 from models.model_factory import get_model
@@ -144,11 +144,11 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
             data = data.to(device)
          #   print('gt--- ', gt.shape)
         gt_list = data.y
-        binary_masks = model(data)
-        
+       # binary_masks = model(data)
+        x, edge_attr = model(data.x, data.edge_index, data.edge_attr)
       #  print('binary_masks ', binary_masks)
      #   print('gt ', gt.shape, ' ', gt )
-        loss = criterion(binary_masks, gt_list)
+        loss = criterion(edge_attr, gt_list)
 
             # measure accuracy and record loss
         total_loss += loss.item()
@@ -233,7 +233,7 @@ def run(config):
    # train_dir = config.train.dir
     
    # model_segmenter = get_model(config.model_segmenter.name)
-    model_segmenter = PY_GCG_NET() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
+    model_segmenter = PY_MetaLayer()# PY_GCG_NET() #Regression_X1() #NetX2()#LinkNet(1)#GAT_X1()
     if torch.cuda.is_available():
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = get_loss(config.loss_segmenter)
