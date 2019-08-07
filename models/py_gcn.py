@@ -180,7 +180,7 @@ class EdgeModel_5(torch.nn.Module):
 class NodeModel_5(torch.nn.Module):
     def __init__(self):
         super(NodeModel_5, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(64, 4), ReLU())
+        self.node_mlp_1 = Sequential(Linear(65, 4), ReLU())
         
     def forward(self, x, edge_index, edge_attr):
         row, col = edge_index
