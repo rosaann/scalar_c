@@ -22,7 +22,7 @@ from torch_geometric.nn import MetaLayer
 class EdgeModel_1(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_1, self).__init__()
-        self.edge_mlp = Sequential(Linear(65, 80), ReLU())
+        self.edge_mlp = Sequential(Linear(129, 80), ReLU())
         
 
     def forward(self, src, dest, edge_attr):
