@@ -105,9 +105,9 @@ class PY_SYN_METAAS(torch.nn.Module):
         
     def forward(self, data):
         x = self.gat1(data.x, data.edge_index)
-        x = self.gat2(x.x, x.edge_index)
-        x = self.gat3(x.x, x.edge_index)
-        x, edge_attr = self.meta1(x.x, x.edge_index, x.edge_attr)
+        x = self.gat2(x, data.edge_index)
+        x = self.gat3(x, data.edge_index)
+        x, edge_attr = self.meta1(x, data.edge_index, x.edge_attr)
         
         return edge_attr        
 class PY_GCG_NET(torch.nn.Module):
