@@ -58,7 +58,7 @@ class NodeModel_1(torch.nn.Module):
     
 class EdgeModel_2(torch.nn.Module):
     def __init__(self):
-        super(EdgeModel_1, self).__init__()
+        super(EdgeModel_2, self).__init__()
         self.edge_mlp = Sequential(Linear(84, 128), ReLU())
         
 
@@ -71,7 +71,7 @@ class EdgeModel_2(torch.nn.Module):
 
 class NodeModel_2(torch.nn.Module):
     def __init__(self):
-        super(NodeModel_1, self).__init__()
+        super(NodeModel_2, self).__init__()
         self.node_mlp_1 = Sequential(Linear(256, 512), ReLU())
         
         self.node_mlp_2 = Sequential(Linear(640, 840), ReLU())
@@ -94,7 +94,7 @@ class NodeModel_2(torch.nn.Module):
         return out
 class EdgeModel_3(torch.nn.Module):
     def __init__(self):
-        super(EdgeModel_1, self).__init__()
+        super(EdgeModel_3, self).__init__()
         self.edge_mlp = Sequential(Linear(128, 256), ReLU())
         
 
@@ -107,7 +107,7 @@ class EdgeModel_3(torch.nn.Module):
 
 class NodeModel_3(torch.nn.Module):
     def __init__(self):
-        super(NodeModel_1, self).__init__()
+        super(NodeModel_3, self).__init__()
         self.node_mlp_1 = Sequential(Linear(840, 640), ReLU())
         
         self.node_mlp_2 = Sequential(Linear(640, 320), ReLU())
@@ -131,7 +131,7 @@ class NodeModel_3(torch.nn.Module):
     
 class EdgeModel_4(torch.nn.Module):
     def __init__(self):
-        super(EdgeModel_1, self).__init__()
+        super(EdgeModel_4, self).__init__()
         self.edge_mlp = Sequential(Linear(256, 212), ReLU())
         
 
@@ -144,7 +144,7 @@ class EdgeModel_4(torch.nn.Module):
 
 class NodeModel_4(torch.nn.Module):
     def __init__(self):
-        super(NodeModel_1, self).__init__()
+        super(NodeModel_4, self).__init__()
         self.node_mlp_1 = Sequential(Linear(320, 120), ReLU())
         
         self.node_mlp_2 = Sequential(Linear(120, 64), ReLU())
@@ -167,7 +167,7 @@ class NodeModel_4(torch.nn.Module):
         return out
 class EdgeModel_5(torch.nn.Module):
     def __init__(self):
-        super(EdgeModel_2, self).__init__()
+        super(EdgeModel_5, self).__init__()
         self.edge_mlp = Sequential(Linear(212, 1), ReLU())
 
     def forward(self, src, dest, edge_attr):
@@ -179,7 +179,7 @@ class EdgeModel_5(torch.nn.Module):
 
 class NodeModel_5(torch.nn.Module):
     def __init__(self):
-        super(NodeModel_2, self).__init__()
+        super(NodeModel_5, self).__init__()
         self.node_mlp_1 = Sequential(Linear(64, 4), ReLU())
         
     def forward(self, x, edge_index, edge_attr):
