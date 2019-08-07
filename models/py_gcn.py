@@ -22,7 +22,8 @@ from torch_geometric.nn import MetaLayer
 class EdgeModel_1(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_1, self).__init__()
-        self.edge_mlp = Sequential(Linear(9, 84), ReLU(), Linear(84, 39), ReLU())
+        self.edge_mlp = Sequential(Linear(9, 84), ReLU())
+        
 
     def forward(self, src, dest, edge_attr):
         # source, target: [E, F_x], where E is the number of edges.
@@ -41,8 +42,8 @@ class EdgeModel_1(torch.nn.Module):
 class NodeModel_1(torch.nn.Module):
     def __init__(self):
         super(NodeModel_1, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(43, 64), ReLU(), Linear(64, 128), ReLU())
-        self.node_mlp_2 = Sequential(Linear(132,256), ReLU(), Linear(256, 64), ReLU())
+        self.node_mlp_1 = Sequential(Linear(43, 128), ReLU())
+        self.node_mlp_2 = Sequential(Linear(132,64), ReLU())
 
     def forward(self, x, edge_index, edge_attr):
         # x: [N, F_x], where N is the number of nodes.
@@ -69,7 +70,7 @@ class NodeModel_1(torch.nn.Module):
 class EdgeModel_2(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_2, self).__init__()
-        self.edge_mlp = Sequential(Linear(167, 84), ReLU(), Linear(84, 1), ReLU())
+        self.edge_mlp = Sequential(Linear(167, 1), ReLU())
 
     def forward(self, src, dest, edge_attr):
         # source, target: [E, F_x], where E is the number of edges.
@@ -88,7 +89,7 @@ class EdgeModel_2(torch.nn.Module):
 class NodeModel_2(torch.nn.Module):
     def __init__(self):
         super(NodeModel_2, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(65, 20), ReLU(), Linear(20, 4), ReLU())
+        self.node_mlp_1 = Sequential(Linear(65, 4), ReLU())
         
     def forward(self, x, edge_index, edge_attr):
         # x: [N, F_x], where N is the number of nodes.
@@ -170,8 +171,8 @@ class PY_GCG_NET(torch.nn.Module):
     def __init__(self):
         super(PY_GCG_NET, self).__init__()
         
-        conv1 = GCNConv(1, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
-        self.nnconv1 = NNConv(n_features, 128, conv1)
+        l1 = Linear(1, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
+        self.nnconv1 = NNConv(n_features, 128, l1)
         self.bn1 = BatchNorm1d(128)
         
         conv2 = GCNConv(128, 256, cached=False)
