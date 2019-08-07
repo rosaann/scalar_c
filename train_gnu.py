@@ -144,11 +144,11 @@ def train_segmenter_single_epoch(config, model, dataloader, criterion, optimizer
             data = data.to(device)
          #   print('gt--- ', gt.shape)
         gt_list = data.y
-       # binary_masks = model(data)
-        x, edge_attr = model(data.x, data.edge_index, data.edge_attr)
+        binary_masks = model(data)
+       # x, edge_attr = model(data.x, data.edge_index, data.edge_attr)
       #  print('binary_masks ', binary_masks)
-     #   print('gt ', gt.shape, ' ', gt )
-        loss = criterion(edge_attr, gt_list)
+        print('binary_masks ', binary_masks.shape, ' ', binary_masks )
+        loss = criterion(binary_masks, gt_list)
 
             # measure accuracy and record loss
         total_loss += loss.item()
