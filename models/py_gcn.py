@@ -22,42 +22,38 @@ from torch_geometric.nn import MetaLayer
 class EdgeModel_1(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_1, self).__init__()
-        self.edge_mlp = Sequential(Linear(9, 84), ReLU())
+      #  self.edge_mlp = Sequential(Linear(9, 84), ReLU())
+        l1 = Linear(1, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
+        self.nnconv1 = NNConv(9, 84, l1)
+        self.bn1 = BatchNorm1d(84)
         
 
     def forward(self, src, dest, edge_attr):
-        # source, target: [E, F_x], where E is the number of edges.
-        # edge_attr: [E, F_e]
-        # u: [B, F_u], where B is the number of graphs.
-        # batch: [E] with max entry B - 1.
-    #    print('src ', src.shape, ' ', src)
-    #    print('dest ', dest.shape, ' ', dest)
-    #    print('edge_attr ', edge_attr.shape, ' ', edge_attr)
         out = torch.cat([src, dest, edge_attr], 1)
     #    print('eage_model out 1', out.shape, ' ', out)
-        out = self.edge_mlp(out)
+        out = self.nnconv1(out)
+        out = self.bn1(out)
      #   print('eage_model out 2', out.shape, ' ', out)
         return out
 
 class NodeModel_1(torch.nn.Module):
     def __init__(self):
         super(NodeModel_1, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(88, 128), ReLU())
+       # self.node_mlp_1 = Sequential(Linear(88, 128), ReLU())
+        l1 = Linear(88, 128, cached=False) # if you defined cache=True, the shape of batch must be same!
+        self.nnconv1 = NNConv(88, 128, l1)
+        self.bn1 = BatchNorm1d(128)
+        
         self.node_mlp_2 = Sequential(Linear(132,64), ReLU())
 
     def forward(self, x, edge_index, edge_attr):
-        # x: [N, F_x], where N is the number of nodes.
-        # edge_index: [2, E] with max entry N - 1.
-        # edge_attr: [E, F_e]
-        # u: [B, F_u]
-        # batch: [N] with max entry B - 1.
-   #     print('x ', x.shape, ' ', x)
-  #      print('edge_index ', edge_index.shape, ' ', edge_index)
-  #      print('edge_attr ', edge_attr.shape, ' ', edge_attr)
+
         row, col = edge_index
         out = torch.cat([x[col], edge_attr], dim=1)
     #    print('node_model out 1', out.shape, ' ', out)
-        out = self.node_mlp_1(out)
+      #  out = self.node_mlp_1(out)
+        out = self.nnconv1(out)
+        out = self.bn1(out)
   #      print('node_model out 2', out.shape, ' ', out)
         out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
    #     print('node_model out 3', out.shape, ' ', out)
@@ -73,17 +69,10 @@ class EdgeModel_2(torch.nn.Module):
         self.edge_mlp = Sequential(Linear(212, 1), ReLU())
 
     def forward(self, src, dest, edge_attr):
-        # source, target: [E, F_x], where E is the number of edges.
-        # edge_attr: [E, F_e]
-        # u: [B, F_u], where B is the number of graphs.
-        # batch: [E] with max entry B - 1.
-    #    print('src2 ', src.shape, ' ', src)
-    #    print('dest2 ', dest.shape, ' ', dest)
-   #     print('edge_attr2 ', edge_attr.shape, ' ', edge_attr)
+
         out = torch.cat([src, dest, edge_attr], 1)
-    #    print('eage_model out2 1', out.shape, ' ', out)
         out = self.edge_mlp(out)
-   #     print('eage_model out2 2', out.shape, ' ', out)
+
         return out
 
 class NodeModel_2(torch.nn.Module):
@@ -92,21 +81,11 @@ class NodeModel_2(torch.nn.Module):
         self.node_mlp_1 = Sequential(Linear(65, 4), ReLU())
         
     def forward(self, x, edge_index, edge_attr):
-        # x: [N, F_x], where N is the number of nodes.
-        # edge_index: [2, E] with max entry N - 1.
-        # edge_attr: [E, F_e]
-        # u: [B, F_u]
-        # batch: [N] with max entry B - 1.
-    #    print('x2 ', x.shape, ' ', x)
-    #    print('edge_index2 ', edge_index.shape, ' ', edge_index)
-   #     print('edge_attr2 ', edge_attr.shape, ' ', edge_attr)
         row, col = edge_index
         out = torch.cat([x[col], edge_attr], dim=1)
-   #     print('node_model out2 1', out.shape, ' ', out)
         out = self.node_mlp_1(out)
-   #     print('node_model out2 2', out.shape, ' ', out)
         out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-  #      print('node_model out2 3', out.shape, ' ', out)
+
 
         out = torch.cat([x, out], dim=1)
    #     print('node_model out2 4', out.shape, ' ', out)
