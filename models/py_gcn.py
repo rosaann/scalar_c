@@ -11,7 +11,7 @@ from torch.nn import Linear, Sequential, ReLU
 from torch.nn import BatchNorm1d
 from torch.utils.data import Dataset
 from torch_geometric.nn import GCNConv,NNConv
-from torch_geometric.nn import ChebConv
+from torch_geometric.nn import ChebConv,  GATConv
 from torch_geometric.nn import global_add_pool, global_mean_pool
 from torch_geometric.data import DataLoader
 from torch_scatter import scatter_mean
@@ -22,7 +22,7 @@ from torch_geometric.nn import MetaLayer
 class EdgeModel_1(torch.nn.Module):
     def __init__(self):
         super(EdgeModel_1, self).__init__()
-        self.edge_mlp = Sequential(Linear(9, 64), ReLU())
+        self.edge_mlp = Sequential(Linear(9, 1), ReLU())
         
 
     def forward(self, src, dest, edge_attr):
@@ -35,9 +35,8 @@ class EdgeModel_1(torch.nn.Module):
 class NodeModel_1(torch.nn.Module):
     def __init__(self):
         super(NodeModel_1, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(68, 128), ReLU())
+        self.node_mlp_1 = Sequential(Linear(68, 4), ReLU())
         
-        self.node_mlp_2 = Sequential(Linear(132,256), ReLU())
 
     def forward(self, x, edge_index, edge_attr):
 
@@ -46,151 +45,9 @@ class NodeModel_1(torch.nn.Module):
     #    print('node_model out 1', out.shape, ' ', out)
         out = self.node_mlp_1(out)
         
-  #      print('node_model out 2', out.shape, ' ', out)
-        out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-   #     print('node_model out 3', out.shape, ' ', out)
-
-        out = torch.cat([x, out], dim=1)
-    #    print('node_model out 4', out.shape, ' ', out)
-        out = self.node_mlp_2(out) 
    #     print('node_model out 5', out.shape, ' ', out)
         return out
     
-class EdgeModel_2(torch.nn.Module):
-    def __init__(self):
-        super(EdgeModel_2, self).__init__()
-        self.edge_mlp = Sequential(Linear(576, 128), ReLU())
-        
-
-    def forward(self, src, dest, edge_attr):
-        out = torch.cat([src, dest, edge_attr], 1)
-    #    print('eage_model out 1', out.shape, ' ', out)
-        out = self.edge_mlp(out)
-     #   print('eage_model out 2', out.shape, ' ', out)
-        return out
-
-class NodeModel_2(torch.nn.Module):
-    def __init__(self):
-        super(NodeModel_2, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(384, 512), ReLU())
-        
-        self.node_mlp_2 = Sequential(Linear(768, 840), ReLU())
-
-    def forward(self, x, edge_index, edge_attr):
-
-        row, col = edge_index
-        out = torch.cat([x[col], edge_attr], dim=1)
-    #    print('node_model out 1', out.shape, ' ', out)
-        out = self.node_mlp_1(out)
-        
-  #      print('node_model out 2', out.shape, ' ', out)
-        out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-   #     print('node_model out 3', out.shape, ' ', out)
-
-        out = torch.cat([x, out], dim=1)
-    #    print('node_model out 4', out.shape, ' ', out)
-        out = self.node_mlp_2(out) 
-   #     print('node_model out 5', out.shape, ' ', out)
-        return out
-class EdgeModel_3(torch.nn.Module):
-    def __init__(self):
-        super(EdgeModel_3, self).__init__()
-        self.edge_mlp = Sequential(Linear(1808, 256), ReLU())
-        
-
-    def forward(self, src, dest, edge_attr):
-        out = torch.cat([src, dest, edge_attr], 1)
-    #    print('eage_model out 1', out.shape, ' ', out)
-        out = self.edge_mlp(out)
-     #   print('eage_model out 2', out.shape, ' ', out)
-        return out
-
-class NodeModel_3(torch.nn.Module):
-    def __init__(self):
-        super(NodeModel_3, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(1096, 640), ReLU())
-        
-        self.node_mlp_2 = Sequential(Linear(1480, 320), ReLU())
-
-    def forward(self, x, edge_index, edge_attr):
-
-        row, col = edge_index
-        out = torch.cat([x[col], edge_attr], dim=1)
-    #    print('node_model out 1', out.shape, ' ', out)
-        out = self.node_mlp_1(out)
-        
-  #      print('node_model out 2', out.shape, ' ', out)
-        out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-   #     print('node_model out 3', out.shape, ' ', out)
-
-        out = torch.cat([x, out], dim=1)
-    #    print('node_model out 4', out.shape, ' ', out)
-        out = self.node_mlp_2(out) 
-   #     print('node_model out 5', out.shape, ' ', out)
-        return out
-    
-class EdgeModel_4(torch.nn.Module):
-    def __init__(self):
-        super(EdgeModel_4, self).__init__()
-        self.edge_mlp = Sequential(Linear(896, 212), ReLU())
-        
-
-    def forward(self, src, dest, edge_attr):
-        out = torch.cat([src, dest, edge_attr], 1)
-    #    print('eage_model out 1', out.shape, ' ', out)
-        out = self.edge_mlp(out)
-     #   print('eage_model out 2', out.shape, ' ', out)
-        return out
-
-class NodeModel_4(torch.nn.Module):
-    def __init__(self):
-        super(NodeModel_4, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(532, 120), ReLU())
-        
-        self.node_mlp_2 = Sequential(Linear(440, 64), ReLU())
-
-    def forward(self, x, edge_index, edge_attr):
-
-        row, col = edge_index
-        out = torch.cat([x[col], edge_attr], dim=1)
-    #    print('node_model out 1', out.shape, ' ', out)
-        out = self.node_mlp_1(out)
-        
-  #      print('node_model out 2', out.shape, ' ', out)
-        out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-   #     print('node_model out 3', out.shape, ' ', out)
-
-        out = torch.cat([x, out], dim=1)
-    #    print('node_model out 4', out.shape, ' ', out)
-        out = self.node_mlp_2(out) 
-   #     print('node_model out 5', out.shape, ' ', out)
-        return out
-class EdgeModel_5(torch.nn.Module):
-    def __init__(self):
-        super(EdgeModel_5, self).__init__()
-        self.edge_mlp = Sequential(Linear(340, 1), ReLU())
-
-    def forward(self, src, dest, edge_attr):
-
-        out = torch.cat([src, dest, edge_attr], 1)
-        out = self.edge_mlp(out)
-
-        return out
-
-class NodeModel_5(torch.nn.Module):
-    def __init__(self):
-        super(NodeModel_5, self).__init__()
-        self.node_mlp_1 = Sequential(Linear(65, 4), ReLU())
-        
-    def forward(self, x, edge_index, edge_attr):
-        row, col = edge_index
-        out = torch.cat([x[col], edge_attr], dim=1)
-        out = self.node_mlp_1(out)
-        out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-
-
-        out = torch.cat([x, out], dim=1)
-   #     print('node_model out2 4', out.shape, ' ', out)
         
         return out
 class MetaLayer_t(torch.nn.Module):
@@ -236,24 +93,23 @@ def PY_MetaLayer ():
 
 n_features = 4
 # definenet
+
 class PY_SYN_METAAS(torch.nn.Module):
     def __init__(self):
         super(PY_SYN_METAAS, self).__init__()
+        self.gat1 =  GATConv(4, 64)
+        self.gat2 =  GATConv(64, 128)
+        self.gat3 =  GATConv(128, 512)
         self.meta1 = MetaLayer_t(EdgeModel_1(), NodeModel_1())
-        self.meta2 = MetaLayer_t(EdgeModel_2(), NodeModel_2())
-        self.meta3 = MetaLayer_t(EdgeModel_3(), NodeModel_3())
-        self.meta4 = MetaLayer_t(EdgeModel_4(), NodeModel_4())
-        self.meta5 = MetaLayer_t(EdgeModel_5(), NodeModel_5())
+        
         
     def forward(self, data):
-        x, edge_attr = self.meta1(data.x, data.edge_index, data.edge_attr)
-        x, edge_attr = self.meta2(x, data.edge_index, edge_attr)
-        x, edge_attr = self.meta3(x, data.edge_index, edge_attr)
-        x, edge_attr = self.meta4(x, data.edge_index, edge_attr)
-        x, edge_attr = self.meta5(x, data.edge_index, edge_attr)
-     #   print('out edge_attr', edge_attr.shape, ' ', edge_attr)
-        return edge_attr
+        x = self.gat1(data)
+        x = self.gat2(x)
+        x = self.gat3(x)
+        x, edge_attr = self.meta1(x.x, x.edge_index, x.edge_attr)
         
+        return edge_attr        
 class PY_GCG_NET(torch.nn.Module):
     def __init__(self):
         super(PY_GCG_NET, self).__init__()
