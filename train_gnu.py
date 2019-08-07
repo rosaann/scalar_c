@@ -233,7 +233,7 @@ def run(config):
         model_segmenter = model_segmenter.cuda()
     criterion_segmenter = F.nll_loss #get_loss(config.loss_segmenter)
    # optimizer_segmenter = get_optimizer(config.optimizer_segmenter.name, model_segmenter.parameters(), config.optimizer_segmenter.params)
-    optimizer_segmenter = optim.Adam(model_segmenter.parameters(), lr=5e-3)
+    optimizer_segmenter = optim.Adam(model_segmenter.parameters(), lr=5e-5)
     ####
     checkpoint_segmenter = get_initial_checkpoint(config.train_segmenter.dir)
     
