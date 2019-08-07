@@ -68,13 +68,19 @@ class EdgeModel(torch.nn.Module):
         super(EdgeModel, self).__init__()
         self.edge_mlp = Sequential(Linear(1, 64), ReLU(), Linear(64, 1))
 
-    def forward(self, src, dest, edge_attr, u, batch):
+    def forward(self, src, dest, edge_attr):
         # source, target: [E, F_x], where E is the number of edges.
         # edge_attr: [E, F_e]
         # u: [B, F_u], where B is the number of graphs.
         # batch: [E] with max entry B - 1.
+        print('src ', src.shape, ' ', src)
+        print('dest ', dest.shape, ' ', dest)
+        print('edge_attr ', edge_attr.shape, ' ', edge_attr)
         out = torch.cat([src, dest, edge_attr], 1)
-        return self.edge_mlp(out)
+        print('eage_model out 1', out.shape, ' ', out)
+        out = self.edge_mlp(out)
+        print('eage_model out 2', out.shape, ' ', out)
+        return out
 
 class NodeModel(torch.nn.Module):
     def __init__(self):
@@ -82,18 +88,28 @@ class NodeModel(torch.nn.Module):
         self.node_mlp_1 = Sequential(Linear(4, 64), ReLU(), Linear(64, 128))
         self.node_mlp_2 = Sequential(Linear(128,256), ReLU(), Linear(256, 512))
 
-    def forward(self, x, edge_index, edge_attr, u, batch):
+    def forward(self, x, edge_index, edge_attr):
         # x: [N, F_x], where N is the number of nodes.
         # edge_index: [2, E] with max entry N - 1.
         # edge_attr: [E, F_e]
         # u: [B, F_u]
         # batch: [N] with max entry B - 1.
+        print('x ', x.shape, ' ', x)
+        print('edge_index ', edge_index.shape, ' ', edge_index)
+        print('edge_attr ', edge_attr.shape, ' ', edge_attr)
         row, col = edge_index
         out = torch.cat([x[col], edge_attr], dim=1)
+        print('node_model out 1', out.shape, ' ', out)
         out = self.node_mlp_1(out)
+        print('node_model out 2', out.shape, ' ', out)
         out = scatter_mean(out, row, dim=0, dim_size=x.size(0))
-        out = torch.cat([x, out, u[batch]], dim=1)
-        return self.node_mlp_2(out)   
+        print('node_model out 3', out.shape, ' ', out)
+
+        out = torch.cat([x, out], dim=1)
+        print('node_model out 4', out.shape, ' ', out)
+        out = self.node_mlp_2(out) 
+        print('node_model out 5', out.shape, ' ', out)
+        return out
 
 def PY_MetaLayer ():
     m = MetaLayer(EdgeModel(), NodeModel())
